@@ -1,0 +1,9 @@
+{
+    "plugins": ["node"],
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "rules": {
+        "no-unused-vars": [1, { "ignoreRestSiblings": true }],
+        "no-console": [1],
+        "node/no-deprecated-api": [0]
+    }
+}
