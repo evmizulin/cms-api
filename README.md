@@ -1,5 +1,7 @@
 # [Any JSON CMS](http://anyjsoncms.com) - API server
 
+If you want to read general information about Any JSON CMS go [here](https://github.com/evmizulin/any-json-cms).
+
 Any JSON CMS consists of two parts. [Admin application server](https://github.com/evmizulin/cms-admin) and API server. It is API server.
 
 ### Installation
