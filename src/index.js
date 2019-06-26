@@ -8,18 +8,17 @@ const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 const path = require('path')
 const { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, FORBIDDEN } = require('http-status-codes')
-const { getStatusMessage, getMessage } = require('./helpers/getStatusMessage')
 const { ApiError } = require('./helpers/ApiError')
 const { allowAll } = require('./helpers/corsSettings')
-const { setPublicRoutes } = require('./routes/setPublicRoutes')
-const { setChangePassRoutes } = require('./routes/setChangePassRoutes')
-const { setEntriesRoutes } = require('./routes/setEntriesRoutes')
-const { setFilesRoutes } = require('./routes/setFilesRoutes')
-const { setLoginRoutes } = require('./routes/setLoginRoutes')
-const { setModelsRoutes } = require('./routes/setModelsRoutes')
-const { setProjectsRoutes } = require('./routes/setProjectsRoutes')
-const { setRegisterRoutes } = require('./routes/setRegisterRoutes')
-const { setTokensRoutes } = require('./routes/setTokensRoutes')
+// const { setPublicRoutes } = require('./routes/setPublicRoutes')
+// const { setChangePassRoutes } = require('./routes/setChangePassRoutes')
+// const { setEntriesRoutes } = require('./routes/setEntriesRoutes')
+// const { setFilesRoutes } = require('./routes/setFilesRoutes')
+// const { setLoginRoutes } = require('./routes/setLoginRoutes')
+// const { setModelsRoutes } = require('./routes/setModelsRoutes')
+// const { setProjectsRoutes } = require('./routes/setProjectsRoutes')
+// const { setRegisterRoutes } = require('./routes/setRegisterRoutes')
+// const { setTokensRoutes } = require('./routes/setTokensRoutes')
 const { config } = require('./config')
 
 const app = express()
@@ -46,33 +45,32 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
   res.status(OK).send('hello')
 })
 
-setPublicRoutes(app)
-setChangePassRoutes(app)
-setEntriesRoutes(app)
-setFilesRoutes(app)
-setLoginRoutes(app)
-setModelsRoutes(app)
-setProjectsRoutes(app)
-setRegisterRoutes(app)
-setTokensRoutes(app)
+// setPublicRoutes(app)
+// setChangePassRoutes(app)
+// setEntriesRoutes(app)
+// setFilesRoutes(app)
+// setLoginRoutes(app)
+// setModelsRoutes(app)
+// setProjectsRoutes(app)
+// setRegisterRoutes(app)
+// setTokensRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
-    if (error.message === 'Not allowed by CORS') {
-      res.status(FORBIDDEN).send(getMessage(error.message))
-      return
-    }
-    if (error instanceof ApiError) {
-      res.status(error.code).send(getMessage(error.message))
-      return
-    }
-    res.status(INTERNAL_SERVER_ERROR).send(getStatusMessage(INTERNAL_SERVER_ERROR))
+    const apiError =
+      error instanceof ApiError
+        ? error
+        : error.message === 'Not allowed by CORS'
+        ? new ApiError(FORBIDDEN, error.message)
+        : new ApiError(INTERNAL_SERVER_ERROR)
+    res.status(apiError.code).send({ message: apiError.message })
   }
   next(error)
 })
 
 app.use(cors(allowAll), (req, res) => {
-  res.status(NOT_FOUND).send(getStatusMessage(NOT_FOUND))
+  const apiError = new ApiError(NOT_FOUND)
+  res.status(apiError.code).send({ message: apiError.message })
 })
 
 app.listen(config.apiServerPort, config.apiServerHost, () => {

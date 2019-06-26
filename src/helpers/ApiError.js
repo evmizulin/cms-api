@@ -1,6 +1,8 @@
+const { getStatusText } = require('http-status-codes')
+
 class ApiError extends Error {
-  constructor(message, code) {
-    super(message)
+  constructor(code, message = null) {
+    super(message || getStatusText(code))
     this.code = code
   }
 }
