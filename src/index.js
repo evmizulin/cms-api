@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 const path = require('path')
-const { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, FORBIDDEN } = require('http-status-codes')
+const { OK, INTERNAL_SERVER_ERROR, NOT_FOUND } = require('http-status-codes')
 const { ApiError } = require('./helpers/ApiError')
 const { allowAll } = require('./helpers/corsSettings')
 // const { setPublicRoutes } = require('./routes/setPublicRoutes')
@@ -57,12 +57,7 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
 
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
-    const apiError =
-      error instanceof ApiError
-        ? error
-        : error.message === 'Not allowed by CORS'
-        ? new ApiError(FORBIDDEN, error.message)
-        : new ApiError(INTERNAL_SERVER_ERROR)
+    const apiError = error instanceof ApiError ? error : new ApiError(INTERNAL_SERVER_ERROR)
     res.status(apiError.code).send({ message: apiError.message })
   }
   next(error)
