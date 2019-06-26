@@ -9,6 +9,7 @@ const rfs = require('rotating-file-stream')
 const path = require('path')
 const { OK, INTERNAL_SERVER_ERROR, NOT_FOUND } = require('http-status-codes')
 const { ApiError } = require('./helpers/ApiError')
+const { ApiResp } = require('./helpers/ApiResp')
 const { allowAll } = require('./helpers/corsSettings')
 // const { setPublicRoutes } = require('./routes/setPublicRoutes')
 // const { setChangePassRoutes } = require('./routes/setChangePassRoutes')
@@ -44,7 +45,8 @@ app.use(fileUpload())
 app.options('/say-hello', cors(allowAll))
 
 app.get('/say-hello', cors(allowAll), (req, res) => {
-  res.status(OK).send({ message: 'hello' })
+  const apiResp = new ApiResp(OK, 'hello')
+  res.status(apiResp.code).send(apiResp.body)
 })
 
 // setPublicRoutes(app)
@@ -60,14 +62,14 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
     const apiError = error instanceof ApiError ? error : new ApiError(INTERNAL_SERVER_ERROR)
-    res.status(apiError.code).send({ message: apiError.message })
+    res.status(apiError.code).send(apiError.body)
   }
   next(error)
 })
 
 app.use(cors(allowAll), (req, res) => {
   const apiError = new ApiError(NOT_FOUND)
-  res.status(apiError.code).send({ message: apiError.message })
+  res.status(apiError.code).send(apiError.body)
 })
 
 if (config.env !== 'test') {
