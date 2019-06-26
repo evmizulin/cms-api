@@ -1,16 +1,23 @@
 const { config } = require('../config')
 
+const IS_TEST = process.env.NODE_ENV === 'test'
 const IS_DEV = process.env.NODE_ENV === 'development'
+const IS_PROD = process.env.NODE_ENV === 'production'
+
+if (!IS_TEST && !IS_DEV && !IS_PROD) {
+  throw new Error('NODE_ENV must be set!')
+}
 
 module.exports = {
   config: {
+    env: process.env.NODE_ENV,
     email: config.email,
-    sendMails: IS_DEV ? false : true,
-    logsToFile: IS_DEV ? false : true,
-    appUrl: IS_DEV ? config.devAppUrl : config.prodAppUrl,
-    apiUrl: IS_DEV ? config.devApiUrl : config.prodApiUrl,
-    apiServerHost: IS_DEV ? config.devApiServerHost : config.prodApiServerHost,
-    apiServerPort: IS_DEV ? config.devApiServerPort : config.prodApiServerPort,
-    mongoDbUrl: IS_DEV ? config.devMongoDbUrl : config.prodMongoDbUrl,
+    sendMails: IS_PROD,
+    logsTo: IS_DEV ? 'console' : IS_TEST ? 'no' : 'file',
+    appUrl: IS_PROD ? config.prodAppUrl : config.devAppUrl,
+    apiUrl: IS_PROD ? config.prodApiUrl : config.devApiUrl,
+    apiServerHost: IS_PROD ? config.prodApiServerHost : config.devApiServerHost,
+    apiServerPort: IS_PROD ? config.prodApiServerPort : config.devApiServerPort,
+    mongoDbUrl: IS_PROD ? config.prodMongoDbUrl : config.devMongoDbUrl,
   },
 }

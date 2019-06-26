@@ -22,19 +22,21 @@ const { allowAll } = require('./helpers/corsSettings')
 const { config } = require('./config')
 
 const app = express()
-app.use(
-  morgan(
-    ':date[iso] :remote-addr :remote-user :method :url :status :res[content-length] - :response-time ms',
-    config.logsToFile
-      ? {
-          stream: rfs('access.log', {
-            interval: '1d',
-            path: path.join(__dirname, '../logs'),
-          }),
-        }
-      : undefined
+if (config.logsTo !== 'no') {
+  app.use(
+    morgan(
+      ':date[iso] :remote-addr :remote-user :method :url :status :res[content-length] - :response-time ms',
+      config.logsTo === 'file'
+        ? {
+            stream: rfs('access.log', {
+              interval: '1d',
+              path: path.join(__dirname, '../logs'),
+            }),
+          }
+        : undefined
+    )
   )
-)
+}
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(fileUpload())
@@ -42,7 +44,7 @@ app.use(fileUpload())
 app.options('/say-hello', cors(allowAll))
 
 app.get('/say-hello', cors(allowAll), (req, res) => {
-  res.status(OK).send('hello')
+  res.status(OK).send({ message: 'hello' })
 })
 
 // setPublicRoutes(app)
@@ -68,9 +70,13 @@ app.use(cors(allowAll), (req, res) => {
   res.status(apiError.code).send({ message: apiError.message })
 })
 
-app.listen(config.apiServerPort, config.apiServerHost, () => {
-  // eslint-disable-next-line no-console
-  console.log(`${new Date().toISOString()} listening on ${config.apiServerHost}:${config.apiServerPort}`)
-  // eslint-disable-next-line no-console
-  console.log(`${new Date().toISOString()} NODE_ENV=${process.env.NODE_ENV}`)
-})
+if (config.env !== 'test') {
+  app.listen(config.apiServerPort, config.apiServerHost, () => {
+    // eslint-disable-next-line no-console
+    console.log(`${new Date().toISOString()} listening on ${config.apiServerHost}:${config.apiServerPort}`)
+    // eslint-disable-next-line no-console
+    console.log(`${new Date().toISOString()} NODE_ENV=${config.env}`)
+  })
+}
+
+module.exports = { app }
