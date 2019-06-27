@@ -7,6 +7,7 @@ describe('All tests', () => {
   require('./get-say-hello.test')
   require('./projects/get-projects.test')
   require('./projects/post-projects.test')
+  require('./projects/put-projects.test')
 
   after(async () => {
     connection.close()

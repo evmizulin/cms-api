@@ -50,10 +50,12 @@ class Db {
 //   return { ...res, ...rest }
 // }
 
-const normToDb = entity => entity
+const normToDb = ({ id, ...rest }) => ({ ...rest })
 const normFromDb = entity => {
+  const res = {}
   const { _id, __v, ...rest } = entity.toObject()
-  return { id: _id, ...rest }
+  if (_id) res.id = _id
+  return { ...res, ...rest }
 }
 
 module.exports = {

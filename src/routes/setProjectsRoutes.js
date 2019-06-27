@@ -31,13 +31,19 @@ const setProjectsRoutes = app => {
     res.status(OK).send(savedProject)
   })
 
-  // app.options('/projects/:projectId', cors(allowMe))
+  app.options('/projects/:projectId', cors(allowAll))
   //
   // app.put('/projects/:projectId', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
   //   const { projectId } = req.params
   //   await apiProjects.putProject(projectId, req.body)
   //   res.status(OK).send(getStatusMessage(OK))
   // })
+
+  app.put('/projects/:projectId', cors(allowAll), async (req, res) => {
+    const { projectId } = req.params
+    const updatedProject = await apiProjects.putProject(projectId, req.body)
+    res.status(OK).send(updatedProject)
+  })
   //
   // app.delete('/projects/:projectId', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
   //   const { projectId } = req.params

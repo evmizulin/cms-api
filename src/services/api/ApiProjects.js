@@ -4,6 +4,8 @@ const { createProject } = require('./types/projects/createProject')
 const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
 // const { apiModels } = require('./ApiModels')
+const { ApiError } = require('../../helpers/ApiError')
+const { BAD_REQUEST, NOT_FOUND } = require('http-status-codes')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -48,6 +50,14 @@ class ApiProjects {
   //   const createdProject = createProject(project, { noId: false })
   //   await Project.update(projectId, createdProject)
   // }
+  async putProject(projectId, project) {
+    const createdProject = createProject({ project })
+    if (projectId !== createdProject.id)
+      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
+    const foundedProject = await Project.findById(projectId, { _id: true })
+    if (!foundedProject) throw new ApiError(NOT_FOUND)
+    return await Project.update(projectId, createdProject)
+  }
   //
   // async deleteProject(projectId) {
   //   const models = await Model.find({ projectId }, '_id')
