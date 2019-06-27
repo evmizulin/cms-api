@@ -14,6 +14,10 @@ class ApiProjects {
   //   return await Project.find({ $or: projectIds.map(item => ({ _id: item.projectId })) })
   // }
 
+  async getProjects() {
+    return await Project.find()
+  }
+
   // async postProject(userId, project) {
   //   const createdProject = createProject(project, { noId: true })
   //   const savedProject = await Project.save({

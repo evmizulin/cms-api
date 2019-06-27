@@ -3,7 +3,6 @@
 const request = require('supertest')
 const { app } = require('../../src/index')
 const assert = require('assert')
-const { connection } = require('../../src/services/db/tables')
 const { Project } = require('../../src/services/db/Db')
 
 const ids = []
@@ -37,6 +36,5 @@ describe('POST /projects', () => {
     for (let i = 0; i < ids.length; i++) {
       await Project.remove(ids[i])
     }
-    connection.close()
   })
 })

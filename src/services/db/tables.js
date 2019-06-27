@@ -13,7 +13,9 @@ db.on('error', error => {
 })
 
 db.once('open', () => {
-  console.log('Conected to db!') // eslint-disable-line no-console
+  if (config.logsTo !== 'no') {
+    console.log('Conected to db!') // eslint-disable-line no-console
+  }
 })
 
 const Schema = mongoose.Schema

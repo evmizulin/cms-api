@@ -15,6 +15,11 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(projects)
   // })
 
+  app.get('/projects', cors(allowAll), async (req, res) => {
+    const projects = await apiProjects.getProjects()
+    res.status(OK).send(projects)
+  })
+
   // app.post('/projects', cors(allowMe), checkAuth, async (req, res) => {
   //   const { userId } = req
   //   await apiProjects.postProject(userId, req.body)
