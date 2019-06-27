@@ -24,9 +24,9 @@ class Db {
     await entity.remove()
   }
 
-  async findByIdAndRemove(id) {
-    await this.Model.findByIdAndRemove(id)
-  }
+  // async findByIdAndRemove(id) {
+  //   await this.Model.findByIdAndRemove(id)
+  // }
 
   async insert(entity) {
     const newEntity = new this.Model(this.normToDb(entity))

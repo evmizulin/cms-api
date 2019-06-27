@@ -6,6 +6,7 @@ const Trianglify = require('trianglify')
 // const { apiModels } = require('./ApiModels')
 const { ApiError } = require('../../helpers/ApiError')
 const { BAD_REQUEST, NOT_FOUND } = require('http-status-codes')
+const { isIdValid } = require('../../helpers/isIdValid')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -68,6 +69,13 @@ class ApiProjects {
   //   await Promise.all(relations.map(relation => ProjectAndUserRelation.findByIdAndRemove(relation.id)))
   //   await Project.remove(projectId)
   // }
+
+  async deleteProject(projectId) {
+    if (!isIdValid(projectId)) throw new ApiError(BAD_REQUEST, 'ID is not valid')
+    const foundedProject = await Project.findById(projectId, { _id: true })
+    if (!foundedProject) throw new ApiError(NOT_FOUND)
+    await Project.remove(projectId)
+  }
 }
 
 module.exports = { apiProjects: new ApiProjects() }
