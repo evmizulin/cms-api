@@ -62,6 +62,8 @@ setProjectsRoutes(app)
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
     const apiError = error instanceof ApiError ? error : new ApiError(INTERNAL_SERVER_ERROR)
+    // eslint-disable-next-line no-console
+    if (apiError.code === INTERNAL_SERVER_ERROR) console.log(error)
     res.status(apiError.code).send(apiError.body)
   }
   next(error)

@@ -28,7 +28,7 @@ class Db {
     await this.Model.findByIdAndRemove(id)
   }
 
-  async save(entity) {
+  async insert(entity) {
     const newEntity = new this.Model(this.normToDb(entity))
     const savedEntity = await newEntity.save()
     return this.normFromDb(savedEntity)
@@ -42,12 +42,18 @@ class Db {
   }
 }
 
-const normToDb = ({ id, ...rest }) => ({ ...rest })
-const normFromDb = props => {
-  const res = {}
-  const { _id, __v, ...rest } = props.toObject()
-  if (_id) res.id = _id.toString()
-  return { ...res, ...rest }
+// const normToDb = ({ id, ...rest }) => ({ ...rest })
+// const normFromDb = props => {
+//   const res = {}
+//   const { _id, __v, ...rest } = props.toObject()
+//   if (_id) res.id = _id.toString()
+//   return { ...res, ...rest }
+// }
+
+const normToDb = entity => entity
+const normFromDb = entity => {
+  const { _id, __v, ...rest } = entity.toObject()
+  return { id: _id, ...rest }
 }
 
 module.exports = {

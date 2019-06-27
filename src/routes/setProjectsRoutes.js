@@ -1,10 +1,10 @@
 const cors = require('cors')
 const { OK } = require('http-status-codes')
-// const { apiProjects } = require('../services/api/ApiProjects')
+const { apiProjects } = require('../services/api/ApiProjects')
 // const { checkAuth } = require('../services/auth/checkAuth')
 // const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { allowAll } = require('../helpers/corsSettings')
-const { ApiResp } = require('../helpers/ApiResp')
+// const { ApiResp } = require('../helpers/ApiResp')
 
 const setProjectsRoutes = app => {
   app.options('/projects', cors(allowAll))
@@ -22,8 +22,8 @@ const setProjectsRoutes = app => {
   // })
 
   app.post('/projects', cors(allowAll), async (req, res) => {
-    const apiResp = new ApiResp(OK)
-    res.status(apiResp.code).send(apiResp.body)
+    const savedProject = await apiProjects.postProject(req.body)
+    res.status(OK).send(savedProject)
   })
 
   // app.options('/projects/:projectId', cors(allowMe))

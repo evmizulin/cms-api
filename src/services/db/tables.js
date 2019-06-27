@@ -78,6 +78,7 @@ const EncryptionKey = new Schema({
 })
 
 module.exports = {
+  connection: db,
   Project: mongoose.model('Project', Project),
   ApiToken: mongoose.model('ApiToken', ApiToken),
   User: mongoose.model('User', User),

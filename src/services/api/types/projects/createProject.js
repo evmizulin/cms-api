@@ -1,8 +1,8 @@
-const tv4 = require('tv4')
 const { ApiError } = require('../../../../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
+const { validate } = require('../../../../helpers/validate')
 
-const createProject = (project, { noId }) => {
+const createProject = ({ project, noId = false }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -16,9 +16,9 @@ const createProject = (project, { noId }) => {
     schema.required = schema.required.filter(item => item !== 'id')
     delete schema.properties.id
   }
-  const { valid, error } = tv4.validateResult(project, schema)
+  const { valid, error } = validate(project, schema)
   if (!valid) {
-    throw new ApiError(error.message, BAD_REQUEST)
+    throw new ApiError(BAD_REQUEST, error)
   }
   return project
 }
