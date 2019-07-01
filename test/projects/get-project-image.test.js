@@ -23,19 +23,19 @@ describe('GET /projects/${id}/image.png', () => {
       .end(done)
   })
 
-  it('should return 404', done => {
-    const fakeId = '5d14c75f2d32f92ae2cc831a'
-    request(app)
-      .get(`/projects/${fakeId}/image.png`)
-      .expect(404)
-      .end(done)
-  })
-
   it('should return 400', done => {
     const fakeId = 'sad'
     request(app)
       .get(`/projects/${fakeId}/image.png`)
       .expect(400)
+      .end(done)
+  })
+
+  it('should return 404', done => {
+    const fakeId = '5d14c75f2d32f92ae2cc831a'
+    request(app)
+      .get(`/projects/${fakeId}/image.png`)
+      .expect(404)
       .end(done)
   })
 
