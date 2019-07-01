@@ -1,5 +1,5 @@
 // const { Model, Project, ProjectAndUserRelation } = require('../db/Db')
-const { Project } = require('../db/Db')
+const { Project, ProjectImage } = require('../db/Db')
 const { createProject } = require('./types/projects/createProject')
 const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
@@ -21,6 +21,14 @@ class ApiProjects {
     return await Project.find()
   }
 
+  async getProjectImage(projectId) {
+    if (!isIdValid(projectId)) throw new ApiError(BAD_REQUEST, 'ID is not valid')
+    const foundedProject = await Project.findById(projectId, { _id: true })
+    if (!foundedProject) throw new ApiError(NOT_FOUND)
+    const image = await ProjectImage.findOne({ projectId: projectId })
+    return image
+  }
+
   // async postProject(userId, project) {
   //   const createdProject = createProject(project, { noId: true })
   //   const savedProject = await Project.save({
@@ -36,15 +44,18 @@ class ApiProjects {
   // }
   async postProject(project) {
     const createdProject = createProject({ project, noId: true })
-    return await Project.insert({
-      ...createdProject,
-      image: Trianglify({
-        width: 600,
-        height: 600,
-        cell_size: 40,
-        variance: '0.6',
-      }).png(),
+    const savedProject = await Project.insert(createdProject)
+    const png = Trianglify({
+      width: 600,
+      height: 600,
+      cell_size: 40,
+      variance: '0.6',
+    }).png()
+    await ProjectImage.insert({
+      buffer: new Buffer(png.substr(png.indexOf('base64') + 7), 'base64'),
+      projectId: savedProject.id,
     })
+    return savedProject
   }
 
   // async putProject(projectId, project) {
@@ -74,7 +85,9 @@ class ApiProjects {
     if (!isIdValid(projectId)) throw new ApiError(BAD_REQUEST, 'ID is not valid')
     const foundedProject = await Project.findById(projectId, { _id: true })
     if (!foundedProject) throw new ApiError(NOT_FOUND)
+    const projectImage = await ProjectImage.findOne({ projectId: projectId })
     await Project.remove(projectId)
+    await ProjectImage.remove(projectImage.id)
   }
 }
 

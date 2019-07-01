@@ -3,9 +3,9 @@
 const request = require('supertest')
 const { app } = require('../../src/index')
 const assert = require('assert')
-const { Project } = require('../../src/services/db/Db')
+const { Project, ProjectImage } = require('../../src/services/db/Db')
 
-const ids = []
+let globalProjectId
 
 describe('POST /projects', () => {
   it('should return 200', done => {
@@ -14,12 +14,11 @@ describe('POST /projects', () => {
       .send({ name: 'Project name' })
       .expect(200)
       .expect(res => {
-        const { id, image, name, ...rest } = res.body
+        const { id, name, ...rest } = res.body
         assert.equal(name, 'Project name')
-        assert.equal(image.indexOf('data:image/png;base64'), 0)
         assert.equal(id.length, 24)
         assert.deepEqual(rest, {})
-        ids.push(id)
+        globalProjectId = id
       })
       .end(done)
   })
@@ -33,8 +32,14 @@ describe('POST /projects', () => {
   })
 
   after(async () => {
-    for (let i = 0; i < ids.length; i++) {
-      await Project.remove(ids[i])
-    }
+    const images = await ProjectImage.find({ projectId: globalProjectId })
+    const { id, projectId, buffer, ...rest } = images[0]
+    assert.equal(id.toString().length, 24)
+    assert.equal(projectId.toString(), globalProjectId)
+    assert.equal(buffer instanceof Buffer, true)
+    assert.deepEqual(rest, {})
+
+    await Project.remove(globalProjectId)
+    await ProjectImage.remove(id)
   })
 })

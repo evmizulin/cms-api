@@ -1,5 +1,6 @@
-const { Model, File, Entry, Project, ProjectAndUserRelation } = require('./tables')
-const { User, AuthToken, RecoverPass, ApiToken, Contact, EncryptionKey } = require('./tables')
+// const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
+const { Project, ProjectImage } = require('./tables')
+// const { User, AuthToken, RecoverPass, ApiToken, Contact, EncryptionKey } = require('./tables')
 
 class Db {
   constructor(props) {
@@ -13,6 +14,12 @@ class Db {
     return entities.map(item => this.normFromDb(item))
   }
 
+  async findOne(...props) {
+    const entities = await this.Model.find(...props)
+    if (!entities.length) return null
+    return this.normFromDb(entities[0])
+  }
+
   async findById(...props) {
     const entity = await this.Model.findById(...props)
     if (!entity) return null
@@ -23,11 +30,11 @@ class Db {
     const entity = await this.Model.findById(id)
     await entity.remove()
   }
-
-  // async findByIdAndRemove(id) {
-  //   await this.Model.findByIdAndRemove(id)
-  // }
-
+  /*
+  async findByIdAndRemove(id) {
+    await this.Model.findByIdAndRemove(id)
+  }
+*/
   async insert(entity) {
     const newEntity = new this.Model(this.normToDb(entity))
     const savedEntity = await newEntity.save()
@@ -53,12 +60,14 @@ class Db {
 const normToDb = ({ id, ...rest }) => ({ ...rest })
 const normFromDb = entity => {
   const res = {}
-  const { _id, __v, ...rest } = entity.toObject()
+  const { _id, __v, buffer, ...rest } = entity.toObject()
   if (_id) res.id = _id
+  if (buffer) res.buffer = entity.buffer
   return { ...res, ...rest }
 }
 
 module.exports = {
+  /*
   Model: new Db({
     Model: Model,
     normToDb: ({ id, apiId, projectId, ...rest }) => ({ apiId, projectId, data: JSON.stringify(rest) }),
@@ -90,7 +99,10 @@ module.exports = {
       return { ...res, ...rest }
     },
   }),
+  */
   Project: new Db({ Model: Project, normToDb, normFromDb }),
+  ProjectImage: new Db({ Model: ProjectImage, normToDb, normFromDb }),
+  /*
   User: new Db({ Model: User, normToDb, normFromDb }),
   ProjectAndUserRelation: new Db({ Model: ProjectAndUserRelation, normToDb, normFromDb }),
   AuthToken: new Db({ Model: AuthToken, normToDb, normFromDb }),
@@ -107,4 +119,5 @@ module.exports = {
     },
   }),
   EncryptionKey: new Db({ Model: EncryptionKey, normToDb, normFromDb }),
+  */
 }

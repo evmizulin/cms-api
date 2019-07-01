@@ -10,6 +10,7 @@ describe('All tests', () => {
 
   describe('Projects', () => {
     require('./projects/get-projects.test')
+    require('./projects/get-project-image')
     require('./projects/post-projects.test')
     require('./projects/put-projects.test')
     require('./projects/delete-projects.test')

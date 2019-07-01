@@ -20,9 +20,13 @@ db.once('open', () => {
 
 const Schema = mongoose.Schema
 
+const ProjectImage = new Schema({
+  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+  buffer: Buffer,
+})
+
 const Project = new Schema({
   name: String,
-  image: String,
 })
 
 const ApiToken = new Schema({
@@ -81,6 +85,7 @@ const EncryptionKey = new Schema({
 
 module.exports = {
   connection: db,
+  ProjectImage: mongoose.model('ProjectImage', ProjectImage),
   Project: mongoose.model('Project', Project),
   ApiToken: mongoose.model('ApiToken', ApiToken),
   User: mongoose.model('User', User),

@@ -9,7 +9,7 @@ let projectId
 
 describe('PUT /projects/${id}', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'Old project', image: 'png' })
+    const savedProject = await Project.insert({ name: 'Old project' })
     projectId = savedProject.id.toString()
   })
 
@@ -19,9 +19,8 @@ describe('PUT /projects/${id}', () => {
       .send({ id: projectId, name: 'New project' })
       .expect(200)
       .expect(res => {
-        const { id, image, name, ...rest } = res.body
+        const { id, name, ...rest } = res.body
         assert.equal(name, 'New project')
-        assert.equal(image, 'png')
         assert.equal(id, projectId)
         assert.deepEqual(rest, {})
       })

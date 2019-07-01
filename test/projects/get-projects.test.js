@@ -9,7 +9,7 @@ let projectId
 
 describe('GET /projects', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'Get project', image: 'png' })
+    const savedProject = await Project.insert({ name: 'Get project' })
     projectId = savedProject.id.toString()
   })
 
@@ -18,9 +18,8 @@ describe('GET /projects', () => {
       .get('/projects')
       .expect(200)
       .expect(res => {
-        const { id, image, name, ...rest } = res.body.find(item => item.id === projectId)
+        const { id, name, ...rest } = res.body.find(item => item.id === projectId)
         assert.equal(name, 'Get project')
-        assert.equal(image, 'png')
         assert.equal(id, projectId)
         assert.deepEqual(rest, {})
       })
