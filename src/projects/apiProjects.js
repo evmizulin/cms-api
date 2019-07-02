@@ -1,12 +1,12 @@
 // const { Model, Project, ProjectAndUserRelation } = require('../db/Db')
-const { Project, ProjectImage } = require('../db/Db')
-const { createProject } = require('./types/projects/createProject')
+const { Project, ProjectImage } = require('../services/db/Db')
+const { createProject } = require('./createProject')
 const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
 // const { apiModels } = require('./ApiModels')
-const { ApiError } = require('../../helpers/ApiError')
+const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST, NOT_FOUND } = require('http-status-codes')
-const { isIdValid } = require('../../helpers/isIdValid')
+const { isIdValid } = require('../helpers/isIdValid')
 
 class ApiProjects {
   // async getProjects(userId) {

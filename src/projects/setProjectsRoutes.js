@@ -1,6 +1,6 @@
 const cors = require('cors')
 const { OK } = require('http-status-codes')
-const { apiProjects } = require('../services/api/ApiProjects')
+const { apiProjects } = require('./apiProjects')
 // const { checkAuth } = require('../services/auth/checkAuth')
 // const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { allowAll } = require('../helpers/corsSettings')
