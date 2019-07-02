@@ -1,7 +1,7 @@
 var Email = require('email').Email
 const templateUtil = require('string-template')
 const fs = require('fs')
-const { config } = require('../config')
+const { config } = require('../../config')
 const recoverPassHtml = fs.readFileSync(__dirname + '/mails/recoverPass.html', 'utf8')
 const emailConfirmHtml = fs.readFileSync(__dirname + '/mails/emailConfirm.html', 'utf8')
 
@@ -35,18 +35,20 @@ const send = ({ to, subject, text, html = false }) => {
         resolve()
       })
     } else {
-      console.log(opt) // eslint-disable-line no-console
+      if (config.logsTo !== 'no') {
+        console.log(opt) // eslint-disable-line no-console
+      }
       resolve()
     }
   })
 }
 
 class Mailer {
-  send(template, { to, props }) {
+  send({ templateName, to, templateProps }) {
     return send({
       to,
-      subject: MAP[template].subject,
-      text: MAP[template].getText(props),
+      subject: MAP[templateName].subject,
+      text: MAP[templateName].getText(templateProps),
       html: true,
     })
   }

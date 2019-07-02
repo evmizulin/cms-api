@@ -29,16 +29,21 @@ const Project = new Schema({
   name: String,
 })
 
-const ApiToken = new Schema({
-  projectId: String,
-  name: String,
-  token: String,
-})
-
 const User = new Schema({
   login: String,
   passHash: String,
   isVerified: Boolean,
+})
+
+const EncryptionKey = new Schema({
+  key: String,
+})
+
+/*
+const ApiToken = new Schema({
+  projectId: String,
+  name: String,
+  token: String,
 })
 
 const RecoverPass = new Schema({
@@ -78,17 +83,16 @@ const File = new Schema({
 const Contact = new Schema({
   data: String,
 })
-
-const EncryptionKey = new Schema({
-  key: String,
-})
+*/
 
 module.exports = {
   connection: db,
   ProjectImage: mongoose.model('ProjectImage', ProjectImage),
   Project: mongoose.model('Project', Project),
-  ApiToken: mongoose.model('ApiToken', ApiToken),
   User: mongoose.model('User', User),
+  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
+  /*
+  ApiToken: mongoose.model('ApiToken', ApiToken),
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
   ProjectAndUserRelation: mongoose.model('ProjectAndUserRelation', ProjectAndUserRelation),
   AuthToken: mongoose.model('AuthToken', AuthToken),
@@ -96,5 +100,5 @@ module.exports = {
   Entry: mongoose.model('Entry', Entry),
   File: mongoose.model('File', File),
   Contact: mongoose.model('Contact', Contact),
-  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
+  */
 }

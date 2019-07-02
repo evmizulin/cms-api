@@ -1,8 +1,8 @@
-const tv4 = require('tv4')
-const { ApiError } = require('../../../../helpers/ApiError')
+const { validate } = require('../helpers/validate')
+const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 
-const createEmailConfirmCreds = creds => {
+const createEmailConfirmCreds = ({ creds }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -11,9 +11,9 @@ const createEmailConfirmCreds = creds => {
       activationToken: { type: 'string', minLength: 1 },
     },
   }
-  const { valid, error } = tv4.validateResult(creds, schema)
+  const { valid, error } = validate(creds, schema)
   if (!valid) {
-    throw new ApiError(error.message, BAD_REQUEST)
+    throw new ApiError(BAD_REQUEST, error)
   }
   return creds
 }

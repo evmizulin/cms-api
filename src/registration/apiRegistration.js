@@ -1,14 +1,17 @@
-const { User } = require('../db/Db')
-const { ApiError } = require('../../helpers/ApiError')
-const { BAD_REQUEST } = require('http-status-codes')
-const { createCreds } = require('./types/creds/createCreds')
-const { mailer } = require('../../helpers/Mailer')
-const { encrypter } = require('../../helpers/Encrypter')
+/*
+const { createEmailConfirmCreds } = require('./createEmailConfirmCreds')
+*/
 const hash = require('object-hash')
+const { BAD_REQUEST } = require('http-status-codes')
+const { ApiError } = require('../helpers/ApiError')
+const { User } = require('../services/db/Db')
+const { createCreds } = require('./createCreds')
+const { mailer } = require('../services/mailer/Mailer')
 const { config } = require('../../config')
-const { createEmailConfirmCreds } = require('./types/email-confirm-creds/createEmailConfirmCreds')
+const { encrypter } = require('../services/Encrypter')
 
-class ApiRegister {
+class ApiRegistration {
+  /*
   async register(creds) {
     const createdCreds = createCreds(creds)
     const verifiedUsers = await User.find({ login: createdCreds.login, isVerified: true }, '_id')
@@ -26,7 +29,30 @@ class ApiRegister {
       },
     })
   }
-
+  */
+  async postUser(creds) {
+    const createdCreds = createCreds(creds)
+    const verifiedUser = await User.findOne({ login: createdCreds.login, isVerified: true }, { _id: true })
+    if (verifiedUser) throw new ApiError(BAD_REQUEST, 'User with that email already exists')
+    const unverifiedUser = await User.findOne({ login: createdCreds.login, isVerified: false }, { _id: true })
+    if (unverifiedUser) {
+      await User.update(unverifiedUser.id, { passHash: hash(createdCreds.password) })
+    } else {
+      await User.insert({
+        login: createdCreds.login,
+        passHash: hash(createdCreds.password),
+        isVerified: false,
+      })
+    }
+    await mailer.send({
+      to: createdCreds.login,
+      templateName: 'email-confirm',
+      templateProps: {
+        link: `${config.appUrl}/email-confirm/${encrypter.encrypt(createdCreds.login)}`,
+      },
+    })
+  }
+  /*
   async emailConfirm(creds) {
     const createdCreds = createEmailConfirmCreds(creds)
     let login
@@ -39,6 +65,7 @@ class ApiRegister {
     if (!users.length) throw new ApiError('Unvalid confirmation token', BAD_REQUEST)
     await User.update(users[0].id, { isVerified: true })
   }
+  */
 }
 
-module.exports = { apiRegister: new ApiRegister() }
+module.exports = { apiRegistration: new ApiRegistration() }

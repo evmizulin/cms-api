@@ -1,23 +1,31 @@
 const cors = require('cors')
 const { OK } = require('http-status-codes')
-const { getStatusMessage } = require('../helpers/getStatusMessage')
-const { apiRegister } = require('../services/api/ApiRegister')
-const { allowMe } = require('../helpers/corsSettings')
+const { apiRegistration } = require('./apiRegistration')
+const { allowAll } = require('../helpers/corsSettings')
+const { ApiResp } = require('../helpers/ApiResp')
 
-const setRegisterRoutes = app => {
-  app.options('/register', cors(allowMe))
-
+const setRegistrationRoutes = app => {
+  app.options('/user', cors(allowAll))
+  /*
   app.post('/register', cors(allowMe), async (req, res) => {
     await apiRegister.register(req.body)
     res.status(OK).send(getStatusMessage(OK))
   })
+  */
 
+  app.post('/user', cors(allowAll), async (req, res) => {
+    await apiRegistration.postUser(req.body)
+    const apiResp = new ApiResp(OK)
+    res.status(apiResp.code).send(apiResp.body)
+  })
+  /*
   app.options('/email-confirm', cors(allowMe))
 
   app.post('/email-confirm', cors(allowMe), async (req, res) => {
     await apiRegister.emailConfirm(req.body)
     res.status(OK).send(getStatusMessage(OK))
   })
+  */
 }
 
-module.exports = { setRegisterRoutes }
+module.exports = { setRegistrationRoutes }

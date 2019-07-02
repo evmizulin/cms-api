@@ -18,7 +18,7 @@ const { allowAll } = require('./helpers/corsSettings')
 // const { setLoginRoutes } = require('./routes/setLoginRoutes')
 // const { setModelsRoutes } = require('./routes/setModelsRoutes')
 const { setProjectsRoutes } = require('./projects/setProjectsRoutes')
-// const { setRegisterRoutes } = require('./routes/setRegisterRoutes')
+const { setRegistrationRoutes } = require('./registration/setRegistrationRoutes')
 // const { setTokensRoutes } = require('./routes/setTokensRoutes')
 const { config } = require('./config')
 
@@ -56,7 +56,7 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
 // setLoginRoutes(app)
 // setModelsRoutes(app)
 setProjectsRoutes(app)
-// setRegisterRoutes(app)
+setRegistrationRoutes(app)
 // setTokensRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {

@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const { EncryptionKey } = require('../services/db/Db')
+const { EncryptionKey } = require('./db/Db')
 const randomstring = require('randomstring')
 
 const ALGORITHM = 'aes-256-cbc'
@@ -7,12 +7,12 @@ const IV_LENGTH = 16
 
 class Encrypter {
   constructor() {
-    EncryptionKey.find().then(keys => {
-      if (!keys.length) {
+    EncryptionKey.findOne().then(key => {
+      if (!key) {
         this.encryptionKey = randomstring.generate(32)
         EncryptionKey.save({ key: this.encryptionKey })
       } else {
-        this.encryptionKey = keys[0].key
+        this.encryptionKey = key.key
       }
     })
   }
