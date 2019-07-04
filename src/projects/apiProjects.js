@@ -5,8 +5,7 @@ const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
 // const { apiModels } = require('./ApiModels')
 const { ApiError } = require('../helpers/ApiError')
-const { BAD_REQUEST, NOT_FOUND } = require('http-status-codes')
-const { isIdValid } = require('../helpers/isIdValid')
+const { BAD_REQUEST } = require('http-status-codes')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -22,9 +21,6 @@ class ApiProjects {
   }
 
   async getProjectImage(projectId) {
-    if (!isIdValid(projectId)) throw new ApiError(BAD_REQUEST, 'ID is not valid')
-    const foundedProject = await Project.findById(projectId, { _id: true })
-    if (!foundedProject) throw new ApiError(NOT_FOUND)
     const image = await ProjectImage.findOne({ projectId: projectId })
     return image
   }
@@ -66,8 +62,6 @@ class ApiProjects {
     const createdProject = createProject({ project })
     if (projectId !== createdProject.id)
       throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
-    const foundedProject = await Project.findById(projectId, { _id: true })
-    if (!foundedProject) throw new ApiError(NOT_FOUND)
     return await Project.update(projectId, createdProject)
   }
   //
@@ -82,9 +76,6 @@ class ApiProjects {
   // }
 
   async deleteProject(projectId) {
-    if (!isIdValid(projectId)) throw new ApiError(BAD_REQUEST, 'ID is not valid')
-    const foundedProject = await Project.findById(projectId, { _id: true })
-    if (!foundedProject) throw new ApiError(NOT_FOUND)
     const projectImage = await ProjectImage.findOne({ projectId: projectId })
     await Project.remove(projectId)
     await ProjectImage.remove(projectImage.id)

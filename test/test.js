@@ -9,6 +9,7 @@ describe('All tests', () => {
   })
 
   describe('Projects', () => {
+    require('./projects/all-project-id.test')
     require('./projects/get-projects.test')
     require('./projects/get-project-image.test')
     require('./projects/post-projects.test')

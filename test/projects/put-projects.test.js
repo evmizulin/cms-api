@@ -29,28 +29,10 @@ describe('PUT /projects/${id}', () => {
 
   it('should return 400', done => {
     request(app)
-      .put(`/projects/aaa`)
-      .send({ id: 'aaa', name: 'New project' })
-      .expect(400)
-      .expect({ message: 'ID is not valid' })
-      .end(done)
-  })
-
-  it('should return 400', done => {
-    request(app)
-      .put(`/projects/5d14c75f2d32f92ae2cc831a`)
+      .put(`/projects/${projectId}`)
       .send({ id: '5d14c75f2d32f92ae2cc831b', name: 'New project' })
       .expect(400)
       .expect({ message: 'ID in route must be equal to ID in body' })
-      .end(done)
-  })
-
-  it('should return 404', done => {
-    const fakeId = '5d14c75f2d32f92ae2cc831a'
-    request(app)
-      .put(`/projects/${fakeId}`)
-      .send({ id: fakeId, name: 'New project' })
-      .expect(404)
       .end(done)
   })
 

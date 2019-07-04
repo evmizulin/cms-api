@@ -5,6 +5,7 @@ const { apiProjects } = require('./apiProjects')
 // const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { allowAll } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
+const { checkProjectId } = require('./checkProjectId')
 
 const setProjectsRoutes = app => {
   app.options('/projects', cors(allowAll))
@@ -22,7 +23,7 @@ const setProjectsRoutes = app => {
 
   app.options('/projects/:projectId/image.png', cors(allowAll))
 
-  app.get('/projects/:projectId/image.png', cors(allowAll), async (req, res) => {
+  app.get('/projects/:projectId/image.png', cors(allowAll), checkProjectId, async (req, res) => {
     const { projectId } = req.params
     const image = await apiProjects.getProjectImage(projectId)
     res
@@ -50,7 +51,7 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.put('/projects/:projectId', cors(allowAll), async (req, res) => {
+  app.put('/projects/:projectId', cors(allowAll), checkProjectId, async (req, res) => {
     const { projectId } = req.params
     const updatedProject = await apiProjects.putProject(projectId, req.body)
     res.status(OK).send(updatedProject)
@@ -62,7 +63,7 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.delete('/projects/:projectId', cors(allowAll), async (req, res) => {
+  app.delete('/projects/:projectId', cors(allowAll), checkProjectId, async (req, res) => {
     const { projectId } = req.params
     await apiProjects.deleteProject(projectId)
     const apiResp = new ApiResp(OK)
