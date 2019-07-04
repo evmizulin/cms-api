@@ -10,7 +10,7 @@ class Encrypter {
     EncryptionKey.findOne().then(key => {
       if (!key) {
         this.encryptionKey = randomstring.generate(32)
-        EncryptionKey.save({ key: this.encryptionKey })
+        EncryptionKey.insert({ key: this.encryptionKey })
       } else {
         this.encryptionKey = key.key
       }
