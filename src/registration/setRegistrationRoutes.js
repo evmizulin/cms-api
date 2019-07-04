@@ -27,9 +27,9 @@ const setRegistrationRoutes = app => {
   })
   */
 
-  app.options('/email-confirmation-token', cors(allowAll))
+  app.options('/email-confirmation-tokens', cors(allowAll))
 
-  app.post('/email-confirmation-token', cors(allowAll), async (req, res) => {
+  app.post('/email-confirmation-tokens', cors(allowAll), async (req, res) => {
     await apiRegistration.postEmailConfirmationToken(req.body)
     const apiResp = new ApiResp(OK)
     res.status(apiResp.code).send(apiResp.body)

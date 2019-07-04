@@ -34,7 +34,7 @@ describe('All tests', () => {
 
   describe('Registration', () => {
     require('./registration/post-users.test')
-    require('./registration/post-email-token.test')
+    require('./registration/post-email-tokens.test')
   })
 
   after(async () => {

@@ -6,14 +6,14 @@ const { User } = require('../../src/services/db/Db')
 const assert = require('assert')
 const { encrypter } = require('../../src/services/Encrypter')
 
-describe('POST /email-confirmation-token', () => {
+describe('POST /email-confirmation-tokens', () => {
   before(async () => {
     await User.insert({ login: 'email-confirm-success', passHash: '1', isVerified: false })
   })
 
   it('should return 200', done => {
     request(app)
-      .post('/email-confirmation-token')
+      .post('/email-confirmation-tokens')
       .send({ confirmationToken: encrypter.encrypt('email-confirm-success') })
       .expect(200)
       .expect({ message: 'OK' })
@@ -22,7 +22,7 @@ describe('POST /email-confirmation-token', () => {
 
   it('should return 400', done => {
     request(app)
-      .post('/email-confirmation-token')
+      .post('/email-confirmation-tokens')
       .send({ a: '1' })
       .expect(400)
       .expect({ message: 'Missing required property: confirmationToken' })
@@ -31,7 +31,7 @@ describe('POST /email-confirmation-token', () => {
 
   it('should return 400', done => {
     request(app)
-      .post('/email-confirmation-token')
+      .post('/email-confirmation-tokens')
       .send({ confirmationToken: '1_asd' })
       .expect(400)
       .expect({ message: 'Unvalid confirmation token' })
@@ -40,7 +40,7 @@ describe('POST /email-confirmation-token', () => {
 
   it('should return 400', done => {
     request(app)
-      .post('/email-confirmation-token')
+      .post('/email-confirmation-tokens')
       .send({ confirmationToken: encrypter.encrypt('wrong-login') })
       .expect(400)
       .expect({ message: 'Unvalid confirmation token' })

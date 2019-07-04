@@ -46,7 +46,7 @@ class ApiRegistration {
       to: createdCreds.login,
       templateName: 'email-confirm',
       templateProps: {
-        link: `${config.appUrl}/email-confirmation-token/${encrypter.encrypt(createdCreds.login)}`,
+        link: `${config.appUrl}/email-confirmation-tokens/${encrypter.encrypt(createdCreds.login)}`,
       },
     })
   }
