@@ -16,28 +16,54 @@ db.once('open', () => {
   if (config.logsTo !== 'no') {
     console.log('Conected to db!') // eslint-disable-line no-console
   }
+  // db.createCollection('clients', {
+  //   viewOn: 'users',
+  //   pipeline: [],
+  // })
 })
 
 const Schema = mongoose.Schema
 
-const ProjectImage = new Schema({
-  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
-  buffer: Buffer,
-})
+const ProjectImage = mongoose.model(
+  'ProjectImage',
+  new Schema({
+    projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+    buffer: Buffer,
+  })
+)
 
-const Project = new Schema({
-  name: String,
-})
+const Project = mongoose.model(
+  'Project',
+  new Schema({
+    name: String,
+  })
+)
 
-const User = new Schema({
-  login: String,
-  passHash: String,
-  isVerified: Boolean,
-})
+const User = mongoose.model(
+  'User',
+  new Schema({
+    login: String,
+    passHash: String,
+    isVerified: Boolean,
+  })
+)
 
-const EncryptionKey = new Schema({
-  key: String,
-})
+// const Client = mongoose.model(
+//   'Client',
+//   {
+//     login: String,
+//     passHash: String,
+//     isVerified: Boolean,
+//   },
+//   'clients'
+// )
+
+const EncryptionKey = mongoose.model(
+  'EncryptionKey',
+  new Schema({
+    key: String,
+  })
+)
 
 /*
 const ApiToken = new Schema({
@@ -87,10 +113,11 @@ const Contact = new Schema({
 
 module.exports = {
   connection: db,
-  ProjectImage: mongoose.model('ProjectImage', ProjectImage),
-  Project: mongoose.model('Project', Project),
-  User: mongoose.model('User', User),
-  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
+  ProjectImage,
+  Project,
+  User,
+  // Client,
+  EncryptionKey,
   /*
   ApiToken: mongoose.model('ApiToken', ApiToken),
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
