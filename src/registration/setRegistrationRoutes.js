@@ -5,7 +5,7 @@ const { allowAll } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
 
 const setRegistrationRoutes = app => {
-  app.options('/user', cors(allowAll))
+  app.options('/users', cors(allowAll))
   /*
   app.post('/register', cors(allowMe), async (req, res) => {
     await apiRegister.register(req.body)
@@ -13,7 +13,7 @@ const setRegistrationRoutes = app => {
   })
   */
 
-  app.post('/user', cors(allowAll), async (req, res) => {
+  app.post('/users', cors(allowAll), async (req, res) => {
     await apiRegistration.postUser(req.body)
     const apiResp = new ApiResp(OK)
     res.status(apiResp.code).send(apiResp.body)

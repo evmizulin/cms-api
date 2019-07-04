@@ -1,4 +1,4 @@
-const { config } = require('../config')
+const { globalConfig: config } = require('../config')
 
 const IS_TEST = process.env.NODE_ENV === 'test'
 const IS_DEV = process.env.NODE_ENV === 'development'

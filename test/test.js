@@ -16,6 +16,10 @@ describe('All tests', () => {
     require('./projects/delete-projects.test')
   })
 
+  describe('Registration', () => {
+    require('./registration/post-users.test')
+  })
+
   after(async () => {
     connection.close()
   })

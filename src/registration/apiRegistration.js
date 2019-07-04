@@ -7,7 +7,7 @@ const { ApiError } = require('../helpers/ApiError')
 const { User } = require('../services/db/Db')
 const { createCreds } = require('./createCreds')
 const { mailer } = require('../services/mailer/Mailer')
-const { config } = require('../../config')
+const { config } = require('../config')
 const { encrypter } = require('../services/Encrypter')
 
 class ApiRegistration {
@@ -31,7 +31,7 @@ class ApiRegistration {
   }
   */
   async postUser(creds) {
-    const createdCreds = createCreds(creds)
+    const createdCreds = createCreds({ creds })
     const verifiedUser = await User.findOne({ login: createdCreds.login, isVerified: true }, { _id: true })
     if (verifiedUser) throw new ApiError(BAD_REQUEST, 'User with that email already exists')
     const unverifiedUser = await User.findOne({ login: createdCreds.login, isVerified: false }, { _id: true })
