@@ -34,11 +34,12 @@ describe('All tests', () => {
 
   describe('Registration', () => {
     require('./registration/post-users.test')
+    require('./registration/post-email-token.test')
   })
 
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
-    assert.equal(beforeDocsAmount, afterDocsAmount)
     connection.close()
+    assert.equal(beforeDocsAmount, afterDocsAmount)
   })
 })

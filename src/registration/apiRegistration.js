@@ -1,6 +1,3 @@
-/*
-const { createEmailConfirmCreds } = require('./createEmailConfirmCreds')
-*/
 const hash = require('object-hash')
 const { BAD_REQUEST } = require('http-status-codes')
 const { ApiError } = require('../helpers/ApiError')
@@ -9,6 +6,7 @@ const { createCreds } = require('./createCreds')
 const { mailer } = require('../services/mailer/Mailer')
 const { config } = require('../config')
 const { encrypter } = require('../services/Encrypter')
+const { createEmailConfirmCreds } = require('./createEmailConfirmCreds')
 
 class ApiRegistration {
   /*
@@ -48,7 +46,7 @@ class ApiRegistration {
       to: createdCreds.login,
       templateName: 'email-confirm',
       templateProps: {
-        link: `${config.appUrl}/email-confirm/${encrypter.encrypt(createdCreds.login)}`,
+        link: `${config.appUrl}/email-confirmation-token/${encrypter.encrypt(createdCreds.login)}`,
       },
     })
   }
@@ -66,6 +64,19 @@ class ApiRegistration {
     await User.update(users[0].id, { isVerified: true })
   }
   */
+
+  async postEmailConfirmationToken(token) {
+    const createdToken = createEmailConfirmCreds({ token })
+    let login
+    try {
+      login = encrypter.decrypt(createdToken.confirmationToken)
+    } catch (err) {
+      throw new ApiError(BAD_REQUEST, 'Unvalid confirmation token')
+    }
+    const user = await User.findOne({ login }, '_id')
+    if (!user) throw new ApiError(BAD_REQUEST, 'Unvalid confirmation token')
+    await User.update(user.id, { isVerified: true })
+  }
 }
 
 module.exports = { apiRegistration: new ApiRegistration() }

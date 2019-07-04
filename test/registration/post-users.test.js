@@ -11,14 +11,14 @@ describe('POST /users', () => {
     it('should return 200', done => {
       request(app)
         .post('/users')
-        .send({ login: 'success', password: '1234567' })
+        .send({ login: 'new-user-success', password: '1234567' })
         .expect(200)
         .expect({ message: 'OK' })
         .end(done)
     })
 
     after(async () => {
-      const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'success' })
+      const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'new-user-success' })
       assert.equal(isVerified, false)
       assert.equal(passHash, hash('1234567'))
       assert.deepEqual(rest, {})
@@ -28,20 +28,20 @@ describe('POST /users', () => {
 
   describe('Success - update password', () => {
     before(async () => {
-      await User.insert({ login: 'update', passHash: '1', isVerified: false })
+      await User.insert({ login: 'user-update', passHash: '1', isVerified: false })
     })
 
     it('should return 200', done => {
       request(app)
         .post('/users')
-        .send({ login: 'update', password: '1234567' })
+        .send({ login: 'user-update', password: '1234567' })
         .expect(200)
         .expect({ message: 'OK' })
         .end(done)
     })
 
     after(async () => {
-      const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'update' })
+      const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'user-update' })
       assert.equal(isVerified, false)
       assert.equal(passHash, hash('1234567'))
       assert.deepEqual(rest, {})
@@ -62,20 +62,20 @@ describe('POST /users', () => {
 
   describe('User exist', () => {
     before(async () => {
-      await User.insert({ login: 'exist', passHash: '1', isVerified: true })
+      await User.insert({ login: 'user-exist', passHash: '1', isVerified: true })
     })
 
     it('should return 400', done => {
       request(app)
         .post('/users')
-        .send({ login: 'exist', password: '1234567' })
+        .send({ login: 'user-exist', password: '1234567' })
         .expect(400)
         .expect({ message: 'User with that email already exists' })
         .end(done)
     })
 
     after(async () => {
-      const user = await User.findOne({ login: 'exist' })
+      const user = await User.findOne({ login: 'user-exist' })
       await User.remove(user.id)
     })
   })
