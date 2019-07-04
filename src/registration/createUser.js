@@ -2,7 +2,7 @@ const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 const { validate } = require('../helpers/validate')
 
-const createCreds = ({ creds }) => {
+const createUser = ({ user }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -12,11 +12,11 @@ const createCreds = ({ creds }) => {
       password: { type: 'string', minLength: 6 },
     },
   }
-  const { valid, error } = validate(creds, schema)
+  const { valid, error } = validate(user, schema)
   if (!valid) {
     throw new ApiError(BAD_REQUEST, error)
   }
-  return creds
+  return user
 }
 
-module.exports = { createCreds }
+module.exports = { createUser }

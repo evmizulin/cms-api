@@ -49,7 +49,7 @@ describe('POST /users', () => {
     })
   })
 
-  describe('Unvalid creds', () => {
+  describe('Unvalid user', () => {
     it('should return 400', done => {
       request(app)
         .post('/users')

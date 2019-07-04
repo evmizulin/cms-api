@@ -2,7 +2,7 @@ const { validate } = require('../helpers/validate')
 const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 
-const createEmailConfirmCreds = ({ token }) => {
+const createEmailToken = ({ token }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -18,4 +18,4 @@ const createEmailConfirmCreds = ({ token }) => {
   return token
 }
 
-module.exports = { createEmailConfirmCreds }
+module.exports = { createEmailToken }

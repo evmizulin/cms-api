@@ -2,11 +2,11 @@ const hash = require('object-hash')
 const { BAD_REQUEST } = require('http-status-codes')
 const { ApiError } = require('../helpers/ApiError')
 const { User } = require('../services/db/Db')
-const { createCreds } = require('./createCreds')
+const { createUser } = require('./createUser')
 const { mailer } = require('../services/mailer/Mailer')
 const { config } = require('../config')
 const { encrypter } = require('../services/Encrypter')
-const { createEmailConfirmCreds } = require('./createEmailConfirmCreds')
+const { createEmailToken } = require('./createEmailToken')
 
 class ApiRegistration {
   /*
@@ -28,25 +28,25 @@ class ApiRegistration {
     })
   }
   */
-  async postUser(creds) {
-    const createdCreds = createCreds({ creds })
-    const verifiedUser = await User.findOne({ login: createdCreds.login, isVerified: true }, { _id: true })
+  async postUser(user) {
+    const createdUser = createUser({ user })
+    const verifiedUser = await User.findOne({ login: createdUser.login, isVerified: true }, { _id: true })
     if (verifiedUser) throw new ApiError(BAD_REQUEST, 'User with that email already exists')
-    const unverifiedUser = await User.findOne({ login: createdCreds.login, isVerified: false }, { _id: true })
+    const unverifiedUser = await User.findOne({ login: createdUser.login, isVerified: false }, { _id: true })
     if (unverifiedUser) {
-      await User.update(unverifiedUser.id, { passHash: hash(createdCreds.password) })
+      await User.update(unverifiedUser.id, { passHash: hash(createdUser.password) })
     } else {
       await User.insert({
-        login: createdCreds.login,
-        passHash: hash(createdCreds.password),
+        login: createdUser.login,
+        passHash: hash(createdUser.password),
         isVerified: false,
       })
     }
     await mailer.send({
-      to: createdCreds.login,
+      to: createdUser.login,
       templateName: 'email-confirm',
       templateProps: {
-        link: `${config.appUrl}/email-confirmation-tokens/${encrypter.encrypt(createdCreds.login)}`,
+        link: `${config.appUrl}/email-confirmation-tokens/${encrypter.encrypt(createdUser.login)}`,
       },
     })
   }
@@ -66,7 +66,7 @@ class ApiRegistration {
   */
 
   async postEmailConfirmationToken(token) {
-    const createdToken = createEmailConfirmCreds({ token })
+    const createdToken = createEmailToken({ token })
     let login
     try {
       login = encrypter.decrypt(createdToken.confirmationToken)
