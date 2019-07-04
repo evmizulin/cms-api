@@ -9,7 +9,7 @@ let projectId
 
 describe('GET /projects', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'Get project' })
+    const savedProject = await Project.insert({ name: 'get-projects-success' })
     projectId = savedProject.id.toString()
   })
 
@@ -19,7 +19,7 @@ describe('GET /projects', () => {
       .expect(200)
       .expect(res => {
         const { id, name, ...rest } = res.body.find(item => item.id === projectId)
-        assert.equal(name, 'Get project')
+        assert.equal(name, 'get-projects-success')
         assert.equal(id, projectId)
         assert.deepEqual(rest, {})
       })

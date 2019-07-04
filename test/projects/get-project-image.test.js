@@ -9,7 +9,7 @@ let projectImageId
 
 describe('GET /projects/${id}/image.png', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'My project' })
+    const savedProject = await Project.insert({ name: 'get-projects-image-success' })
     const savedImage = await ProjectImage.insert({ projectId: savedProject.id, buffer: new Buffer(1) })
     projectId = savedProject.id.toString()
     projectImageId = savedImage.id.toString()

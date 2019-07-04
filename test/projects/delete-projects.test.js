@@ -10,7 +10,7 @@ let projectImageId
 
 describe('DELETE /projects/${id}', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'My project' })
+    const savedProject = await Project.insert({ name: 'delete-projects-success' })
     const savedImage = await ProjectImage.insert({ projectId: savedProject.id, buffer: new Buffer(1) })
     projectId = savedProject.id.toString()
     projectImageId = savedImage.id.toString()

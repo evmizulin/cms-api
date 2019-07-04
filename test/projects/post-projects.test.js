@@ -11,11 +11,11 @@ describe('POST /projects', () => {
   it('should return 200', done => {
     request(app)
       .post('/projects')
-      .send({ name: 'Project name' })
+      .send({ name: 'post-projects-success' })
       .expect(200)
       .expect(res => {
         const { id, name, ...rest } = res.body
-        assert.equal(name, 'Project name')
+        assert.equal(name, 'post-projects-success')
         assert.equal(id.length, 24)
         assert.deepEqual(rest, {})
         globalProjectId = id
@@ -26,7 +26,7 @@ describe('POST /projects', () => {
   it('should return 400', done => {
     request(app)
       .post('/projects')
-      .send({ id: 'abc', name: 'Project name' })
+      .send({ id: 'abc', name: 'post-projects-fail' })
       .expect(400, { message: 'Additional properties not allowed' })
       .end(done)
   })
