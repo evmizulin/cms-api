@@ -1,5 +1,5 @@
 // const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
-const { Project, ProjectImage, User, EncryptionKey } = require('./tables')
+const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -11,18 +11,11 @@ const defaultNormFromDb = entity => {
   return { ...res, ...rest }
 }
 
-class Db {
-  constructor({ Model, normToDb = null, normFromDb = null, hooks = {} }) {
-    const { beforeInsert, afterInsert, beforeUpdate, afterUpdate, beforeRemove, afterRemove } = hooks
+class CrudDb {
+  constructor({ Model, normToDb = null, normFromDb = null }) {
     this.Model = Model
     this.normToDb = normToDb || defaultNormToDb
     this.normFromDb = normFromDb || defaultNormFromDb
-    this.beforeInsert = beforeInsert
-    this.afterInsert = afterInsert
-    this.beforeUpdate = beforeUpdate
-    this.afterUpdate = afterUpdate
-    this.beforeRemove = beforeRemove
-    this.afterRemove = afterRemove
   }
 
   async find(...props) {
@@ -43,10 +36,8 @@ class Db {
   }
 
   async remove(id) {
-    if (this.beforeRemove) await this.beforeRemove(id)
     const entity = await this.Model.findById(id)
     await entity.remove()
-    if (this.afterRemove) await this.afterRemove(id)
   }
   /*
   async findByIdAndRemove(id) {
@@ -54,20 +45,32 @@ class Db {
   }
 */
   async insert(entity) {
-    if (this.beforeInsert) await this.beforeInsert(entity)
     const newEntity = new this.Model(this.normToDb(entity))
     const savedEntity = await newEntity.save()
-    if (this.afterInsert) await this.afterInsert(savedEntity)
     return this.normFromDb(savedEntity)
   }
 
   async update(id, entity) {
-    if (this.beforeUpdate) await this.beforeUpdate(id, entity)
     const foudedEntity = await this.Model.findById(id)
     await foudedEntity.updateOne(this.normToDb(entity))
     const updatedEntity = await this.Model.findById(id)
-    if (this.afterUpdate) await this.afterUpdate(updatedEntity)
     return this.normFromDb(updatedEntity)
+  }
+}
+
+class Db extends CrudDb {
+  constructor(props) {
+    const { hooks = {} } = props
+    super(props)
+    Object.keys(hooks).forEach(key => {
+      this[key] = async (...props) => {
+        const { before, after } = hooks[key]
+        if (before) await before(...props)
+        const result = await super[key](...props)
+        if (after) await after({ props, result })
+        return result
+      }
+    })
   }
 }
 
@@ -107,7 +110,42 @@ module.exports = {
   */
   Project: new Db({ Model: Project }),
   ProjectImage: new Db({ Model: ProjectImage }),
-  User: new Db({ Model: User }),
+  User: new Db({
+    Model: User,
+    hooks: {
+      insert: {
+        after: async ({ result: user }) => {
+          await new Client({ type: 'user', clientSourceId: user.id }).save()
+        },
+      },
+      remove: {
+        before: async id => {
+          const entity = await Client.find({ type: 'user', clientSourceId: id })
+          await entity[0].remove()
+        },
+      },
+    },
+  }),
+  Client: new Db({
+    Model: Client,
+    hooks: {
+      update: {
+        before: async () => {
+          throw new Error('Client update not allowed')
+        },
+      },
+      insert: {
+        before: async () => {
+          throw new Error('Client insert not allowed')
+        },
+      },
+      remove: {
+        before: async () => {
+          throw new Error('Client remove not allowed')
+        },
+      },
+    },
+  }),
   EncryptionKey: new Db({ Model: EncryptionKey }),
   /*
   ProjectAndUserRelation: new Db({ Model: ProjectAndUserRelation, normToDb, normFromDb }),

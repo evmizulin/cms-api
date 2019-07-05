@@ -21,7 +21,7 @@ db.once('open', () => {
 const Schema = mongoose.Schema
 
 const ProjectImage = new Schema({
-  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+  projectId: Schema.Types.ObjectId,
   buffer: Buffer,
 })
 
@@ -33,6 +33,11 @@ const User = new Schema({
   login: String,
   passHash: String,
   isVerified: Boolean,
+})
+
+const Client = new Schema({
+  type: String,
+  clientSourceId: Schema.Types.ObjectId,
 })
 
 const EncryptionKey = new Schema({
@@ -90,6 +95,7 @@ module.exports = {
   ProjectImage: mongoose.model('ProjectImage', ProjectImage),
   Project: mongoose.model('Project', Project),
   User: mongoose.model('User', User),
+  Client: mongoose.model('Client', Client),
   EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
   /*
   ApiToken: mongoose.model('ApiToken', ApiToken),

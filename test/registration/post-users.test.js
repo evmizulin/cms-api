@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { User } = require('../../src/services/db/Db')
+const { User, Client } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
 
@@ -18,11 +18,19 @@ describe('POST /users', () => {
     })
 
     after(async () => {
-      const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'new-user-success' })
-      assert.equal(isVerified, false)
-      assert.equal(passHash, hash('1234567'))
-      assert.deepEqual(rest, {})
-      await User.remove(id)
+      await (async () => {
+        const user = await User.findOne({ login: 'new-user-success' })
+        const { id, type, clientSourceId, ...rest } = await Client.findOne({ clientSourceId: user.id })
+        assert.equal(type, 'user')
+        assert.deepEqual(rest, {})
+      })()
+      await (async () => {
+        const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'new-user-success' })
+        assert.equal(isVerified, false)
+        assert.equal(passHash, hash('1234567'))
+        assert.deepEqual(rest, {})
+        await User.remove(id)
+      })()
     })
   })
 
