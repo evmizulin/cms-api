@@ -16,10 +16,6 @@ db.once('open', () => {
   if (config.logsTo !== 'no') {
     console.log('Conected to db!') // eslint-disable-line no-console
   }
-  // db.createCollection('clients', {
-  //   viewOn: 'users',
-  //   pipeline: [],
-  // })
 })
 
 const Schema = mongoose.Schema
@@ -47,16 +43,6 @@ const User = mongoose.model(
     isVerified: Boolean,
   })
 )
-
-// const Client = mongoose.model(
-//   'Client',
-//   {
-//     login: String,
-//     passHash: String,
-//     isVerified: Boolean,
-//   },
-//   'clients'
-// )
 
 const EncryptionKey = mongoose.model(
   'EncryptionKey',
