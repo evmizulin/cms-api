@@ -20,36 +20,24 @@ db.once('open', () => {
 
 const Schema = mongoose.Schema
 
-const ProjectImage = mongoose.model(
-  'ProjectImage',
-  new Schema({
-    projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
-    buffer: Buffer,
-  })
-)
+const ProjectImage = new Schema({
+  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+  buffer: Buffer,
+})
 
-const Project = mongoose.model(
-  'Project',
-  new Schema({
-    name: String,
-  })
-)
+const Project = new Schema({
+  name: String,
+})
 
-const User = mongoose.model(
-  'User',
-  new Schema({
-    login: String,
-    passHash: String,
-    isVerified: Boolean,
-  })
-)
+const User = new Schema({
+  login: String,
+  passHash: String,
+  isVerified: Boolean,
+})
 
-const EncryptionKey = mongoose.model(
-  'EncryptionKey',
-  new Schema({
-    key: String,
-  })
-)
+const EncryptionKey = new Schema({
+  key: String,
+})
 
 /*
 const ApiToken = new Schema({
@@ -99,11 +87,10 @@ const Contact = new Schema({
 
 module.exports = {
   connection: db,
-  ProjectImage,
-  Project,
-  User,
-  // Client,
-  EncryptionKey,
+  ProjectImage: mongoose.model('ProjectImage', ProjectImage),
+  Project: mongoose.model('Project', Project),
+  User: mongoose.model('User', User),
+  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
   /*
   ApiToken: mongoose.model('ApiToken', ApiToken),
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
