@@ -32,9 +32,13 @@ describe('All tests', () => {
     require('./projects/delete-projects.test')
   })
 
-  describe('Registration', () => {
+  describe('Signup', () => {
     require('./signup/post-signup.test')
     require('./signup/post-confirmation.test')
+  })
+
+  describe('Signin', () => {
+    require('./signin/post-signin.test')
   })
 
   after(async () => {
