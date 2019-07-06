@@ -15,7 +15,7 @@ const { allowAll } = require('./helpers/corsSettings')
 // const { setChangePassRoutes } = require('./routes/setChangePassRoutes')
 // const { setEntriesRoutes } = require('./routes/setEntriesRoutes')
 // const { setFilesRoutes } = require('./routes/setFilesRoutes')
-// const { setLoginRoutes } = require('./routes/setLoginRoutes')
+const { setLoginRoutes } = require('./login/setLoginRoutes')
 // const { setModelsRoutes } = require('./routes/setModelsRoutes')
 const { setProjectsRoutes } = require('./projects/setProjectsRoutes')
 const { setRegistrationRoutes } = require('./registration/setRegistrationRoutes')
@@ -49,14 +49,14 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
   res.status(apiResp.code).send(apiResp.body)
 })
 
+setProjectsRoutes(app)
+setRegistrationRoutes(app)
+setLoginRoutes(app)
 // setPublicRoutes(app)
 // setChangePassRoutes(app)
 // setEntriesRoutes(app)
 // setFilesRoutes(app)
-// setLoginRoutes(app)
 // setModelsRoutes(app)
-setProjectsRoutes(app)
-setRegistrationRoutes(app)
 // setTokensRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {
@@ -74,7 +74,7 @@ app.use(cors(allowAll), (req, res) => {
   res.status(apiError.code).send(apiError.body)
 })
 
-if (config.env !== 'test') {
+if (!config.isTest) {
   app.listen(config.apiServerPort, config.apiServerHost, () => {
     // eslint-disable-next-line no-console
     console.log(`${new Date().toISOString()} listening on ${config.apiServerHost}:${config.apiServerPort}`)
