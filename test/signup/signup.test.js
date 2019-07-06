@@ -6,11 +6,11 @@ const { User, Client } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
 
-describe('POST /users', () => {
+describe('POST /signup', () => {
   describe('Success - insert', () => {
     it('should return 200', done => {
       request(app)
-        .post('/users')
+        .post('/signup')
         .send({ login: 'new-user-success', password: '1234567' })
         .expect(200)
         .expect({ message: 'OK' })
@@ -41,7 +41,7 @@ describe('POST /users', () => {
 
     it('should return 200', done => {
       request(app)
-        .post('/users')
+        .post('/signup')
         .send({ login: 'user-update', password: '1234567' })
         .expect(200)
         .expect({ message: 'OK' })
@@ -60,7 +60,7 @@ describe('POST /users', () => {
   describe('Unvalid user', () => {
     it('should return 400', done => {
       request(app)
-        .post('/users')
+        .post('/signup')
         .send({ login: '1', password: '1' })
         .expect(400)
         .expect({ message: 'String is too short (1 chars), minimum 6' })
@@ -75,7 +75,7 @@ describe('POST /users', () => {
 
     it('should return 400', done => {
       request(app)
-        .post('/users')
+        .post('/signup')
         .send({ login: 'user-exist', password: '1234567' })
         .expect(400)
         .expect({ message: 'User with that email already exists' })

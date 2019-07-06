@@ -1,11 +1,11 @@
 const cors = require('cors')
 const { OK } = require('http-status-codes')
-const { apiRegistration } = require('./apiRegistration')
+const { apiSignup } = require('./apiSignup')
 const { allowAll } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
 
-const setRegistrationRoutes = app => {
-  app.options('/users', cors(allowAll))
+const setSignupRoutes = app => {
+  app.options('/signup', cors(allowAll))
   /*
   app.post('/register', cors(allowMe), async (req, res) => {
     await apiRegister.register(req.body)
@@ -13,8 +13,8 @@ const setRegistrationRoutes = app => {
   })
   */
 
-  app.post('/users', cors(allowAll), async (req, res) => {
-    await apiRegistration.postUser(req.body)
+  app.post('/signup', cors(allowAll), async (req, res) => {
+    await apiSignup.signup(req.body)
     const apiResp = new ApiResp(OK)
     res.status(apiResp.code).send(apiResp.body)
   })
@@ -27,13 +27,13 @@ const setRegistrationRoutes = app => {
   })
   */
 
-  app.options('/email-confirmation-tokens', cors(allowAll))
+  app.options('/signup/confirmation', cors(allowAll))
 
-  app.post('/email-confirmation-tokens', cors(allowAll), async (req, res) => {
-    await apiRegistration.postEmailConfirmationToken(req.body)
+  app.post('/signup/confirmation', cors(allowAll), async (req, res) => {
+    await apiSignup.confirmation(req.body)
     const apiResp = new ApiResp(OK)
     res.status(apiResp.code).send(apiResp.body)
   })
 }
 
-module.exports = { setRegistrationRoutes }
+module.exports = { setSignupRoutes }

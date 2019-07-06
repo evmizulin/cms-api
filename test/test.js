@@ -33,8 +33,8 @@ describe('All tests', () => {
   })
 
   describe('Registration', () => {
-    require('./registration/post-users.test')
-    require('./registration/post-email-tokens.test')
+    require('./signup/signup.test')
+    require('./signup/confirmation.test')
   })
 
   after(async () => {

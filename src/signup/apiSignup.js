@@ -8,7 +8,7 @@ const { config } = require('../config')
 const { encrypter } = require('../services/Encrypter')
 const { createEmailToken } = require('./createEmailToken')
 
-class ApiRegistration {
+class ApiSignup {
   /*
   async register(creds) {
     const createdCreds = createCreds(creds)
@@ -28,7 +28,7 @@ class ApiRegistration {
     })
   }
   */
-  async postUser(user) {
+  async signup(user) {
     const createdUser = createUser({ user })
     const verifiedUser = await User.findOne({ login: createdUser.login, isVerified: true }, { _id: true })
     if (verifiedUser) throw new ApiError(BAD_REQUEST, 'User with that email already exists')
@@ -46,7 +46,7 @@ class ApiRegistration {
       to: createdUser.login,
       templateName: 'email-confirm',
       templateProps: {
-        link: `${config.appUrl}/email-confirmation-tokens/${encrypter.encrypt(createdUser.login)}`,
+        link: `${config.appUrl}/signup/confirmation/${encrypter.encrypt(createdUser.login)}`,
       },
     })
   }
@@ -65,7 +65,7 @@ class ApiRegistration {
   }
   */
 
-  async postEmailConfirmationToken(token) {
+  async confirmation(token) {
     const createdToken = createEmailToken({ token })
     let login
     try {
@@ -79,4 +79,4 @@ class ApiRegistration {
   }
 }
 
-module.exports = { apiRegistration: new ApiRegistration() }
+module.exports = { apiSignup: new ApiSignup() }

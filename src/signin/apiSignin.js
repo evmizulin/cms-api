@@ -5,8 +5,8 @@ const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 const { generateToken } = require('./generateToken')
 
-class ApiLogin {
-  async login(creds) {
+class ApiSignin {
+  async signin(creds) {
     const createdCreds = createCreds({ creds })
     const user = await User.findOne({
       login: createdCreds.login,
@@ -23,4 +23,4 @@ class ApiLogin {
   }
 }
 
-module.exports = { apiLogin: new ApiLogin() }
+module.exports = { apiSignin: new ApiSignin() }

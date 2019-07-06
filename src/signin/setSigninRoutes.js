@@ -1,15 +1,15 @@
 const cors = require('cors')
 const { allowAll } = require('../helpers/corsSettings')
-const { apiLogin } = require('./ApiLogin')
+const { apiSignin } = require('./apiSignin')
 const { OK } = require('http-status-codes')
 const { ApiResp } = require('../helpers/ApiResp')
 const { config } = require('../config')
 
-const setLoginRoutes = app => {
-  app.options('/login', cors(allowAll))
+const setSigninRoutes = app => {
+  app.options('/signin', cors(allowAll))
 
-  app.post('/login', cors(allowAll), async (req, res) => {
-    const accessToken = await apiLogin.login(req.body)
+  app.post('/signin', cors(allowAll), async (req, res) => {
+    const accessToken = await apiSignin.signin(req.body)
     const apiResp = new ApiResp(OK)
     res
       .status(apiResp.code)
@@ -18,4 +18,4 @@ const setLoginRoutes = app => {
   })
 }
 
-module.exports = { setLoginRoutes }
+module.exports = { setSigninRoutes }
