@@ -19,7 +19,7 @@ describe('POST /signin', () => {
         .post('/signin')
         .send({ login: 'signin-success', password: '123456' })
         .expect(200)
-        .expect('Set-Cookie', /authToken=/)
+        .expect('Set-Cookie', /accessToken=/)
         .expect('Set-Cookie', /HttpOnly/)
         .expect(res => {
           token = res.headers['set-cookie'][0].split(';')[0].split('=')[1]
