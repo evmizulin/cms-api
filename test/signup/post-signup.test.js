@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { User, Client } = require('../../src/services/db/Db')
+const { User, Client, ClientPermission } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
 
@@ -24,6 +24,23 @@ describe('POST /signup', () => {
         assert.equal(type, 'user')
         assert.deepEqual(rest, {})
       })()
+      await (async () => {
+        const user = await User.findOne({ login: 'new-user-success' })
+        const client = await Client.findOne({ clientSourceId: user.id })
+        const {
+          clientId,
+          projectCreate,
+          projectRead,
+          projectUpdate,
+          projectDelete,
+          ...rest
+        } = await ClientPermission.findOne({ clientId: client.id })
+        assert.equal(projectCreate, true)
+        assert.equal(projectRead, true)
+        assert.equal(projectUpdate, true)
+        assert.equal(projectDelete, true)
+        assert.deepEqual(rest, {})
+      })
       await (async () => {
         const { id, login, passHash, isVerified, ...rest } = await User.findOne({ login: 'new-user-success' })
         assert.equal(isVerified, false)

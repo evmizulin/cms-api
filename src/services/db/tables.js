@@ -29,10 +29,20 @@ const Project = new Schema({
   name: String,
 })
 
-const User = new Schema({
-  login: String,
-  passHash: String,
-  isVerified: Boolean,
+const ProjectPermission = new Schema({
+  projectId: Schema.Types.ObjectId,
+  clientId: Schema.Types.ObjectId,
+  read: Boolean,
+  update: Boolean,
+  delete: Boolean,
+})
+
+const ClientPermission = new Schema({
+  clientId: Schema.Types.ObjectId,
+  projectCreate: Boolean,
+  projectRead: Boolean,
+  projectUpdate: Boolean,
+  projectDelete: Boolean,
 })
 
 const Client = new Schema({
@@ -40,13 +50,19 @@ const Client = new Schema({
   clientSourceId: Schema.Types.ObjectId,
 })
 
-const EncryptionKey = new Schema({
-  key: String,
+const User = new Schema({
+  login: String,
+  passHash: String,
+  isVerified: Boolean,
 })
 
 const AccessToken = new Schema({
-  clientId: String,
+  clientId: Schema.Types.ObjectId,
   token: String,
+})
+
+const EncryptionKey = new Schema({
+  key: String,
 })
 
 /*
@@ -94,10 +110,12 @@ module.exports = {
   connection: db,
   ProjectImage: mongoose.model('ProjectImage', ProjectImage),
   Project: mongoose.model('Project', Project),
-  User: mongoose.model('User', User),
+  ProjectPermission: mongoose.model('ProjectPermission', ProjectPermission),
+  ClientPermission: mongoose.model('ClientPermission', ClientPermission),
   Client: mongoose.model('Client', Client),
-  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
+  User: mongoose.model('User', User),
   AccessToken: mongoose.model('AccessToken', AccessToken),
+  EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
   /*
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
   ProjectAndUserRelation: mongoose.model('ProjectAndUserRelation', ProjectAndUserRelation),

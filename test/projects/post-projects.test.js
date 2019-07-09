@@ -1,16 +1,23 @@
-/*global describe, it, after*/
+/*global describe, it, after, before*/
 
 const request = require('supertest')
 const { app } = require('../../src/index')
 const assert = require('assert')
-const { Project, ProjectImage } = require('../../src/services/db/Db')
+const { Project, ProjectImage, ProjectPermission } = require('../../src/services/db/Db')
+const { getAuth } = require('./helpers/getAuth')
 
-let globalProjectId
+let auth
+let project
 
 describe('POST /projects', () => {
+  before(async () => {
+    auth = await getAuth()
+  })
+
   it('should return 200', done => {
     request(app)
       .post('/projects')
+      .set('AccessToken', auth.accessToken.token)
       .send({ name: 'post-projects-success' })
       .expect(200)
       .expect(res => {
@@ -18,7 +25,7 @@ describe('POST /projects', () => {
         assert.equal(name, 'post-projects-success')
         assert.equal(id.length, 24)
         assert.deepEqual(rest, {})
-        globalProjectId = id
+        project = res.body
       })
       .end(done)
   })
@@ -26,20 +33,34 @@ describe('POST /projects', () => {
   it('should return 400', done => {
     request(app)
       .post('/projects')
+      .set('AccessToken', auth.accessToken.token)
       .send({ id: 'abc', name: 'post-projects-fail' })
       .expect(400, { message: 'Additional properties not allowed' })
       .end(done)
   })
 
   after(async () => {
-    const images = await ProjectImage.find({ projectId: globalProjectId })
-    const { id, projectId, buffer, ...rest } = images[0]
-    assert.equal(id.toString().length, 24)
-    assert.equal(projectId.toString(), globalProjectId)
-    assert.equal(buffer instanceof Buffer, true)
-    assert.deepEqual(rest, {})
+    await (async () => {
+      const images = await ProjectImage.find({ projectId: project.id })
+      const { id, projectId, buffer, ...rest } = images[0]
+      assert.equal(images.length, 1)
+      assert.equal(id.toString().length, 24)
+      assert.equal(buffer instanceof Buffer, true)
+      assert.deepEqual(rest, {})
+      await ProjectImage.remove(id)
+    })()
+    await (async () => {
+      const permissions = await ProjectPermission.find({ clientId: auth.client.id })
+      const { id, projectId, clientId, read, update, delete: projectDelete, ...rest } = permissions[0]
+      assert.deepEqual(projectId.toString(), project.id)
+      assert.deepEqual(read, true)
+      assert.deepEqual(update, true)
+      assert.deepEqual(projectDelete, true)
+      assert.deepEqual(rest, {})
+      await ProjectPermission.remove(id)
+    })()
 
-    await Project.remove(globalProjectId)
-    await ProjectImage.remove(id)
+    await Project.remove(project.id)
+    await auth.remove()
   })
 })

@@ -2,32 +2,32 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { Project, ProjectImage } = require('../../src/services/db/Db')
-const assert = require('assert')
+const { ProjectImage } = require('../../src/services/db/Db')
+const { getAuth } = require('./helpers/getAuth')
+const { getProject } = require('./helpers/getProject')
+const { getProjectPermission } = require('./helpers/getProjectPermission')
 
-let projectId
-let projectImageId
+let auth
+let project
 
 describe('DELETE /projects/${id}', () => {
   before(async () => {
-    const savedProject = await Project.insert({ name: 'delete-projects-success' })
-    const savedImage = await ProjectImage.insert({ projectId: savedProject.id, buffer: new Buffer(1) })
-    projectId = savedProject.id.toString()
-    projectImageId = savedImage.id.toString()
+    auth = await getAuth()
+    project = await getProject()
+    await getProjectPermission(auth, project)
+    await ProjectImage.insert({ projectId: project.project.id, buffer: new Buffer(1) })
   })
 
   it('should return 200', done => {
     request(app)
-      .delete(`/projects/${projectId}`)
+      .delete(`/projects/${project.project.id}`)
+      .set('AccessToken', auth.accessToken.token)
       .expect(200)
       .expect({ message: 'OK' })
       .end(done)
   })
 
   after(async () => {
-    const deletedProject = await Project.findById(projectId)
-    const deletedImage = await ProjectImage.findById(projectImageId)
-    assert.equal(!deletedProject, true)
-    assert.equal(!deletedImage, true)
+    await auth.remove()
   })
 })

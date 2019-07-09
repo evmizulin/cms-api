@@ -1,5 +1,5 @@
 // const { Model, Project, ProjectAndUserRelation } = require('../db/Db')
-const { Project, ProjectImage } = require('../services/db/Db')
+const { Project, ProjectImage, ProjectPermission } = require('../services/db/Db')
 const { createProject } = require('./createProject')
 const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
@@ -16,8 +16,10 @@ class ApiProjects {
   //   return await Project.find({ $or: projectIds.map(item => ({ _id: item.projectId })) })
   // }
 
-  async getProjects() {
-    return await Project.find()
+  async getProjects(clientId) {
+    const projectIds = await ProjectPermission.find({ clientId, read: true }, { projectId: true })
+    if (!projectIds.length) return []
+    return await Project.find({ $or: projectIds.map(item => ({ _id: item.projectId })) })
   }
 
   async getProjectImage(projectId) {
@@ -38,9 +40,16 @@ class ApiProjects {
   //   })
   //   await ProjectAndUserRelation.save({ projectId: savedProject.id, userId })
   // }
-  async postProject(project) {
+  async postProject(clientId, project) {
     const createdProject = createProject({ project, noId: true })
     const savedProject = await Project.insert(createdProject)
+    await ProjectPermission.insert({
+      projectId: savedProject.id,
+      clientId: clientId,
+      read: true,
+      update: true,
+      delete: true,
+    })
     const png = Trianglify({
       width: 600,
       height: 600,
@@ -60,7 +69,7 @@ class ApiProjects {
   // }
   async putProject(projectId, project) {
     const createdProject = createProject({ project })
-    if (projectId !== createdProject.id)
+    if (projectId.toString() !== createdProject.id)
       throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
     return await Project.update(projectId, createdProject)
   }
@@ -76,9 +85,11 @@ class ApiProjects {
   // }
 
   async deleteProject(projectId) {
-    const projectImage = await ProjectImage.findOne({ projectId: projectId })
-    await Project.remove(projectId)
+    const projectImage = await ProjectImage.findOne({ projectId }, { _id: true })
+    const projectPermissions = await ProjectPermission.find({ projectId }, { _id: true })
     await ProjectImage.remove(projectImage.id)
+    await Promise.all(projectPermissions.map(item => ProjectPermission.remove(item.id)))
+    await Project.remove(projectId)
   }
 }
 

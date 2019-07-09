@@ -5,7 +5,10 @@ const { apiProjects } = require('./apiProjects')
 // const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { allowAll } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
-const { checkProjectId } = require('./checkProjectId')
+const { extractProjectId } = require('./extractProjectId')
+const { extractClientId } = require('./extractClientId')
+const { checkClientPermission } = require('./checkClientPermission')
+const { checkProjectPermissions } = require('./checkProjectPermissions')
 
 const setProjectsRoutes = app => {
   app.options('/projects', cors(allowAll))
@@ -16,21 +19,30 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(projects)
   // })
 
-  app.get('/projects', cors(allowAll), async (req, res) => {
-    const projects = await apiProjects.getProjects()
+  app.get('/projects', cors(allowAll), extractClientId, checkClientPermission, async (req, res) => {
+    const { clientId } = req.extractedProps
+    const projects = await apiProjects.getProjects(clientId)
     res.status(OK).send(projects)
   })
 
   app.options('/projects/:projectId/image.png', cors(allowAll))
 
-  app.get('/projects/:projectId/image.png', cors(allowAll), checkProjectId, async (req, res) => {
-    const { projectId } = req.params
-    const image = await apiProjects.getProjectImage(projectId)
-    res
-      .status(OK)
-      .set('Content-Type', 'image/png')
-      .send(image.buffer)
-  })
+  app.get(
+    '/projects/:projectId/image.png',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission,
+    extractProjectId,
+    checkProjectPermissions,
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      const image = await apiProjects.getProjectImage(projectId)
+      res
+        .status(OK)
+        .set('Content-Type', 'image/png')
+        .send(image.buffer)
+    }
+  )
 
   // app.post('/projects', cors(allowMe), checkAuth, async (req, res) => {
   //   const { userId } = req
@@ -38,8 +50,9 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.post('/projects', cors(allowAll), async (req, res) => {
-    const savedProject = await apiProjects.postProject(req.body)
+  app.post('/projects', cors(allowAll), extractClientId, checkClientPermission, async (req, res) => {
+    const { clientId } = req.extractedProps
+    const savedProject = await apiProjects.postProject(clientId, req.body)
     res.status(OK).send(savedProject)
   })
 
@@ -51,11 +64,19 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.put('/projects/:projectId', cors(allowAll), checkProjectId, async (req, res) => {
-    const { projectId } = req.params
-    const updatedProject = await apiProjects.putProject(projectId, req.body)
-    res.status(OK).send(updatedProject)
-  })
+  app.put(
+    '/projects/:projectId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission,
+    extractProjectId,
+    checkProjectPermissions,
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      const updatedProject = await apiProjects.putProject(projectId, req.body)
+      res.status(OK).send(updatedProject)
+    }
+  )
   //
   // app.delete('/projects/:projectId', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
   //   const { projectId } = req.params
@@ -63,12 +84,20 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.delete('/projects/:projectId', cors(allowAll), checkProjectId, async (req, res) => {
-    const { projectId } = req.params
-    await apiProjects.deleteProject(projectId)
-    const apiResp = new ApiResp(OK)
-    res.status(apiResp.code).send(apiResp.body)
-  })
+  app.delete(
+    '/projects/:projectId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission,
+    extractProjectId,
+    checkProjectPermissions,
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      await apiProjects.deleteProject(projectId)
+      const apiResp = new ApiResp(OK)
+      res.status(apiResp.code).send(apiResp.body)
+    }
+  )
 }
 
 module.exports = { setProjectsRoutes }

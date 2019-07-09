@@ -1,6 +1,6 @@
 // const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
-const { AccessToken } = require('./tables')
+const { AccessToken, ProjectPermission, ClientPermission } = require('./tables')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -75,6 +75,10 @@ class Db extends CrudDb {
   }
 }
 
+const modifyError = async () => {
+  throw new Error('Modification not allowed')
+}
+
 module.exports = {
   /*
   Model: new Db({
@@ -111,19 +115,37 @@ module.exports = {
   */
   Project: new Db({ Model: Project }),
   ProjectImage: new Db({ Model: ProjectImage }),
+  ProjectPermission: new Db({ Model: ProjectPermission }),
+  ClientPermission: new Db({
+    Model: ClientPermission,
+    hooks: {
+      update: { before: modifyError },
+      insert: { before: modifyError },
+      remove: { before: modifyError },
+    },
+  }),
   AccessToken: new Db({ Model: AccessToken }),
   User: new Db({
     Model: User,
     hooks: {
       insert: {
         after: async ({ result: user }) => {
-          await new Client({ type: 'user', clientSourceId: user.id }).save()
+          const client = await new Client({ type: 'user', clientSourceId: user.id }).save()
+          await new ClientPermission({
+            clientId: client._id,
+            projectCreate: true,
+            projectRead: true,
+            projectUpdate: true,
+            projectDelete: true,
+          }).save()
         },
       },
       remove: {
         before: async id => {
-          const entity = await Client.find({ type: 'user', clientSourceId: id })
-          await entity[0].remove()
+          const clients = await Client.find({ type: 'user', clientSourceId: id })
+          const permissions = await ClientPermission.find({ clientId: clients[0]._id })
+          await permissions[0].remove()
+          await clients[0].remove()
         },
       },
     },
@@ -131,21 +153,9 @@ module.exports = {
   Client: new Db({
     Model: Client,
     hooks: {
-      update: {
-        before: async () => {
-          throw new Error('Client update not allowed')
-        },
-      },
-      insert: {
-        before: async () => {
-          throw new Error('Client insert not allowed')
-        },
-      },
-      remove: {
-        before: async () => {
-          throw new Error('Client remove not allowed')
-        },
-      },
+      update: { before: modifyError },
+      insert: { before: modifyError },
+      remove: { before: modifyError },
     },
   }),
   EncryptionKey: new Db({ Model: EncryptionKey }),

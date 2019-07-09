@@ -3,52 +3,38 @@
 const request = require('supertest')
 const { app } = require('../../src/index')
 const { getAuth } = require('./helpers/getAuth')
+const { getProject } = require('./helpers/getProject')
 
 let auth
-const unvalidId = 'sad'
-const fakeId = '5d14c75f2d32f92ae2cc831a'
+let project
 
-describe('Check project id /projects/${id}', () => {
+describe('Check permissions in projects', () => {
   before(async () => {
     auth = await getAuth()
+    project = await getProject()
   })
 
   const routes = [
     {
       desc: 'GET',
-      method: (...props) => request(app).get(...props),
-      route: `/projects/${unvalidId}/image.png`,
-    },
-    {
-      desc: 'GET',
-      method: (...props) => request(app).get(...props),
-      route: `/projects/${fakeId}/image.png`,
+      method: (...props) => request(app).delete(...props),
+      route: () => `/projects/${project.project.id}/image.png`,
     },
     {
       desc: 'PUT',
       method: (...props) => request(app).put(...props),
-      route: `/projects/${unvalidId}`,
-    },
-    {
-      desc: 'PUT',
-      method: (...props) => request(app).put(...props),
-      route: `/projects/${fakeId}`,
+      route: () => `/projects/${project.project.id}`,
     },
     {
       desc: 'DELETE',
       method: (...props) => request(app).delete(...props),
-      route: `/projects/${unvalidId}`,
-    },
-    {
-      desc: 'DELETE',
-      method: (...props) => request(app).delete(...props),
-      route: `/projects/${fakeId}`,
+      route: () => `/projects/${project.project.id}`,
     },
   ]
 
   routes.forEach(({ desc, method, route }) => {
     it(`${desc} should return 404`, done => {
-      method(route)
+      method(route())
         .set('AccessToken', auth.accessToken.token)
         .expect(404)
         .end(done)
@@ -57,5 +43,6 @@ describe('Check project id /projects/${id}', () => {
 
   after(async () => {
     await auth.remove()
+    await project.remove()
   })
 })
