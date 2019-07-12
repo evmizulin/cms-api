@@ -2,44 +2,73 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { User, AccessToken } = require('../../src/services/db/Db')
+const { User, AccessToken, Client } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
+const randomstring = require('randomstring')
 
-let token
+const users = [
+  {
+    login: randomstring.generate(),
+    password: randomstring.generate(),
+    accessToken: null,
+  },
+  {
+    login: randomstring.generate(),
+    password: randomstring.generate(),
+  },
+  {
+    login: randomstring.generate(),
+    password: randomstring.generate(),
+  },
+]
 
 describe('POST /signin', () => {
   describe('Success', () => {
     before(async () => {
-      await User.insert({ login: 'signin-success', passHash: hash('123456'), isVerified: true })
+      const { login, password } = users[0]
+      await User.insert({ login, passHash: hash(password), isVerified: true })
     })
 
     it('should return 200', done => {
+      const { login, password } = users[0]
       request(app)
         .post('/signin')
-        .send({ login: 'signin-success', password: '123456' })
+        .send({ login, password })
         .expect(200)
         .expect('Set-Cookie', /accessToken=/)
         .expect('Set-Cookie', /HttpOnly/)
         .expect(res => {
-          token = res.headers['set-cookie'][0].split(';')[0].split('=')[1]
-          assert.equal(token.length, 40)
+          const accessToken = res.headers['set-cookie'][0].split(';')[0].split('=')[1]
+          users[0].accessToken = accessToken
+          assert.equal(accessToken.length, 40)
         })
         .expect({ message: 'OK' })
         .end(done)
     })
 
     after(async () => {
-      const { id: userId } = await User.findOne({ login: 'signin-success' })
-      const { id: tokenId } = await AccessToken.findOne({ token })
-      await User.remove(userId)
-      await AccessToken.remove(tokenId)
+      const { user, client, accessToken } = await (async () => {
+        const { login, accessToken } = users[0]
+        const user = await User.findOne({ login })
+        const client = await Client.findOne({ clientSourceId: user.id })
+        const token = await AccessToken.findOne({ token: accessToken })
+        return { user, client, accessToken: token }
+      })()
+
+      await User.remove(user.id)
+      await AccessToken.remove(accessToken.id)
+
+      const { id, clientId, token, ...rest } = accessToken
+      assert.deepEqual(clientId, client.id)
+      assert.deepEqual(rest, {})
     })
   })
 
   describe('Fail', () => {
+    const { login, password } = users[1]
     before(async () => {
-      await User.insert({ login: 'signin-fail', passHash: hash('123456'), isVerified: false })
+      await User.insert({ login, passHash: hash(password), isVerified: false })
     })
 
     it('should return 400', done => {
@@ -61,17 +90,19 @@ describe('POST /signin', () => {
     })
 
     it('should return 400', done => {
+      const { login, password } = users[1]
       request(app)
         .post('/signin')
-        .send({ login: 'signin-fail', password: '123456' })
+        .send({ login, password })
         .expect(400)
         .expect({ message: 'Invalid username or password' })
         .end(done)
     })
 
     after(async () => {
-      const { id: userId } = await User.findOne({ login: 'signin-fail' })
-      await User.remove(userId)
+      const { login } = users[1]
+      const { id } = await User.findOne({ login })
+      await User.remove(id)
     })
   })
 })
