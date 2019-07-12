@@ -17,10 +17,6 @@ const users = [
     login: randomstring.generate(),
     password: randomstring.generate(),
   },
-  {
-    login: randomstring.generate(),
-    password: randomstring.generate(),
-  },
 ]
 
 describe('POST /signin', () => {
