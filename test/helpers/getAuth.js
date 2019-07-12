@@ -1,4 +1,4 @@
-const { User, Client, AccessToken } = require('../../../src/services/db/Db')
+const { User, Client, AccessToken } = require('../../src/services/db/Db')
 const randomstring = require('randomstring')
 const hash = require('object-hash')
 

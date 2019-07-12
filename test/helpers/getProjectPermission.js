@@ -1,4 +1,4 @@
-const { ProjectPermission } = require('../../../src/services/db/Db')
+const { ProjectPermission } = require('../../src/services/db/Db')
 
 const getProjectPermission = async (auth, project) => {
   const permission = await ProjectPermission.insert({
@@ -10,7 +10,6 @@ const getProjectPermission = async (auth, project) => {
   })
   return {
     permission,
-    asd: 1,
     remove: async () => {
       await ProjectPermission.remove(permission.id)
     },

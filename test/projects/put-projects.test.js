@@ -3,9 +3,9 @@
 const request = require('supertest')
 const { app } = require('../../src/index')
 const assert = require('assert')
-const { getAuth } = require('./helpers/getAuth')
-const { getProject } = require('./helpers/getProject')
-const { getProjectPermission } = require('./helpers/getProjectPermission')
+const { getAuth } = require('../helpers/getAuth')
+const { getProject } = require('../helpers/getProject')
+const { getProjectPermission } = require('../helpers/getProjectPermission')
 
 let auth
 let project

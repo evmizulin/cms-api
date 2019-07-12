@@ -33,10 +33,13 @@ describe('All tests', () => {
     require('./signin/post-signin.test')
   })
 
+  describe('Auth', () => {
+    require('./auth/all-client-id.test')
+    require('./auth/all-projects-id.test')
+    require('./auth/all-project-permissions.test')
+  })
+
   describe('Projects', () => {
-    require('./projects/all-client-id.test')
-    require('./projects/all-projects-id.test')
-    require('./projects/all-project-permissions.test')
     require('./projects/get-projects.test')
     require('./projects/get-projects-image.test')
     require('./projects/post-projects.test')

@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { getAuth } = require('./helpers/getAuth')
+const { getAuth } = require('../helpers/getAuth')
 
 let auth
 const unvalidId = 'sad'

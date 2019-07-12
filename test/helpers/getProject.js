@@ -1,4 +1,4 @@
-const { Project } = require('../../../src/services/db/Db')
+const { Project } = require('../../src/services/db/Db')
 const randomstring = require('randomstring')
 
 const getProject = async () => {
