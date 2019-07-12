@@ -5,16 +5,27 @@ const { app } = require('../../src/index')
 const { User } = require('../../src/services/db/Db')
 const assert = require('assert')
 const { encrypter } = require('../../src/services/Encrypter')
+const randomstring = require('randomstring')
+const hash = require('object-hash')
+
+const users = [
+  {
+    login: randomstring.generate(),
+    password: randomstring.generate(),
+  },
+]
 
 describe('POST /signup/confirmation', () => {
   before(async () => {
-    await User.insert({ login: 'email-confirm-success', passHash: '1', isVerified: false })
+    const { login, password } = users[0]
+    await User.insert({ login, passHash: hash(password), isVerified: false })
   })
 
   it('should return 200', done => {
+    const { login } = users[0]
     request(app)
       .post('/signup/confirmation')
-      .send({ confirmationToken: encrypter.encrypt('email-confirm-success') })
+      .send({ confirmationToken: encrypter.encrypt(login) })
       .expect(200)
       .expect({ message: 'OK' })
       .end(done)
@@ -48,12 +59,13 @@ describe('POST /signup/confirmation', () => {
   })
 
   after(async () => {
-    const { id, login, passHash, isVerified, ...rest } = await User.findOne({
-      login: 'email-confirm-success',
-    })
-    await User.remove(id)
-    assert.equal(isVerified, true)
-    assert.equal(passHash, '1')
-    assert.deepEqual(rest, {})
+    const { login } = users[0]
+    const user = await User.findOne({ login })
+    await User.remove(user.id)
+    {
+      const { id, login, passHash, isVerified, ...rest } = user
+      assert.equal(isVerified, true)
+      assert.deepEqual(rest, {})
+    }
   })
 })
