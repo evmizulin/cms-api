@@ -1,24 +1,36 @@
-const cors = require('cors')
-const { OK } = require('http-status-codes')
+/*
 const { getStatusMessage } = require('../helpers/getStatusMessage')
-const { apiTokens } = require('../services/api/ApiTokens')
 const { checkAuth } = require('../services/auth/checkAuth')
 const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
-const { allowMe } = require('../helpers/corsSettings')
+const { OK } = require('http-status-codes')
+const { apiTokens } = require('./apiTokens')
+*/
+const cors = require('cors')
+const { allowAll } = require('../helpers/corsSettings')
 
-const setTokensRoutes = app => {
-  app.options('/projects/:projectId/tokens', cors(allowMe))
+const setApiTokensRoutes = app => {
+  app.options('/projects/:projectId/api-tokens', cors(allowAll))
 
-  app.get('/projects/:projectId/tokens', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
-    const { projectId } = req.params
-    const tokens = await apiTokens.getApiTokens(projectId)
-    res.status(OK).send(tokens)
-  })
-
+  /*
   app.post('/projects/:projectId/tokens', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
     const { projectId } = req.params
     await apiTokens.postApiToken(projectId, req.body)
     res.status(OK).send(getStatusMessage(OK))
+  })
+  */
+  /*
+  app.post('/projects/:projectId/api-tokens', cors(allowAll), async (req, res) => {
+    const { projectId } = req.extractedProps
+    const savedApiToken = await apiTokens.postApiToken(projectId, req.body)
+    res.status(OK).send(savedApiToken)
+  })
+  */
+
+  /*
+  app.get('/projects/:projectId/tokens', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
+    const { projectId } = req.params
+    const tokens = await apiTokens.getApiTokens(projectId)
+    res.status(OK).send(tokens)
   })
 
   app.options('/projects/:projectId/tokens/:tokenId', cors(allowMe))
@@ -46,6 +58,7 @@ const setTokensRoutes = app => {
       res.status(OK).send(getStatusMessage(OK))
     }
   )
+  */
 }
 
-module.exports = { setTokensRoutes }
+module.exports = { setApiTokensRoutes }

@@ -19,7 +19,7 @@ const { setSigninRoutes } = require('./signin/setSigninRoutes')
 // const { setModelsRoutes } = require('./routes/setModelsRoutes')
 const { setProjectsRoutes } = require('./projects/setProjectsRoutes')
 const { setSignupRoutes } = require('./signup/setSignupRoutes')
-// const { setTokensRoutes } = require('./routes/setTokensRoutes')
+const { setApiTokensRoutes } = require('./api-tokens/setApiTokensRoutes')
 const { config } = require('./config')
 
 const app = express()
@@ -52,12 +52,12 @@ app.get('/say-hello', cors(allowAll), (req, res) => {
 setProjectsRoutes(app)
 setSignupRoutes(app)
 setSigninRoutes(app)
+setApiTokensRoutes(app)
 // setPublicRoutes(app)
 // setChangePassRoutes(app)
 // setEntriesRoutes(app)
 // setFilesRoutes(app)
 // setModelsRoutes(app)
-// setTokensRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
