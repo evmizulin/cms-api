@@ -51,11 +51,11 @@ describe('POST /projects', () => {
     })()
     await (async () => {
       const permissions = await ProjectPermission.find({ clientId: auth.client.id })
-      const { id, projectId, clientId, read, update, delete: projectDelete, ...rest } = permissions[0]
-      assert.deepEqual(projectId.toString(), project.id)
-      assert.deepEqual(read, true)
-      assert.deepEqual(update, true)
-      assert.deepEqual(projectDelete, true)
+      const { id, projectId, clientId, projectRead, projectUpdate, projectDelete, ...rest } = permissions[0]
+      assert.equal(projectId.toString(), project.id)
+      assert.equal(projectRead, true)
+      assert.equal(projectUpdate, true)
+      assert.equal(projectDelete, true)
       assert.deepEqual(rest, {})
       await ProjectPermission.remove(id)
     })()

@@ -5,10 +5,10 @@ const { apiProjects } = require('./apiProjects')
 // const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { allowAll } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
-const { extractProjectId } = require('./extractProjectId')
-const { extractClientId } = require('./extractClientId')
-const { checkClientPermission } = require('./checkClientPermission')
-const { checkProjectPermissions } = require('./checkProjectPermissions')
+const { extractProjectId } = require('../auth/extractProjectId')
+const { extractClientId } = require('../auth/extractClientId')
+const { checkClientPermission } = require('../auth/checkClientPermission')
+const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
 
 const setProjectsRoutes = app => {
   app.options('/projects', cors(allowAll))
@@ -19,11 +19,17 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(projects)
   // })
 
-  app.get('/projects', cors(allowAll), extractClientId, checkClientPermission, async (req, res) => {
-    const { clientId } = req.extractedProps
-    const projects = await apiProjects.getProjects(clientId)
-    res.status(OK).send(projects)
-  })
+  app.get(
+    '/projects',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('projectRead'),
+    async (req, res) => {
+      const { clientId } = req.extractedProps
+      const projects = await apiProjects.getProjects(clientId)
+      res.status(OK).send(projects)
+    }
+  )
 
   app.options('/projects/:projectId/image.png', cors(allowAll))
 
@@ -31,9 +37,9 @@ const setProjectsRoutes = app => {
     '/projects/:projectId/image.png',
     cors(allowAll),
     extractClientId,
-    checkClientPermission,
+    checkClientPermission('projectRead'),
     extractProjectId,
-    checkProjectPermissions,
+    checkProjectPermissions('projectRead'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const image = await apiProjects.getProjectImage(projectId)
@@ -50,11 +56,17 @@ const setProjectsRoutes = app => {
   //   res.status(OK).send(getStatusMessage(OK))
   // })
 
-  app.post('/projects', cors(allowAll), extractClientId, checkClientPermission, async (req, res) => {
-    const { clientId } = req.extractedProps
-    const savedProject = await apiProjects.postProject(clientId, req.body)
-    res.status(OK).send(savedProject)
-  })
+  app.post(
+    '/projects',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('projectCreate'),
+    async (req, res) => {
+      const { clientId } = req.extractedProps
+      const savedProject = await apiProjects.postProject(clientId, req.body)
+      res.status(OK).send(savedProject)
+    }
+  )
 
   app.options('/projects/:projectId', cors(allowAll))
   //
@@ -68,9 +80,9 @@ const setProjectsRoutes = app => {
     '/projects/:projectId',
     cors(allowAll),
     extractClientId,
-    checkClientPermission,
+    checkClientPermission('projectUpdate'),
     extractProjectId,
-    checkProjectPermissions,
+    checkProjectPermissions('projectUpdate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const updatedProject = await apiProjects.putProject(projectId, req.body)
@@ -88,9 +100,9 @@ const setProjectsRoutes = app => {
     '/projects/:projectId',
     cors(allowAll),
     extractClientId,
-    checkClientPermission,
+    checkClientPermission('projectDelete'),
     extractProjectId,
-    checkProjectPermissions,
+    checkProjectPermissions('projectDelete'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       await apiProjects.deleteProject(projectId)

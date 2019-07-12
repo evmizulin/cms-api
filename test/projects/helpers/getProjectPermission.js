@@ -4,9 +4,9 @@ const getProjectPermission = async (auth, project) => {
   const permission = await ProjectPermission.insert({
     projectId: project.project.id,
     clientId: auth.client.id,
-    read: true,
-    update: true,
-    delete: true,
+    projectRead: true,
+    projectUpdate: true,
+    projectDelete: true,
   })
   return {
     permission,

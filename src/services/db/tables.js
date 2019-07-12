@@ -32,9 +32,9 @@ const Project = new Schema({
 const ProjectPermission = new Schema({
   projectId: Schema.Types.ObjectId,
   clientId: Schema.Types.ObjectId,
-  read: Boolean,
-  update: Boolean,
-  delete: Boolean,
+  projectRead: Boolean,
+  projectUpdate: Boolean,
+  projectDelete: Boolean,
 })
 
 const ClientPermission = new Schema({

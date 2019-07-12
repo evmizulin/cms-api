@@ -17,7 +17,7 @@ class ApiProjects {
   // }
 
   async getProjects(clientId) {
-    const projectIds = await ProjectPermission.find({ clientId, read: true }, { projectId: true })
+    const projectIds = await ProjectPermission.find({ clientId, projectRead: true }, { projectId: true })
     if (!projectIds.length) return []
     return await Project.find({ $or: projectIds.map(item => ({ _id: item.projectId })) })
   }
@@ -46,9 +46,9 @@ class ApiProjects {
     await ProjectPermission.insert({
       projectId: savedProject.id,
       clientId: clientId,
-      read: true,
-      update: true,
-      delete: true,
+      projectRead: true,
+      projectUpdate: true,
+      projectDelete: true,
     })
     const png = Trianglify({
       width: 600,
