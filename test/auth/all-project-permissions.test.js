@@ -8,7 +8,7 @@ const { getProject } = require('../helpers/getProject')
 let auth
 let project
 
-describe('Check permissions in projects', () => {
+describe('Check project permissions', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()

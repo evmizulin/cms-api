@@ -80,7 +80,7 @@ describe('POST /projects', () => {
         apiTokenDelete,
         ...rest
       } = projectPermission
-      assert.equal(projectId.toString(), project.id)
+      assert.equal(projectId.toString(), project.id.toString())
       assert.equal(projectRead, true)
       assert.equal(projectUpdate, true)
       assert.equal(projectDelete, true)

@@ -163,7 +163,7 @@ module.exports = {
           await new ClientPermission({
             clientId: client._id,
             projectCreate: false,
-            projectRead: true,
+            projectRead: false,
             projectUpdate: false,
             projectDelete: false,
             apiTokenCreate: false,

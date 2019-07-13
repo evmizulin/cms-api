@@ -2,7 +2,7 @@ const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 const { validate } = require('../helpers/validate')
 
-const createApiToken = ({ token, noId }) => {
+const createApp = ({ app, noId }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -16,11 +16,11 @@ const createApiToken = ({ token, noId }) => {
     schema.required = schema.required.filter(item => item !== 'id')
     delete schema.properties.id
   }
-  const { valid, error } = validate(token, schema)
+  const { valid, error } = validate(app, schema)
   if (!valid) {
     throw new ApiError(BAD_REQUEST, error)
   }
-  return token
+  return app
 }
 
-module.exports = { createApiToken }
+module.exports = { createApp }

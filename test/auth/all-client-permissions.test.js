@@ -1,12 +1,17 @@
-/*global describe, it*/
+/*global describe, it, before, after*/
 
 const request = require('supertest')
 const { app } = require('../../src/index')
+const { getApiToken } = require('../helpers/getApiToken')
 
-const fakeAccessToken = 'ad08ddacfb97b193a843e1cb7608c28cc2aa08b8'
+let apiToken
 const fakeId = '5d14c75f2d32f92ae2cc831a'
 
-describe('Check AccessToken', () => {
+describe('Check client permissions', () => {
+  before(async () => {
+    apiToken = await getApiToken()
+  })
+
   const routes = [
     { desc: 'POST projects', method: (...props) => request(app).post(...props), route: '/projects' },
     { desc: 'GET projects', method: (...props) => request(app).get(...props), route: '/projects' },
@@ -29,17 +34,15 @@ describe('Check AccessToken', () => {
   ]
 
   routes.forEach(({ desc, method, route }) => {
-    it(`${desc} should return 401`, done => {
+    it(`${desc} should return 403`, done => {
       method(route)
-        .expect(401)
+        .set('AccessToken', apiToken.accessToken.token)
+        .expect(403)
         .end(done)
     })
+  })
 
-    it(`${desc} should return 401`, done => {
-      method(route)
-        .set('AccessToken', fakeAccessToken)
-        .expect(401)
-        .end(done)
-    })
+  after(async () => {
+    await apiToken.remove()
   })
 })

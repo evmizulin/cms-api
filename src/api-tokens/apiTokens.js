@@ -3,7 +3,7 @@
 // const { isIdValid } = require('../../helpers/isIdValid')
 // const { NOT_FOUND } = require('http-status-codes')
 const { createApp } = require('./createApp')
-const { App, Client, AccessToken, ProjectPermission, Project } = require('../services/db/Db')
+const { App, Client, AccessToken, ProjectPermission } = require('../services/db/Db')
 const { generateToken } = require('../helpers/generateToken')
 
 class ApiTokens {
@@ -22,11 +22,10 @@ class ApiTokens {
     const createdApp = createApp({ app, noId: true })
     const savedApp = await App.insert(createdApp)
     const client = await Client.findOne({ type: 'app', clientSourceId: savedApp.id }, { _id: true })
-    const project = await Project.findById(projectId, { _id: true })
     await ProjectPermission.insert({
-      projectId: project.id,
+      projectId: projectId,
       clientId: client.id,
-      projectRead: true,
+      projectRead: false,
       projectUpdate: false,
       projectDelete: false,
       apiTokenCreate: false,

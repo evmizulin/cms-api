@@ -7,6 +7,10 @@ const getProjectPermission = async (auth, project) => {
     projectRead: true,
     projectUpdate: true,
     projectDelete: true,
+    apiTokenCreate: true,
+    apiTokenRead: true,
+    apiTokenUpdate: true,
+    apiTokenDelete: true,
   })
   return {
     permission,
