@@ -3,7 +3,7 @@ const { User, AccessToken, Client } = require('../services/db/Db')
 const hash = require('object-hash')
 const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
-const { generateToken } = require('./generateToken')
+const { generateToken } = require('../helpers/generateToken')
 
 class ApiSignin {
   async signin(creds) {

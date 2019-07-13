@@ -49,6 +49,10 @@ class ApiProjects {
       projectRead: true,
       projectUpdate: true,
       projectDelete: true,
+      apiTokenCreate: true,
+      apiTokenRead: true,
+      apiTokenUpdate: true,
+      apiTokenDelete: true,
     })
     const png = Trianglify({
       width: 600,

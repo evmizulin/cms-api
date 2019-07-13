@@ -74,12 +74,20 @@ describe('POST /projects', () => {
         projectRead,
         projectUpdate,
         projectDelete,
+        apiTokenCreate,
+        apiTokenRead,
+        apiTokenUpdate,
+        apiTokenDelete,
         ...rest
       } = projectPermission
       assert.equal(projectId.toString(), project.id)
       assert.equal(projectRead, true)
       assert.equal(projectUpdate, true)
       assert.equal(projectDelete, true)
+      assert.equal(apiTokenCreate, true)
+      assert.equal(apiTokenRead, true)
+      assert.equal(apiTokenUpdate, true)
+      assert.equal(apiTokenDelete, true)
       assert.deepEqual(rest, {})
     }
   })

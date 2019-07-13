@@ -2,11 +2,15 @@
 const { getStatusMessage } = require('../helpers/getStatusMessage')
 const { checkAuth } = require('../services/auth/checkAuth')
 const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
-const { OK } = require('http-status-codes')
-const { apiTokens } = require('./apiTokens')
 */
 const cors = require('cors')
 const { allowAll } = require('../helpers/corsSettings')
+const { extractClientId } = require('../auth/extractClientId')
+const { checkClientPermission } = require('../auth/checkClientPermission')
+const { extractProjectId } = require('../auth/extractProjectId')
+const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { apiTokens } = require('./apiTokens')
+const { OK } = require('http-status-codes')
 
 const setApiTokensRoutes = app => {
   app.options('/projects/:projectId/api-tokens', cors(allowAll))
@@ -18,13 +22,20 @@ const setApiTokensRoutes = app => {
     res.status(OK).send(getStatusMessage(OK))
   })
   */
-  /*
-  app.post('/projects/:projectId/api-tokens', cors(allowAll), async (req, res) => {
-    const { projectId } = req.extractedProps
-    const savedApiToken = await apiTokens.postApiToken(projectId, req.body)
-    res.status(OK).send(savedApiToken)
-  })
-  */
+
+  app.post(
+    '/projects/:projectId/api-tokens',
+    extractClientId,
+    checkClientPermission('apiTokenCreate'),
+    extractProjectId,
+    checkProjectPermissions('apiTokenCreate'),
+    cors(allowAll),
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      const savedApiToken = await apiTokens.postApiToken(projectId, req.body)
+      res.status(OK).send(savedApiToken)
+    }
+  )
 
   /*
   app.get('/projects/:projectId/tokens', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {

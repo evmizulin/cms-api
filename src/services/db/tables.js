@@ -35,6 +35,10 @@ const ProjectPermission = new Schema({
   projectRead: Boolean,
   projectUpdate: Boolean,
   projectDelete: Boolean,
+  apiTokenCreate: Boolean,
+  apiTokenRead: Boolean,
+  apiTokenUpdate: Boolean,
+  apiTokenDelete: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -43,6 +47,10 @@ const ClientPermission = new Schema({
   projectRead: Boolean,
   projectUpdate: Boolean,
   projectDelete: Boolean,
+  apiTokenCreate: Boolean,
+  apiTokenRead: Boolean,
+  apiTokenUpdate: Boolean,
+  apiTokenDelete: Boolean,
 })
 
 const Client = new Schema({
@@ -54,6 +62,10 @@ const User = new Schema({
   login: String,
   passHash: String,
   isVerified: Boolean,
+})
+
+const App = new Schema({
+  name: String,
 })
 
 const AccessToken = new Schema({
@@ -114,6 +126,7 @@ module.exports = {
   ClientPermission: mongoose.model('ClientPermission', ClientPermission),
   Client: mongoose.model('Client', Client),
   User: mongoose.model('User', User),
+  App: mongoose.model('App', App),
   AccessToken: mongoose.model('AccessToken', AccessToken),
   EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
   /*

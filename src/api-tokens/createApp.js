@@ -1,8 +1,8 @@
-const tv4 = require('tv4')
-const { ApiError } = require('../../../../helpers/ApiError')
+const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
+const { validate } = require('../helpers/validate')
 
-const createApiToken = (token, { noId }) => {
+const createApiToken = ({ token, noId }) => {
   const schema = {
     type: 'object',
     additionalProperties: false,
@@ -16,9 +16,9 @@ const createApiToken = (token, { noId }) => {
     schema.required = schema.required.filter(item => item !== 'id')
     delete schema.properties.id
   }
-  const { valid, error } = tv4.validateResult(token, schema)
+  const { valid, error } = validate(token, schema)
   if (!valid) {
-    throw new ApiError(error.message, BAD_REQUEST)
+    throw new ApiError(BAD_REQUEST, error)
   }
   return token
 }

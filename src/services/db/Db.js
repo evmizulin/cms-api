@@ -1,6 +1,6 @@
 // const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
-const { AccessToken, ProjectPermission, ClientPermission } = require('./tables')
+const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -137,12 +137,45 @@ module.exports = {
             projectRead: true,
             projectUpdate: true,
             projectDelete: true,
+            apiTokenCreate: true,
+            apiTokenRead: true,
+            apiTokenUpdate: true,
+            apiTokenDelete: true,
           }).save()
         },
       },
       remove: {
         before: async id => {
           const clients = await Client.find({ type: 'user', clientSourceId: id })
+          const permissions = await ClientPermission.find({ clientId: clients[0]._id })
+          await permissions[0].remove()
+          await clients[0].remove()
+        },
+      },
+    },
+  }),
+  App: new Db({
+    Model: App,
+    hooks: {
+      insert: {
+        after: async ({ result: app }) => {
+          const client = await new Client({ type: 'app', clientSourceId: app.id }).save()
+          await new ClientPermission({
+            clientId: client._id,
+            projectCreate: false,
+            projectRead: true,
+            projectUpdate: false,
+            projectDelete: false,
+            apiTokenCreate: false,
+            apiTokenRead: false,
+            apiTokenUpdate: false,
+            apiTokenDelete: false,
+          }).save()
+        },
+      },
+      remove: {
+        before: async id => {
+          const clients = await Client.find({ type: 'app', clientSourceId: id })
           const permissions = await ClientPermission.find({ clientId: clients[0]._id })
           await permissions[0].remove()
           await clients[0].remove()
