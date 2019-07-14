@@ -15,7 +15,7 @@ let userProjectPermission
 let resApiToken
 const reqApiToken = { name: randomstring.generate() }
 
-describe('POST /projects', () => {
+describe('POST /api-tokens', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()
@@ -71,27 +71,18 @@ describe('POST /projects', () => {
     }
 
     {
-      const {
-        id,
-        projectId,
-        clientId,
-        projectRead,
-        projectUpdate,
-        projectDelete,
-        apiTokenCreate,
-        apiTokenRead,
-        apiTokenUpdate,
-        apiTokenDelete,
-        ...rest
-      } = projectPermission
+      const actions = [
+        { entity: 'project', actions: ['Read', 'Update', 'Delete'] },
+        { entity: 'apiToken', actions: ['Create', 'Read', 'Update', 'Delete'] },
+      ]
+      const { id, projectId, clientId, ...rest } = projectPermission
+      actions.forEach(({ entity, actions }) => {
+        actions.forEach(action => {
+          assert.equal(rest[`${entity}${action}`], false)
+          delete rest[`${entity}${action}`]
+        })
+      })
       assert.equal(projectId.toString(), project.project.id.toString())
-      assert.equal(projectRead, false)
-      assert.equal(projectUpdate, false)
-      assert.equal(projectDelete, false)
-      assert.equal(apiTokenCreate, false)
-      assert.equal(apiTokenRead, false)
-      assert.equal(apiTokenUpdate, false)
-      assert.equal(apiTokenDelete, false)
       assert.deepEqual(rest, {})
     }
 

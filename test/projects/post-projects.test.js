@@ -67,27 +67,18 @@ describe('POST /projects', () => {
     }
 
     {
-      const {
-        id,
-        projectId,
-        clientId,
-        projectRead,
-        projectUpdate,
-        projectDelete,
-        apiTokenCreate,
-        apiTokenRead,
-        apiTokenUpdate,
-        apiTokenDelete,
-        ...rest
-      } = projectPermission
+      const actions = [
+        { entity: 'project', actions: ['Read', 'Update', 'Delete'] },
+        { entity: 'apiToken', actions: ['Create', 'Read', 'Update', 'Delete'] },
+      ]
+      const { id, projectId, clientId, ...rest } = projectPermission
+      actions.forEach(({ entity, actions }) => {
+        actions.forEach(action => {
+          assert.equal(rest[`${entity}${action}`], true)
+          delete rest[`${entity}${action}`]
+        })
+      })
       assert.equal(projectId.toString(), project.id.toString())
-      assert.equal(projectRead, true)
-      assert.equal(projectUpdate, true)
-      assert.equal(projectDelete, true)
-      assert.equal(apiTokenCreate, true)
-      assert.equal(apiTokenRead, true)
-      assert.equal(apiTokenUpdate, true)
-      assert.equal(apiTokenDelete, true)
       assert.deepEqual(rest, {})
     }
   })
