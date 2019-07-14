@@ -26,6 +26,11 @@ describe('Check AccessToken', () => {
       method: (...props) => request(app).post(...props),
       route: `/projects/${fakeId}/api-tokens`,
     },
+    {
+      desc: 'GET api token',
+      method: (...props) => request(app).get(...props),
+      route: `/projects/${fakeId}/api-tokens`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {

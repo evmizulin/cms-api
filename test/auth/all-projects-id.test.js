@@ -16,49 +16,36 @@ describe('Check project id', () => {
   const routes = [
     {
       desc: 'GET projects image',
-      method: (...props) => request(app).get(...props),
-      route: `/projects/${unvalidId}/image.png`,
-    },
-    {
-      desc: 'GET projects image',
-      method: (...props) => request(app).get(...props),
-      route: `/projects/${fakeId}/image.png`,
+      method: id => request(app).get(`/projects/${id}/image.png`),
     },
     {
       desc: 'PUT projects',
-      method: (...props) => request(app).put(...props),
-      route: `/projects/${unvalidId}`,
-    },
-    {
-      desc: 'PUT projects',
-      method: (...props) => request(app).put(...props),
-      route: `/projects/${fakeId}`,
+      method: id => request(app).put(`/projects/${id}`),
     },
     {
       desc: 'DELETE projects',
-      method: (...props) => request(app).delete(...props),
-      route: `/projects/${unvalidId}`,
-    },
-    {
-      desc: 'DELETE projects',
-      method: (...props) => request(app).delete(...props),
-      route: `/projects/${fakeId}`,
+      method: id => request(app).delete(`/projects/${id}`),
     },
     {
       desc: 'POST api tokens',
-      method: (...props) => request(app).post(...props),
-      route: `/projects/${unvalidId}/api-tokens`,
+      method: id => request(app).post(`/projects/${id}/api-tokens`),
     },
     {
-      desc: 'POST api tokens',
-      method: (...props) => request(app).post(...props),
-      route: `/projects/${fakeId}/api-tokens`,
+      desc: 'GET api tokens',
+      method: id => request(app).get(`/projects/${id}/api-tokens`),
     },
   ]
 
-  routes.forEach(({ desc, method, route }) => {
+  routes.forEach(({ desc, method }) => {
     it(`${desc} should return 404`, done => {
-      method(route)
+      method(unvalidId)
+        .set('AccessToken', auth.accessToken.token)
+        .expect(404)
+        .end(done)
+    })
+
+    it(`${desc} should return 404`, done => {
+      method(fakeId)
         .set('AccessToken', auth.accessToken.token)
         .expect(404)
         .end(done)

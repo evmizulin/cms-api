@@ -25,11 +25,11 @@ const setApiTokensRoutes = app => {
 
   app.post(
     '/projects/:projectId/api-tokens',
+    cors(allowAll),
     extractClientId,
     checkClientPermission('apiTokenCreate'),
     extractProjectId,
     checkProjectPermissions('apiTokenCreate'),
-    cors(allowAll),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const savedApiToken = await apiTokens.postApiToken(projectId, req.body)
@@ -43,6 +43,23 @@ const setApiTokensRoutes = app => {
     const tokens = await apiTokens.getApiTokens(projectId)
     res.status(OK).send(tokens)
   })
+  */
+
+  app.get(
+    '/projects/:projectId/api-tokens',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('apiTokenRead'),
+    extractProjectId,
+    checkProjectPermissions('apiTokenRead'),
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      const tokens = await apiTokens.getApiTokens(projectId)
+      res.status(OK).send(tokens)
+    }
+  )
+
+  /*
 
   app.options('/projects/:projectId/tokens/:tokenId', cors(allowMe))
 

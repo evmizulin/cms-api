@@ -11,7 +11,30 @@ class ApiTokens {
   async getApiTokens(projectId) {
     return await ApiToken.find({ projectId }, '-projectId')
   }
+  */
 
+  async getApiTokens(projectId) {
+    const projectPermissions = await ProjectPermission.find({ projectId }, { clientId: true })
+    const clients = await Client.find(
+      {
+        $or: projectPermissions.map(item => ({ type: 'app', _id: item.clientId })),
+      },
+      { clientSourceId: true }
+    )
+    if (!clients.length) return []
+    const apps = await App.find({ $or: clients.map(item => ({ _id: item.clientSourceId })) })
+    const accessTokens = await AccessToken.find({ $or: clients.map(item => ({ clientId: item.id })) })
+    return apps.map(app => ({
+      ...app,
+      token: accessTokens.find(
+        accessToken =>
+          accessToken.clientId.toString() ===
+          clients.find(client => client.clientSourceId.toString() === app.id.toString()).id.toString()
+      ).token,
+    }))
+  }
+
+  /*
   async postApiToken(projectId, token) {
   const createdToken = createApiToken(token, { noId: true })
   await ApiToken.save({ projectId, token: generateToken(), ...createdToken })

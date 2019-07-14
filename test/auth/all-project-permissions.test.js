@@ -16,19 +16,29 @@ describe('Check project permissions', () => {
 
   const routes = [
     {
-      desc: 'GET',
+      desc: 'GET projects image',
       method: (...props) => request(app).delete(...props),
       route: () => `/projects/${project.project.id}/image.png`,
     },
     {
-      desc: 'PUT',
+      desc: 'PUT projects',
       method: (...props) => request(app).put(...props),
       route: () => `/projects/${project.project.id}`,
     },
     {
-      desc: 'DELETE',
+      desc: 'DELETE projects',
       method: (...props) => request(app).delete(...props),
       route: () => `/projects/${project.project.id}`,
+    },
+    {
+      desc: 'POST api tokens',
+      method: (...props) => request(app).post(...props),
+      route: () => `/projects/${project.project.id}/api-tokens`,
+    },
+    {
+      desc: 'GET api tokens',
+      method: (...props) => request(app).get(...props),
+      route: () => `/projects/${project.project.id}/api-tokens`,
     },
   ]
 

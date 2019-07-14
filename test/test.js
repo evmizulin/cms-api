@@ -47,6 +47,7 @@ describe('All tests', () => {
 
   describe('ApiTokens', () => {
     require('./api-tokens/post-api-tokens.test')
+    require('./api-tokens/get-api-tokens.test')
   })
 
   describe('Projects', () => {
