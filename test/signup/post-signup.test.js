@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 const { app } = require('../../src/index')
-const { User, Client, ClientPermission } = require('../../src/services/db/Db')
+const { User } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
 const randomstring = require('randomstring')
@@ -35,53 +35,13 @@ describe('POST /signup', () => {
     })
 
     after(async () => {
-      const { user, client, clientPermission } = await (async () => {
-        const { login } = users[0]
-        const user = await User.findOne({ login })
-        const client = await Client.findOne({ clientSourceId: user.id })
-        const clientPermission = await ClientPermission.findOne({ clientId: client.id })
-        return { user, client, clientPermission }
-      })()
-
+      const user = await User.findOne({ login: users[0].login })
       await User.remove(user.id)
 
-      {
-        const { id, type, clientSourceId, ...rest } = client
-        assert.equal(type, 'user')
-        assert.deepEqual(rest, {})
-      }
-
-      {
-        const {
-          id,
-          clientId,
-          projectCreate,
-          projectRead,
-          projectUpdate,
-          projectDelete,
-          apiTokenCreate,
-          apiTokenRead,
-          apiTokenUpdate,
-          apiTokenDelete,
-          ...rest
-        } = clientPermission
-        assert.equal(projectCreate, true)
-        assert.equal(projectRead, true)
-        assert.equal(projectUpdate, true)
-        assert.equal(projectDelete, true)
-        assert.equal(apiTokenCreate, true)
-        assert.equal(apiTokenRead, true)
-        assert.equal(apiTokenUpdate, true)
-        assert.equal(apiTokenDelete, true)
-        assert.deepEqual(rest, {})
-      }
-
-      {
-        const { id, login, passHash, isVerified, ...rest } = user
-        assert.equal(isVerified, false)
-        assert.equal(passHash, hash(users[0].password))
-        assert.deepEqual(rest, {})
-      }
+      const { id, login, passHash, isVerified, ...rest } = user
+      assert.equal(isVerified, false)
+      assert.equal(passHash, hash(users[0].password))
+      assert.deepEqual(rest, {})
     })
   })
 

@@ -19,6 +19,11 @@ describe('All tests', () => {
     beforeDocsAmount = await getDocsAmount()
   })
 
+  describe('Db', async () => {
+    require('./db/user.test')
+    require('./db/app.test')
+  })
+
   describe('Index', async () => {
     require('./get-not-found.test')
     require('./get-say-hello.test')
