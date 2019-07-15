@@ -46,8 +46,11 @@ describe('All tests', () => {
   })
 
   describe('ApiTokens', () => {
+    require('./api-tokens/all-app-id.test')
+    require('./api-tokens/all-app-permissions.test')
     require('./api-tokens/post-api-tokens.test')
     require('./api-tokens/get-api-tokens.test')
+    require('./api-tokens/put-api-tokens.test')
   })
 
   describe('Projects', () => {

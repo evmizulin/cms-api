@@ -11,6 +11,8 @@ const { extractProjectId } = require('../auth/extractProjectId')
 const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
 const { apiTokens } = require('./apiTokens')
 const { OK } = require('http-status-codes')
+const { extractAppId } = require('./extractAppId')
+const { checkAppPermissions } = require('./checkAppPermissions')
 
 const setApiTokensRoutes = app => {
   app.options('/projects/:projectId/api-tokens', cors(allowAll))
@@ -59,10 +61,9 @@ const setApiTokensRoutes = app => {
     }
   )
 
+  app.options('/projects/:projectId/api-tokens/:appId', cors(allowAll))
+
   /*
-
-  app.options('/projects/:projectId/tokens/:tokenId', cors(allowMe))
-
   app.put(
     '/projects/:projectId/tokens/:tokenId',
     cors(allowMe),
@@ -74,7 +75,25 @@ const setApiTokensRoutes = app => {
       res.status(OK).send(getStatusMessage(OK))
     }
   )
+  */
 
+  app.put(
+    '/projects/:projectId/api-tokens/:appId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('apiTokenUpdate'),
+    extractProjectId,
+    checkProjectPermissions('apiTokenUpdate'),
+    extractAppId,
+    checkAppPermissions,
+    async (req, res) => {
+      const { appId } = req.params
+      const updatedApp = await apiTokens.putApiToken(appId, req.body)
+      res.status(OK).send(updatedApp)
+    }
+  )
+
+  /*
   app.delete(
     '/projects/:projectId/tokens/:tokenId',
     cors(allowMe),

@@ -1,8 +1,8 @@
 // const { ApiToken } = require('../db/Db')
-// const { ApiError } = require('../../helpers/ApiError')
 // const { isIdValid } = require('../../helpers/isIdValid')
-// const { NOT_FOUND } = require('http-status-codes')
+const { BAD_REQUEST } = require('http-status-codes')
 const { createApp } = require('./createApp')
+const { ApiError } = require('../helpers/ApiError')
 const { App, Client, AccessToken, ProjectPermission } = require('../services/db/Db')
 const { generateToken } = require('../helpers/generateToken')
 
@@ -73,7 +73,19 @@ class ApiTokens {
     const createdToken = createApiToken(token, { noId: false })
     await ApiToken.update(tokenId, { name: createdToken.name })
   }
+*/
 
+  async putApiToken(appId, app) {
+    const createdApp = createApp({ app, noId: false })
+    if (appId.toString() !== createdApp.id)
+      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
+    const updatedApp = await App.update(appId, createdApp)
+    const client = await Client.findOne({ type: 'app', clientSourceId: appId })
+    const accessToken = await AccessToken.findOne({ clientId: client.id })
+    return { ...updatedApp, token: accessToken.token }
+  }
+
+  /*
   async deleteApiToken(projectId, tokenId) {
     const idValid = isIdValid(tokenId)
     if (!idValid) throw new ApiError('Unvalid tokenId', NOT_FOUND)

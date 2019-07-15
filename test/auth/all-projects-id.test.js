@@ -34,6 +34,10 @@ describe('Check project id', () => {
       desc: 'GET api tokens',
       method: id => request(app).get(`/projects/${id}/api-tokens`),
     },
+    {
+      desc: 'PUT api tokens',
+      method: id => request(app).put(`/projects/${id}/api-tokens/${id}`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {
