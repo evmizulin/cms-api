@@ -77,6 +77,11 @@ const EncryptionKey = new Schema({
   key: String,
 })
 
+const PasswordRecoveryToken = new Schema({
+  userId: Schema.Types.ObjectId,
+  token: String,
+})
+
 /*
 const ApiToken = new Schema({
   projectId: String,
@@ -84,10 +89,6 @@ const ApiToken = new Schema({
   token: String,
 })
 
-const RecoverPass = new Schema({
-  userId: String,
-  tokens: [String],
-})
 
 const ProjectAndUserRelation = new Schema({
   userId: String,
@@ -129,6 +130,7 @@ module.exports = {
   App: mongoose.model('App', App),
   AccessToken: mongoose.model('AccessToken', AccessToken),
   EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
+  PasswordRecoveryToken: mongoose.model('PasswordRecoveryToken', PasswordRecoveryToken),
   /*
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
   ProjectAndUserRelation: mongoose.model('ProjectAndUserRelation', ProjectAndUserRelation),

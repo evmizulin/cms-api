@@ -1,6 +1,7 @@
 // const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
+const { PasswordRecoveryToken } = require('./tables')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -192,6 +193,7 @@ module.exports = {
     },
   }),
   EncryptionKey: new Db({ Model: EncryptionKey }),
+  PasswordRecoveryToken: new Db({ Model: PasswordRecoveryToken }),
   /*
   ProjectAndUserRelation: new Db({ Model: ProjectAndUserRelation, normToDb, normFromDb }),
   AuthToken: new Db({ Model: AuthToken, normToDb, normFromDb }),

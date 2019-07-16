@@ -62,6 +62,11 @@ describe('All tests', () => {
     require('./projects/delete-projects.test')
   })
 
+  describe('Password recovery', () => {
+    require('./password-recovery/post-password-recovery.test')
+    require('./password-recovery/post-confirmation.test')
+  })
+
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()
