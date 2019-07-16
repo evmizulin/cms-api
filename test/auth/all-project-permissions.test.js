@@ -45,6 +45,11 @@ describe('Check project permissions', () => {
       method: (...props) => request(app).put(...props),
       route: () => `/projects/${project.project.id}/api-tokens/${project.project.id}`,
     },
+    {
+      desc: 'DELETE api tokens',
+      method: (...props) => request(app).delete(...props),
+      route: () => `/projects/${project.project.id}/api-tokens/${project.project.id}`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {

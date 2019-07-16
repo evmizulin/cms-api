@@ -1,4 +1,4 @@
-/*global describe, it, before, after*/
+/*global describe, it, after, before*/
 
 const request = require('supertest')
 const { app } = require('../../src/index')
@@ -12,38 +12,26 @@ let project
 let projectPermission
 let apiToken
 
-describe('Check app permissions', () => {
+describe('DELETE /api-tokens/${id}', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()
     projectPermission = await getProjectPermission(auth, project)
     apiToken = await getApiToken()
+    await getProjectPermission(apiToken, project)
   })
 
-  const routes = [
-    {
-      desc: 'PUT api token',
-      method: (projectId, appId) => request(app).put(`/projects/${projectId}/api-tokens/${appId}`),
-    },
-    {
-      desc: 'DELETE api token',
-      method: (projectId, appId) => request(app).delete(`/projects/${projectId}/api-tokens/${appId}`),
-    },
-  ]
-
-  routes.forEach(({ desc, method }) => {
-    it(`${desc} should return 404`, done => {
-      method(project.project.id, apiToken.app.id)
-        .set('AccessToken', auth.accessToken.token)
-        .expect(404)
-        .end(done)
-    })
+  it('should return 200', done => {
+    request(app)
+      .delete(`/projects/${project.project.id}/api-tokens/${apiToken.app.id}`)
+      .set('AccessToken', auth.accessToken.token)
+      .expect(200)
+      .end(done)
   })
 
   after(async () => {
     await auth.remove()
     await project.remove()
     await projectPermission.remove()
-    await apiToken.remove()
   })
 })

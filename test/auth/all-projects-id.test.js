@@ -38,6 +38,10 @@ describe('Check project id', () => {
       desc: 'PUT api tokens',
       method: id => request(app).put(`/projects/${id}/api-tokens/${id}`),
     },
+    {
+      desc: 'DELETE api tokens',
+      method: id => request(app).delete(`/projects/${id}/api-tokens/${id}`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

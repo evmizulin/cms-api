@@ -13,6 +13,7 @@ const { apiTokens } = require('./apiTokens')
 const { OK } = require('http-status-codes')
 const { extractAppId } = require('./extractAppId')
 const { checkAppPermissions } = require('./checkAppPermissions')
+const { ApiResp } = require('../helpers/ApiResp')
 
 const setApiTokensRoutes = app => {
   app.options('/projects/:projectId/api-tokens', cors(allowAll))
@@ -87,7 +88,7 @@ const setApiTokensRoutes = app => {
     extractAppId,
     checkAppPermissions,
     async (req, res) => {
-      const { appId } = req.params
+      const { appId } = req.extractedProps
       const updatedApp = await apiTokens.putApiToken(appId, req.body)
       res.status(OK).send(updatedApp)
     }
@@ -106,6 +107,23 @@ const setApiTokensRoutes = app => {
     }
   )
   */
+
+  app.delete(
+    '/projects/:projectId/api-tokens/:appId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('apiTokenDelete'),
+    extractProjectId,
+    checkProjectPermissions('apiTokenDelete'),
+    extractAppId,
+    checkAppPermissions,
+    async (req, res) => {
+      const { appId, projectId } = req.extractedProps
+      await apiTokens.deleteApiToken(projectId, appId)
+      const apiResp = new ApiResp(OK)
+      res.status(apiResp.code).send(apiResp.body)
+    }
+  )
 }
 
 module.exports = { setApiTokensRoutes }

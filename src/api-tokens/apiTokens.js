@@ -95,6 +95,20 @@ class ApiTokens {
     await ApiToken.remove(tokenId)
   }
   */
+
+  async deleteApiToken(projectId, appId) {
+    const client = await Client.findOne({ type: 'app', clientSourceId: appId }, { _id: true })
+    const accessToken = await AccessToken.findOne({ clientId: client.id }, { _id: true })
+    const projectPermission = await ProjectPermission.findOne(
+      { clientId: client.id, projectId },
+      { _id: true }
+    )
+    await Promise.all([
+      App.remove(appId),
+      AccessToken.remove(accessToken.id),
+      ProjectPermission.remove(projectPermission.id),
+    ])
+  }
 }
 
 module.exports = { apiTokens: new ApiTokens() }
