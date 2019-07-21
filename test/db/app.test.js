@@ -30,7 +30,7 @@ describe('App', () => {
           delete rest[`${entity}${action}`]
         })
       })
-      assert.deepEqual(rest, {})
+      assert.deepEqual(rest, { userRead: false })
     }
   })
 })

@@ -67,6 +67,10 @@ describe('All tests', () => {
     require('./password-recovery/post-confirmation.test')
   })
 
+  describe('User', () => {
+    require('./users/get-users.test')
+  })
+
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()

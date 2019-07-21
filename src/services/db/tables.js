@@ -43,6 +43,7 @@ const ProjectPermission = new Schema({
 
 const ClientPermission = new Schema({
   clientId: Schema.Types.ObjectId,
+  userRead: Boolean,
   projectCreate: Boolean,
   projectRead: Boolean,
   projectUpdate: Boolean,

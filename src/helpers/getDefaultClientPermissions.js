@@ -1,6 +1,7 @@
 const getDefaultClientPermissions = clientType => {
   const MAP = {
     app: {
+      userRead: false,
       projectCreate: false,
       projectRead: false,
       projectUpdate: false,
@@ -11,6 +12,7 @@ const getDefaultClientPermissions = clientType => {
       apiTokenDelete: false,
     },
     user: {
+      userRead: true,
       projectCreate: true,
       projectRead: true,
       projectUpdate: true,
