@@ -1,6 +1,7 @@
-const getDefaultPermissions = clientType => {
+const getDefaultClientPermissions = clientType => {
   const MAP = {
     app: {
+      projectCreate: false,
       projectRead: false,
       projectUpdate: false,
       projectDelete: false,
@@ -10,6 +11,7 @@ const getDefaultPermissions = clientType => {
       apiTokenDelete: false,
     },
     user: {
+      projectCreate: true,
       projectRead: true,
       projectUpdate: true,
       projectDelete: true,
@@ -22,4 +24,4 @@ const getDefaultPermissions = clientType => {
   return MAP[clientType]
 }
 
-module.exports = { getDefaultPermissions }
+module.exports = { getDefaultClientPermissions }

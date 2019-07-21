@@ -5,7 +5,7 @@ const { createApp } = require('./createApp')
 const { ApiError } = require('../helpers/ApiError')
 const { App, Client, AccessToken, ProjectPermission } = require('../services/db/Db')
 const { generateToken } = require('../helpers/generateToken')
-const { getDefaultPermissions } = require('../helpers/getDefaultPermissions')
+const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
 
 class ApiTokens {
   /*
@@ -49,7 +49,7 @@ class ApiTokens {
     await ProjectPermission.insert({
       projectId: projectId,
       clientId: client.id,
-      ...getDefaultPermissions('app'),
+      ...getDefaultProjectPermissions('app'),
     })
     const accessToken = await AccessToken.insert({
       clientId: client.id,

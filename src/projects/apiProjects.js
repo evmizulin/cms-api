@@ -6,7 +6,7 @@ const Trianglify = require('trianglify')
 // const { apiModels } = require('./ApiModels')
 const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
-const { getDefaultPermissions } = require('../helpers/getDefaultPermissions')
+const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -47,7 +47,7 @@ class ApiProjects {
     await ProjectPermission.insert({
       projectId: savedProject.id,
       clientId: clientId,
-      ...getDefaultPermissions('user'),
+      ...getDefaultProjectPermissions('user'),
     })
     const png = Trianglify({
       width: 600,
