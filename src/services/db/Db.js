@@ -2,6 +2,7 @@
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
 const { PasswordRecoveryToken } = require('./tables')
+const { getDefaultPermissions } = require('../../helpers/getDefaultPermissions')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -135,13 +136,7 @@ module.exports = {
           await new ClientPermission({
             clientId: client._id,
             projectCreate: true,
-            projectRead: true,
-            projectUpdate: true,
-            projectDelete: true,
-            apiTokenCreate: true,
-            apiTokenRead: true,
-            apiTokenUpdate: true,
-            apiTokenDelete: true,
+            ...getDefaultPermissions('user'),
           }).save()
         },
       },
@@ -164,13 +159,7 @@ module.exports = {
           await new ClientPermission({
             clientId: client._id,
             projectCreate: false,
-            projectRead: false,
-            projectUpdate: false,
-            projectDelete: false,
-            apiTokenCreate: false,
-            apiTokenRead: false,
-            apiTokenUpdate: false,
-            apiTokenDelete: false,
+            ...getDefaultPermissions('app'),
           }).save()
         },
       },
