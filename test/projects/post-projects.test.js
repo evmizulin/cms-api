@@ -79,7 +79,7 @@ describe('POST /projects', () => {
         })
       })
       assert.equal(projectId.toString(), project.id.toString())
-      assert.deepEqual(rest, {})
+      assert.deepEqual(rest, { userOfProjectCreate: true })
     }
   })
 })

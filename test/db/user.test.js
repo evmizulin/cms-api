@@ -33,7 +33,7 @@ describe('User', () => {
           delete rest[`${entity}${action}`]
         })
       })
-      assert.deepEqual(rest, { userRead: true })
+      assert.deepEqual(rest, { userRead: true, userOfProjectCreate: true })
     }
   })
 })

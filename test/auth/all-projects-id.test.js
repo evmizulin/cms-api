@@ -42,6 +42,10 @@ describe('Check project id', () => {
       desc: 'DELETE api tokens',
       method: id => request(app).delete(`/projects/${id}/api-tokens/${id}`),
     },
+    {
+      desc: 'POST user to project',
+      method: id => request(app).post(`/projects/${id}/users`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

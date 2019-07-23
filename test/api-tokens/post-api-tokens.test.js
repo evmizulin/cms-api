@@ -83,7 +83,7 @@ describe('POST /api-tokens', () => {
         })
       })
       assert.equal(projectId.toString(), project.project.id.toString())
-      assert.deepEqual(rest, {})
+      assert.deepEqual(rest, { userOfProjectCreate: false })
     }
 
     {

@@ -69,6 +69,7 @@ describe('All tests', () => {
 
   describe('User', () => {
     require('./users/get-users.test')
+    require('./users/post-user.test')
   })
 
   after(async () => {

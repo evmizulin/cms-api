@@ -39,6 +39,7 @@ const ProjectPermission = new Schema({
   apiTokenRead: Boolean,
   apiTokenUpdate: Boolean,
   apiTokenDelete: Boolean,
+  userOfProjectCreate: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -52,6 +53,7 @@ const ClientPermission = new Schema({
   apiTokenRead: Boolean,
   apiTokenUpdate: Boolean,
   apiTokenDelete: Boolean,
+  userOfProjectCreate: Boolean,
 })
 
 const Client = new Schema({
