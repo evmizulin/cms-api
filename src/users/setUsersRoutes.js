@@ -6,6 +6,9 @@ const { extractProjectId } = require('../auth/extractProjectId')
 const { apiUsers } = require('./apiUsers')
 const { OK } = require('http-status-codes')
 const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { extractUserId } = require('../users/extractUserId')
+const { checkUserIdPermissions } = require('../users/checkUserIdPermissions')
+const { ApiResp } = require('../helpers/ApiResp')
 
 const setUsersRoutes = app => {
   app.options('/users', cors(allowAll))
@@ -41,6 +44,23 @@ const setUsersRoutes = app => {
       const { projectId } = req.extractedProps
       const users = await apiUsers.getUsersOfProject(projectId)
       res.status(OK).send(users)
+    }
+  )
+
+  app.delete(
+    '/projects/:projectId/users/:userId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('userOfProjectDelete'),
+    extractProjectId,
+    checkProjectPermissions('userOfProjectDelete'),
+    extractUserId,
+    checkUserIdPermissions,
+    async (req, res) => {
+      const { projectId, userId } = req.extractedProps
+      await apiUsers.deleteUserOfProject(projectId, userId)
+      const apiResp = new ApiResp(OK)
+      res.status(apiResp.code).send(apiResp.body)
     }
   )
 }

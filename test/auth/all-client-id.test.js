@@ -56,6 +56,11 @@ describe('Check AccessToken', () => {
       method: (...props) => request(app).get(...props),
       route: `/projects/${fakeId}/users`,
     },
+    {
+      desc: 'DELETE user of project',
+      method: (...props) => request(app).delete(...props),
+      route: `/projects/${fakeId}/users/${fakeId}`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {

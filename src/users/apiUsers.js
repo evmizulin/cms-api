@@ -46,6 +46,15 @@ class ApiUsers {
     if (!clients.length) return []
     return await User.find({ $or: clients.map(item => ({ _id: item.clientSourceId })) }, { login: true })
   }
+
+  async deleteUserOfProject(projectId, userId) {
+    const client = await Client.findOne({ type: 'user', clientSourceId: userId })
+    const projectPermissions = await ProjectPermission.findOne(
+      { clientId: client.id, projectId },
+      { _id: true }
+    )
+    await ProjectPermission.remove(projectPermissions.id)
+  }
 }
 
 module.exports = { apiUsers: new ApiUsers() }
