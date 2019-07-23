@@ -29,6 +29,20 @@ const setUsersRoutes = app => {
       res.status(OK).send(user)
     }
   )
+
+  app.get(
+    '/projects/:projectId/users',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('userOfProjectRead'),
+    extractProjectId,
+    checkProjectPermissions('userOfProjectRead'),
+    async (req, res) => {
+      const { projectId } = req.extractedProps
+      const users = await apiUsers.getUsersOfProject(projectId)
+      res.status(OK).send(users)
+    }
+  )
 }
 
 module.exports = { setUsersRoutes }

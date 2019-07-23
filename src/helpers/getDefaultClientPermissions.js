@@ -11,6 +11,7 @@ const getDefaultClientPermissions = clientType => {
       apiTokenUpdate: false,
       apiTokenDelete: false,
       userOfProjectCreate: false,
+      userOfProjectRead: false,
     },
     user: {
       userRead: true,
@@ -23,6 +24,7 @@ const getDefaultClientPermissions = clientType => {
       apiTokenUpdate: true,
       apiTokenDelete: true,
       userOfProjectCreate: true,
+      userOfProjectRead: true,
     },
   }
   return MAP[clientType]

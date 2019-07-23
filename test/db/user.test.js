@@ -4,6 +4,7 @@ const { User, Client, ClientPermission } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')
 const randomstring = require('randomstring')
+const { getDefaultClientPermissions } = require('../../src/helpers/getDefaultClientPermissions')
 
 describe('User', () => {
   it('Create', async () => {
@@ -24,16 +25,8 @@ describe('User', () => {
     }
 
     {
-      const entities = ['project', 'apiToken']
-      const actions = ['Create', 'Read', 'Update', 'Delete']
       const { id, clientId, ...rest } = clientPermission
-      entities.forEach(entity => {
-        actions.forEach(action => {
-          assert.equal(rest[`${entity}${action}`], true)
-          delete rest[`${entity}${action}`]
-        })
-      })
-      assert.deepEqual(rest, { userRead: true, userOfProjectCreate: true })
+      assert.deepEqual(rest, getDefaultClientPermissions('user'))
     }
   })
 })

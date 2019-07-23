@@ -70,6 +70,7 @@ describe('All tests', () => {
   describe('User', () => {
     require('./users/get-users.test')
     require('./users/post-user.test')
+    require('./users/get-users-of-project.test')
   })
 
   after(async () => {

@@ -34,6 +34,18 @@ class ApiUsers {
     })
     return createdUser
   }
+
+  async getUsersOfProject(projectId) {
+    const projectPermissions = await ProjectPermission.find({ projectId }, { clientId: true })
+    const clients = await Client.find(
+      {
+        $or: projectPermissions.map(item => ({ type: 'user', _id: item.clientId })),
+      },
+      { clientSourceId: true }
+    )
+    if (!clients.length) return []
+    return await User.find({ $or: clients.map(item => ({ _id: item.clientSourceId })) }, { login: true })
+  }
 }
 
 module.exports = { apiUsers: new ApiUsers() }

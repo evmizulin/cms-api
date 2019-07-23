@@ -46,6 +46,10 @@ describe('Check project id', () => {
       desc: 'POST user to project',
       method: id => request(app).post(`/projects/${id}/users`),
     },
+    {
+      desc: 'GET users of project',
+      method: id => request(app).get(`/projects/${id}/users`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

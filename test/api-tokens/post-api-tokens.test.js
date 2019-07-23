@@ -8,6 +8,7 @@ const { getAuth } = require('../helpers/getAuth')
 const randomstring = require('randomstring')
 const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
+const { getDefaultProjectPermissions } = require('../../src/helpers/getDefaultProjectPermissions')
 
 let auth
 let project
@@ -71,19 +72,9 @@ describe('POST /api-tokens', () => {
     }
 
     {
-      const actions = [
-        { entity: 'project', actions: ['Read', 'Update', 'Delete'] },
-        { entity: 'apiToken', actions: ['Create', 'Read', 'Update', 'Delete'] },
-      ]
       const { id, projectId, clientId, ...rest } = projectPermission
-      actions.forEach(({ entity, actions }) => {
-        actions.forEach(action => {
-          assert.equal(rest[`${entity}${action}`], false)
-          delete rest[`${entity}${action}`]
-        })
-      })
       assert.equal(projectId.toString(), project.project.id.toString())
-      assert.deepEqual(rest, { userOfProjectCreate: false })
+      assert.deepEqual(rest, getDefaultProjectPermissions('app'))
     }
 
     {
