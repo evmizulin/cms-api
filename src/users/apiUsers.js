@@ -55,6 +55,18 @@ class ApiUsers {
     )
     await ProjectPermission.remove(projectPermissions.id)
   }
+
+  async getPermissions(projectId, userId) {
+    const client = await Client.findOne({ type: 'user', clientSourceId: userId })
+    const projectPermissions = await ProjectPermission.findOne(
+      { clientId: client.id, projectId },
+      { clientId: false, _id: false }
+    )
+    return {
+      userId,
+      ...projectPermissions,
+    }
+  }
 }
 
 module.exports = { apiUsers: new ApiUsers() }

@@ -6,26 +6,37 @@ const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 
-describe('DELETE /projects/${id}/users/${id}', () => {
+describe('Check userId permission', () => {
   let auth
   let user
   let project
   let userProjectPermissions
+
+  const routes = [
+    {
+      desc: 'DELETE user from project',
+      method: (projectId, userId) => request(app).delete(`/projects/${projectId}/users/${userId}`),
+    },
+    {
+      desc: 'GET user permissions',
+      method: (projectId, userId) => request(app).get(`/projects/${projectId}/users/${userId}/permissions`),
+    },
+  ]
 
   before(async () => {
     auth = await getAuth()
     user = await getAuth()
     project = await getProject()
     userProjectPermissions = await getProjectPermission(auth, project)
-    await getProjectPermission(user, project)
   })
 
-  it('should return 200', done => {
-    request(app)
-      .delete(`/projects/${project.project.id}/users/${user.user.id}`)
-      .set('AccessToken', auth.accessToken.token)
-      .expect(200)
-      .end(done)
+  routes.forEach(({ desc, method }) => {
+    it(`${desc} should return 404`, done => {
+      method(project.project.id, user.user.id)
+        .set('AccessToken', auth.accessToken.token)
+        .expect(404)
+        .end(done)
+    })
   })
 
   after(async () => {

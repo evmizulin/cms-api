@@ -68,10 +68,13 @@ describe('All tests', () => {
   })
 
   describe('User', () => {
+    require('./users/all-user-id.test')
+    require('./users/all-user-id-permissions.test')
     require('./users/get-users.test')
     require('./users/post-user.test')
     require('./users/get-users-of-project.test')
     require('./users/delete-user-of-project.test')
+    require('./users/get-user-permissions.test')
   })
 
   after(async () => {

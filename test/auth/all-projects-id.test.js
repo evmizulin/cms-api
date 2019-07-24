@@ -54,6 +54,10 @@ describe('Check project id', () => {
       desc: 'DELETE users of project',
       method: id => request(app).delete(`/projects/${id}/users/${id}`),
     },
+    {
+      desc: 'GET permissions of user',
+      method: id => request(app).get(`/projects/${id}/users/${id}/permissions`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

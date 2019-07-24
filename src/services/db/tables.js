@@ -42,6 +42,7 @@ const ProjectPermission = new Schema({
   userOfProjectCreate: Boolean,
   userOfProjectRead: Boolean,
   userOfProjectDelete: Boolean,
+  permissionsRead: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -58,6 +59,7 @@ const ClientPermission = new Schema({
   userOfProjectCreate: Boolean,
   userOfProjectRead: Boolean,
   userOfProjectDelete: Boolean,
+  permissionsRead: Boolean,
 })
 
 const Client = new Schema({

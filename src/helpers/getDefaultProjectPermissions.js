@@ -11,6 +11,7 @@ const getDefaultProjectPermissions = clientType => {
       userOfProjectCreate: false,
       userOfProjectRead: false,
       userOfProjectDelete: false,
+      permissionsRead: false,
     },
     user: {
       projectRead: true,
@@ -23,6 +24,7 @@ const getDefaultProjectPermissions = clientType => {
       userOfProjectCreate: true,
       userOfProjectRead: true,
       userOfProjectDelete: true,
+      permissionsRead: true,
     },
   }
   return MAP[clientType]

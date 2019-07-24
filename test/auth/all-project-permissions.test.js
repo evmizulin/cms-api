@@ -65,6 +65,11 @@ describe('Check project permissions', () => {
       method: (...props) => request(app).delete(...props),
       route: () => `/projects/${project.project.id}/users/${project.project.id}`,
     },
+    {
+      desc: 'GET permissions of user',
+      method: (...props) => request(app).get(...props),
+      route: () => `/projects/${project.project.id}/users/${project.project.id}/permissions`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {
