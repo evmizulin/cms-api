@@ -19,6 +19,8 @@ const setUsersRoutes = app => {
     res.status(OK).send(users)
   })
 
+  app.options('/projects/:projectId/users', cors(allowAll))
+
   app.post(
     '/projects/:projectId/users',
     cors(allowAll),
@@ -46,6 +48,8 @@ const setUsersRoutes = app => {
       res.status(OK).send(users)
     }
   )
+
+  app.options('/projects/:projectId/users/:userId', cors(allowAll))
 
   app.delete(
     '/projects/:projectId/users/:userId',
