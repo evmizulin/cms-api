@@ -12,7 +12,7 @@ let project
 let projectPermission
 let apiToken
 
-describe('DELETE /api-tokens/${id}', () => {
+describe('DELETE /projects/${id}/api-tokens/${id}', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()

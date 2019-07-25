@@ -8,7 +8,7 @@ const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 const { getApiToken } = require('../helpers/getApiToken')
 
-describe('GET /api-tokens', () => {
+describe('GET /projects/${id}/api-tokens', () => {
   describe('Empty array', () => {
     let auth
     let project

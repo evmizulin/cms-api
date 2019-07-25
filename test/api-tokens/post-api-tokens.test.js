@@ -16,7 +16,7 @@ let userProjectPermission
 let resApiToken
 const reqApiToken = { name: randomstring.generate() }
 
-describe('POST /api-tokens', () => {
+describe('POST /projects/${id}/api-tokens', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()

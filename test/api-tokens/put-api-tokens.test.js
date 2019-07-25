@@ -14,7 +14,7 @@ let userProjectPermission
 let apiToken
 let projectPermission
 
-describe('PUT /api-tokens/${id}', () => {
+describe('PUT /projects/${id}/api-tokens/${id}', () => {
   before(async () => {
     auth = await getAuth()
     project = await getProject()
