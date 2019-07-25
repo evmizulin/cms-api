@@ -10,10 +10,9 @@ if (!IS_TEST && !IS_DEV && !IS_PROD) {
 
 module.exports = {
   config: {
-    isProd: IS_PROD,
-    isDev: IS_DEV,
-    isTest: IS_TEST,
     env: process.env.NODE_ENV,
+    shouldStartServer: !IS_TEST,
+    isCookieSecure: IS_PROD,
     email: config.email,
     sendMails: IS_PROD,
     logsTo: IS_DEV ? 'console' : IS_TEST ? 'no' : 'file',

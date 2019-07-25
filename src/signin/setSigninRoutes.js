@@ -12,7 +12,7 @@ const setSigninRoutes = app => {
     const apiResp = new ApiResp()
     res
       .status(apiResp.code)
-      .set('Set-Cookie', `accessToken=${accessToken};${config.isProd ? ' Secure;' : ''} HttpOnly`)
+      .set('Set-Cookie', `accessToken=${accessToken};${config.isCookieSecure ? ' Secure;' : ''} HttpOnly`)
       .send(apiResp.body)
   })
 }

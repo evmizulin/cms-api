@@ -68,7 +68,7 @@ app.use(cors(allowAll), (req, res) => {
   res.status(apiError.code).send(apiError.body)
 })
 
-if (!config.isTest) {
+if (config.shouldStartServer) {
   app.listen(config.apiServerPort, config.apiServerHost, () => {
     // eslint-disable-next-line no-console
     console.log(`${new Date().toISOString()} listening on ${config.apiServerHost}:${config.apiServerPort}`)
