@@ -4,7 +4,6 @@ const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { extractProjectId } = require('../auth/extractProjectId')
 const { apiUsers } = require('./apiUsers')
-const { OK } = require('http-status-codes')
 const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
 const { extractUserId } = require('../users/extractUserId')
 const { checkUserIdPermissions } = require('../users/checkUserIdPermissions')
@@ -15,8 +14,8 @@ const setUsersRoutes = app => {
 
   app.get('/users', cors(allowAll), extractClientId, checkClientPermission('userRead'), async (req, res) => {
     const { login } = req.query
-    const users = await apiUsers.search(login)
-    res.status(OK).send(users)
+    const apiResp = new ApiResp(await apiUsers.search(login))
+    res.status(apiResp.code).send(apiResp.body)
   })
 
   app.options('/projects/:projectId/users', cors(allowAll))
@@ -30,8 +29,8 @@ const setUsersRoutes = app => {
     checkProjectPermissions('userOfProjectCreate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
-      const user = await apiUsers.addUserToProject(projectId, req.body)
-      res.status(OK).send(user)
+      const apiResp = new ApiResp(await apiUsers.addUserToProject(projectId, req.body))
+      res.status(apiResp.code).send(apiResp.body)
     }
   )
 
@@ -44,8 +43,8 @@ const setUsersRoutes = app => {
     checkProjectPermissions('userOfProjectRead'),
     async (req, res) => {
       const { projectId } = req.extractedProps
-      const users = await apiUsers.getUsersOfProject(projectId)
-      res.status(OK).send(users)
+      const apiResp = new ApiResp(await apiUsers.getUsersOfProject(projectId))
+      res.status(apiResp.code).send(apiResp.body)
     }
   )
 
@@ -63,7 +62,7 @@ const setUsersRoutes = app => {
     async (req, res) => {
       const { projectId, userId } = req.extractedProps
       await apiUsers.deleteUserOfProject(projectId, userId)
-      const apiResp = new ApiResp(OK)
+      const apiResp = new ApiResp()
       res.status(apiResp.code).send(apiResp.body)
     }
   )
@@ -81,8 +80,8 @@ const setUsersRoutes = app => {
     checkUserIdPermissions,
     async (req, res) => {
       const { projectId, userId } = req.extractedProps
-      const permissions = await apiUsers.getPermissions(projectId, userId)
-      res.status(OK).send(permissions)
+      const apiResp = new ApiResp(await apiUsers.getPermissions(projectId, userId))
+      res.status(apiResp.code).send(apiResp.body)
     }
   )
 
@@ -97,8 +96,8 @@ const setUsersRoutes = app => {
     checkUserIdPermissions,
     async (req, res) => {
       const { projectId, userId } = req.extractedProps
-      const permissions = await apiUsers.updatePermissions(projectId, userId, req.body)
-      res.status(OK).send(permissions)
+      const apiResp = new ApiResp(await apiUsers.updatePermissions(projectId, userId, req.body))
+      res.status(apiResp.code).send(apiResp.body)
     }
   )
 }

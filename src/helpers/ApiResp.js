@@ -1,9 +1,10 @@
 const { getStatusText } = require('http-status-codes')
+const { OK } = require('http-status-codes')
 
 class ApiResp {
-  constructor(code, message = null) {
-    this.code = code
-    this.body = { message: message || getStatusText(code) }
+  constructor(body = null) {
+    this.code = OK
+    this.body = body || { message: getStatusText(OK) }
   }
 }
 
