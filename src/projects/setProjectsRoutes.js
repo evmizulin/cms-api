@@ -1,6 +1,6 @@
 const cors = require('cors')
 const { apiProjects } = require('./apiProjects')
-const { allowAll } = require('../helpers/corsSettings')
+const { allowMe } = require('../helpers/corsSettings')
 const { ApiResp } = require('../helpers/ApiResp')
 const { extractProjectId } = require('../auth/extractProjectId')
 const { extractClientId } = require('../auth/extractClientId')
@@ -8,11 +8,11 @@ const { checkClientPermission } = require('../auth/checkClientPermission')
 const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
 
 const setProjectsRoutes = app => {
-  app.options('/projects', cors(allowAll))
+  app.options('/projects', cors(allowMe))
 
   app.get(
     '/projects',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('projectRead'),
     async (req, res) => {
@@ -22,11 +22,11 @@ const setProjectsRoutes = app => {
     }
   )
 
-  app.options('/projects/:projectId/image.png', cors(allowAll))
+  app.options('/projects/:projectId/image.png', cors(allowMe))
 
   app.get(
     '/projects/:projectId/image.png',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('projectRead'),
     extractProjectId,
@@ -44,7 +44,7 @@ const setProjectsRoutes = app => {
 
   app.post(
     '/projects',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('projectCreate'),
     async (req, res) => {
@@ -54,11 +54,11 @@ const setProjectsRoutes = app => {
     }
   )
 
-  app.options('/projects/:projectId', cors(allowAll))
+  app.options('/projects/:projectId', cors(allowMe))
 
   app.put(
     '/projects/:projectId',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('projectUpdate'),
     extractProjectId,
@@ -72,7 +72,7 @@ const setProjectsRoutes = app => {
 
   app.delete(
     '/projects/:projectId',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('projectDelete'),
     extractProjectId,

@@ -1,6 +1,6 @@
 /*global describe, it, before, after*/
 
-const request = require('supertest')
+const { request } = require('../helpers/request')
 const { app } = require('../../src/index')
 const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')
@@ -17,7 +17,7 @@ describe('Check project permissions', () => {
   const routes = [
     {
       desc: 'GET projects image',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request(app).get(...props),
       route: () => `/projects/${project.project.id}/image.png`,
     },
     {
@@ -52,7 +52,7 @@ describe('Check project permissions', () => {
     },
     {
       desc: 'POST user to project',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request(app).post(...props),
       route: () => `/projects/${project.project.id}/users`,
     },
     {

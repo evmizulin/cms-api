@@ -1,5 +1,5 @@
 const cors = require('cors')
-const { allowAll } = require('../helpers/corsSettings')
+const { allowMe } = require('../helpers/corsSettings')
 const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { extractProjectId } = require('../auth/extractProjectId')
@@ -10,19 +10,19 @@ const { checkUserIdPermissions } = require('../users/checkUserIdPermissions')
 const { ApiResp } = require('../helpers/ApiResp')
 
 const setUsersRoutes = app => {
-  app.options('/users', cors(allowAll))
+  app.options('/users', cors(allowMe))
 
-  app.get('/users', cors(allowAll), extractClientId, checkClientPermission('userRead'), async (req, res) => {
+  app.get('/users', cors(allowMe), extractClientId, checkClientPermission('userRead'), async (req, res) => {
     const { login } = req.query
     const apiResp = new ApiResp(await apiUsers.search(login))
     res.status(apiResp.code).send(apiResp.body)
   })
 
-  app.options('/projects/:projectId/users', cors(allowAll))
+  app.options('/projects/:projectId/users', cors(allowMe))
 
   app.post(
     '/projects/:projectId/users',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('userOfProjectCreate'),
     extractProjectId,
@@ -36,7 +36,7 @@ const setUsersRoutes = app => {
 
   app.get(
     '/projects/:projectId/users',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('userOfProjectRead'),
     extractProjectId,
@@ -48,11 +48,11 @@ const setUsersRoutes = app => {
     }
   )
 
-  app.options('/projects/:projectId/users/:userId', cors(allowAll))
+  app.options('/projects/:projectId/users/:userId', cors(allowMe))
 
   app.delete(
     '/projects/:projectId/users/:userId',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('userOfProjectDelete'),
     extractProjectId,
@@ -67,11 +67,11 @@ const setUsersRoutes = app => {
     }
   )
 
-  app.options('/projects/:projectId/users/:userId/permissions', cors(allowAll))
+  app.options('/projects/:projectId/users/:userId/permissions', cors(allowMe))
 
   app.get(
     '/projects/:projectId/users/:userId/permissions',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('permissionsRead'),
     extractProjectId,
@@ -87,7 +87,7 @@ const setUsersRoutes = app => {
 
   app.put(
     '/projects/:projectId/users/:userId/permissions',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('permissionsUpdate'),
     extractProjectId,

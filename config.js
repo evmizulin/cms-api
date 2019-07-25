@@ -4,6 +4,7 @@ module.exports = {
     devApiUrl: 'http://localhost:8080',
     prodApiUrl: 'https://api.anyjsoncms.com',
     devAppUrl: 'http://localhost:3000',
+    testAppUrl: 'supertest-agent',
     prodAppUrl: 'https://anyjsoncms.com',
     devApiServerHost: 'localhost',
     prodApiServerHost: 'localhost',

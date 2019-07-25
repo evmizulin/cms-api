@@ -1,6 +1,6 @@
 /*global describe, before, it, after*/
 
-const request = require('supertest')
+const { request } = require('../helpers/request')
 const { app } = require('../../src/index')
 const { User, AccessToken, Client } = require('../../src/services/db/Db')
 const hash = require('object-hash')

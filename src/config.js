@@ -17,7 +17,7 @@ module.exports = {
     email: config.email,
     sendMails: IS_PROD,
     logsTo: IS_DEV ? 'console' : IS_TEST ? 'no' : 'file',
-    appUrl: IS_PROD ? config.prodAppUrl : config.devAppUrl,
+    appUrl: IS_PROD ? config.prodAppUrl : IS_DEV ? config.devAppUrl : config.testAppUrl,
     apiUrl: IS_PROD ? config.prodApiUrl : config.devApiUrl,
     apiServerHost: IS_PROD ? config.prodApiServerHost : config.devApiServerHost,
     apiServerPort: IS_PROD ? config.prodApiServerPort : config.devApiServerPort,

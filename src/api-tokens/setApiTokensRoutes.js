@@ -1,5 +1,5 @@
 const cors = require('cors')
-const { allowAll } = require('../helpers/corsSettings')
+const { allowMe } = require('../helpers/corsSettings')
 const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { extractProjectId } = require('../auth/extractProjectId')
@@ -10,11 +10,11 @@ const { checkAppPermissions } = require('./checkAppPermissions')
 const { ApiResp } = require('../helpers/ApiResp')
 
 const setApiTokensRoutes = app => {
-  app.options('/projects/:projectId/api-tokens', cors(allowAll))
+  app.options('/projects/:projectId/api-tokens', cors(allowMe))
 
   app.post(
     '/projects/:projectId/api-tokens',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('apiTokenCreate'),
     extractProjectId,
@@ -28,7 +28,7 @@ const setApiTokensRoutes = app => {
 
   app.get(
     '/projects/:projectId/api-tokens',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('apiTokenRead'),
     extractProjectId,
@@ -40,11 +40,11 @@ const setApiTokensRoutes = app => {
     }
   )
 
-  app.options('/projects/:projectId/api-tokens/:appId', cors(allowAll))
+  app.options('/projects/:projectId/api-tokens/:appId', cors(allowMe))
 
   app.put(
     '/projects/:projectId/api-tokens/:appId',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('apiTokenUpdate'),
     extractProjectId,
@@ -60,7 +60,7 @@ const setApiTokensRoutes = app => {
 
   app.delete(
     '/projects/:projectId/api-tokens/:appId',
-    cors(allowAll),
+    cors(allowMe),
     extractClientId,
     checkClientPermission('apiTokenDelete'),
     extractProjectId,

@@ -1,6 +1,6 @@
 /*global describe, it, after, before*/
 
-const request = require('supertest')
+const { request } = require('../helpers/request')
 const { app } = require('../../src/index')
 const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')

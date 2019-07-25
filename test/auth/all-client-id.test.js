@@ -1,6 +1,6 @@
 /*global describe, it*/
 
-const request = require('supertest')
+const { request } = require('../helpers/request')
 const { app } = require('../../src/index')
 
 const fakeAccessToken = 'ad08ddacfb97b193a843e1cb7608c28cc2aa08b8'

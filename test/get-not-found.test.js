@@ -1,6 +1,6 @@
 /*global describe, it*/
 
-const request = require('supertest')
+const { request } = require('./helpers/request')
 const { app } = require('../src/index')
 
 describe('GET /not-found', () => {
