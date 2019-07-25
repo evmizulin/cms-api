@@ -71,6 +71,11 @@ describe('Check client permissions', () => {
       method: (...props) => request(app).get(...props),
       route: `/projects/${fakeId}/users/${fakeId}/permissions`,
     },
+    {
+      desc: 'PUT permissions of user',
+      method: (...props) => request(app).put(...props),
+      route: `/projects/${fakeId}/users/${fakeId}/permissions`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {

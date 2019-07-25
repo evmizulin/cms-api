@@ -58,6 +58,10 @@ describe('Check project id', () => {
       desc: 'GET permissions of user',
       method: id => request(app).get(`/projects/${id}/users/${id}/permissions`),
     },
+    {
+      desc: 'PUT permissions of user',
+      method: id => request(app).put(`/projects/${id}/users/${id}/permissions`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

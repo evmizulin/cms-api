@@ -23,6 +23,10 @@ describe('Check userId', () => {
       desc: 'GET user permissions',
       method: (projectId, userId) => request(app).get(`/projects/${projectId}/users/${userId}/permissions`),
     },
+    {
+      desc: 'PUT user permissions',
+      method: (projectId, userId) => request(app).put(`/projects/${projectId}/users/${userId}/permissions`),
+    },
   ]
 
   before(async () => {

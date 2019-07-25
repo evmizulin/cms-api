@@ -75,6 +75,7 @@ describe('All tests', () => {
     require('./users/get-users-of-project.test')
     require('./users/delete-user-of-project.test')
     require('./users/get-user-permissions.test')
+    require('./users/put-user-permisions.test')
   })
 
   after(async () => {

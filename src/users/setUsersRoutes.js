@@ -85,6 +85,22 @@ const setUsersRoutes = app => {
       res.status(OK).send(permissions)
     }
   )
+
+  app.put(
+    '/projects/:projectId/users/:userId/permissions',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('permissionsUpdate'),
+    extractProjectId,
+    checkProjectPermissions('permissionsUpdate'),
+    extractUserId,
+    checkUserIdPermissions,
+    async (req, res) => {
+      const { projectId, userId } = req.extractedProps
+      const permissions = await apiUsers.updatePermissions(projectId, userId, req.body)
+      res.status(OK).send(permissions)
+    }
+  )
 }
 
 module.exports = { setUsersRoutes }
