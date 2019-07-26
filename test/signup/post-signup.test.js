@@ -1,7 +1,6 @@
 /*global describe, before, it, after*/
 
 const { request } = require('../helpers/request')
-const { app } = require('../../src/index')
 const { User } = require('../../src/services/db/Db')
 const hash = require('object-hash')
 const assert = require('assert')

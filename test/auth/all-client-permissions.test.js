@@ -1,7 +1,6 @@
 /*global describe, it, before, after*/
 
 const { request } = require('../helpers/request')
-const { app } = require('../../src/index')
 const { getApiToken } = require('../helpers/getApiToken')
 
 let apiToken

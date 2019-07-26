@@ -1,12 +1,9 @@
 /*global describe, it, after, before*/
 
 const { request } = require('../helpers/request')
-const { app } = require('../../src/index')
-// const assert = require('assert')
 const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
-// const { ProjectPermission } = require('../../src/services/db/Db')
 
 describe('Check userId', () => {
   let auth

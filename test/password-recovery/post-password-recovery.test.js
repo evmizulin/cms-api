@@ -1,7 +1,6 @@
 /*global describe, it, after, before*/
 
 const { request } = require('../helpers/request')
-const { app } = require('../../src/index')
 const { getAuth } = require('../helpers/getAuth')
 const { PasswordRecoveryToken } = require('../../src/services/db/Db')
 const assert = require('assert')

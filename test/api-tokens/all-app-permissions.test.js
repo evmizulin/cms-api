@@ -1,7 +1,6 @@
 /*global describe, it, before, after*/
 
 const { request } = require('../helpers/request')
-const { app } = require('../../src/index')
 const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
