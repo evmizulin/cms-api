@@ -4,11 +4,21 @@ const routes = [
     methods: [
       {
         method: 'post',
-        tests: { extractClientId: true, extractProjectId: false, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: false,
+          checkProjectPermission: false,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: false, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: false,
+          checkProjectPermission: false,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -17,7 +27,12 @@ const routes = [
     methods: [
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -26,11 +41,21 @@ const routes = [
     methods: [
       {
         method: 'put',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'delete',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -39,11 +64,21 @@ const routes = [
     methods: [
       {
         method: 'post',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -52,11 +87,21 @@ const routes = [
     methods: [
       {
         method: 'put',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'delete',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -65,7 +110,12 @@ const routes = [
     methods: [
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: false, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: false,
+          checkProjectPermission: false,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -74,11 +124,21 @@ const routes = [
     methods: [
       {
         method: 'post',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -87,7 +147,12 @@ const routes = [
     methods: [
       {
         method: 'delete',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -96,11 +161,21 @@ const routes = [
     methods: [
       {
         method: 'get',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
       {
         method: 'put',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: true },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: true,
+        },
       },
     ],
   },
@@ -109,7 +184,12 @@ const routes = [
     methods: [
       {
         method: 'post',
-        tests: { extractClientId: true, extractProjectId: true, checkClientPermission: false },
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          checkClientPermission: false,
+        },
       },
     ],
   },

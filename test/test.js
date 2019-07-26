@@ -42,7 +42,7 @@ describe('All tests', () => {
     require('./auth/all-extract-client-id.test')
     require('./auth/all-check-client-permission.test')
     require('./auth/all-extract-projects-id.test')
-    require('./auth/all-project-permissions.test')
+    require('./auth/all-check-project-permission.test')
   })
 
   describe('ApiTokens', () => {
