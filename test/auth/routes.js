@@ -1,43 +1,61 @@
 const routes = [
   {
     route: () => '/projects',
-    methods: ['post', 'get'],
+    methods: [
+      { method: 'post', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'get', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: projectId => `/projects/${projectId}/image.png`,
-    methods: ['get'],
+    methods: [{ method: 'get', tests: { extractClientId: true, checkClientPermission: true } }],
   },
   {
     route: projectId => `/projects/${projectId}`,
-    methods: ['put', 'delete'],
+    methods: [
+      { method: 'put', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'delete', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: projectId => `/projects/${projectId}/api-tokens`,
-    methods: ['post', 'get'],
+    methods: [
+      { method: 'post', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'get', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: (projectId, tokenId) => `/projects/${projectId}/api-tokens/${tokenId}`,
-    methods: ['put', 'delete'],
+    methods: [
+      { method: 'put', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'delete', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: () => `/users`,
-    methods: ['get'],
+    methods: [{ method: 'get', tests: { extractClientId: true, checkClientPermission: true } }],
   },
   {
     route: projectId => `/projects/${projectId}/users`,
-    methods: ['post', 'get'],
+    methods: [
+      { method: 'post', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'get', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: (projectId, userId) => `/projects/${projectId}/users/${userId}`,
-    methods: ['delete'],
+    methods: [{ method: 'delete', tests: { extractClientId: true, checkClientPermission: true } }],
   },
   {
     route: (projectId, userId) => `/projects/${projectId}/users/${userId}/permissions`,
-    methods: ['get', 'put'],
+    methods: [
+      { method: 'get', tests: { extractClientId: true, checkClientPermission: true } },
+      { method: 'put', tests: { extractClientId: true, checkClientPermission: true } },
+    ],
   },
   {
     route: projectId => `/projects/${projectId}/files`,
-    methods: ['post'],
+    methods: [{ method: 'post', tests: { extractClientId: true, checkClientPermission: false } }],
   },
 ]
 
