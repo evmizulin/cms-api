@@ -18,7 +18,7 @@ describe('Check client permission', () => {
       it(`${method.toUpperCase()} ${route('${id}', '${id}')}`, done => {
         request[method](route(fakeId, fakeId))
           .set('AccessToken', apiToken.accessToken.token)
-          .expect(403)
+          .expect(403, { message: 'Client have no permission for this action' })
           .end(done)
       })
     })

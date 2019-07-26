@@ -19,10 +19,10 @@ describe('Extract projectId', () => {
         Promise.all([
           request[method](route(unvalidId, unvalidId))
             .set('AccessToken', auth.accessToken.token)
-            .expect(404),
+            .expect(404, { message: 'ProjectId is not valid' }),
           request[method](route(fakeId, fakeId))
             .set('AccessToken', auth.accessToken.token)
-            .expect(404),
+            .expect(404, { message: 'Project not found' }),
         ])
           .then(() => done())
           .catch(done)
