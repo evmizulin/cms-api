@@ -21,7 +21,7 @@ describe('POST /password-recovery/confirmation', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post(`/password-recovery/confirmation`)
       .send({ password: '123456', token: passwordRecoveryToken.token })
       .expect(200)
@@ -29,7 +29,7 @@ describe('POST /password-recovery/confirmation', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/password-recovery/confirmation`)
       .send({ l: 'l' })
       .expect(400)
@@ -37,7 +37,7 @@ describe('POST /password-recovery/confirmation', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/password-recovery`)
       .send({ password: '654321', token: '123' })
       .expect(400)

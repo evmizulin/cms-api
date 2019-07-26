@@ -15,15 +15,15 @@ describe('Check userId permission', () => {
   const routes = [
     {
       desc: 'DELETE user from project',
-      method: (projectId, userId) => request(app).delete(`/projects/${projectId}/users/${userId}`),
+      method: (projectId, userId) => request.delete(`/projects/${projectId}/users/${userId}`),
     },
     {
       desc: 'GET user permissions',
-      method: (projectId, userId) => request(app).get(`/projects/${projectId}/users/${userId}/permissions`),
+      method: (projectId, userId) => request.get(`/projects/${projectId}/users/${userId}/permissions`),
     },
     {
       desc: 'PUT user permissions',
-      method: (projectId, userId) => request(app).put(`/projects/${projectId}/users/${userId}/permissions`),
+      method: (projectId, userId) => request.put(`/projects/${projectId}/users/${userId}/permissions`),
     },
   ]
 

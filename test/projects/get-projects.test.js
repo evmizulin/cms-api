@@ -23,7 +23,7 @@ describe('GET /projects', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .get('/projects')
       .set('AccessToken', authOfProject.accessToken.token)
       .expect(200)
@@ -38,7 +38,7 @@ describe('GET /projects', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .get('/projects')
       .set('AccessToken', authOfNoProject.accessToken.token)
       .expect(200)

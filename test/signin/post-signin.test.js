@@ -28,7 +28,7 @@ describe('POST /signin', () => {
 
     it('should return 200', done => {
       const { login, password } = users[0]
-      request(app)
+      request
         .post('/signin')
         .send({ login, password })
         .expect(200)
@@ -68,7 +68,7 @@ describe('POST /signin', () => {
     })
 
     it('should return 400', done => {
-      request(app)
+      request
         .post('/signin')
         .send({ login: '1', password: '23' })
         .expect(400)
@@ -77,7 +77,7 @@ describe('POST /signin', () => {
     })
 
     it('should return 400', done => {
-      request(app)
+      request
         .post('/signin')
         .send({ login: 'signin-not-found', password: '123456' })
         .expect(400)
@@ -87,7 +87,7 @@ describe('POST /signin', () => {
 
     it('should return 400', done => {
       const { login, password } = users[1]
-      request(app)
+      request
         .post('/signin')
         .send({ login, password })
         .expect(400)

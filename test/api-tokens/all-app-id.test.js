@@ -22,11 +22,11 @@ describe('Check app id', () => {
   const routes = [
     {
       desc: 'PUT api token',
-      method: (projectId, appId) => request(app).put(`/projects/${projectId}/api-tokens/${appId}`),
+      method: (projectId, appId) => request.put(`/projects/${projectId}/api-tokens/${appId}`),
     },
     {
       desc: 'DELETE api token',
-      method: (projectId, appId) => request(app).delete(`/projects/${projectId}/api-tokens/${appId}`),
+      method: (projectId, appId) => request.delete(`/projects/${projectId}/api-tokens/${appId}`),
     },
   ]
 

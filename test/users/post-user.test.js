@@ -22,7 +22,7 @@ describe('POST /projects/${id}/users', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/users`)
       .set('AccessToken', auth.accessToken.token)
       .send({ id: user.user.id, login: user.user.login })
@@ -37,7 +37,7 @@ describe('POST /projects/${id}/users', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/users`)
       .set('AccessToken', auth.accessToken.token)
       .send({})
@@ -46,7 +46,7 @@ describe('POST /projects/${id}/users', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/users`)
       .set('AccessToken', auth.accessToken.token)
       .send({ id: user.user.id, login: `${user.user.login}a` })
@@ -55,7 +55,7 @@ describe('POST /projects/${id}/users', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/users`)
       .set('AccessToken', auth.accessToken.token)
       .send({ id: user.user.id, login: user.user.login })

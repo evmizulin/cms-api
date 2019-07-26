@@ -20,7 +20,7 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
       .send({})
@@ -29,7 +29,7 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
       .send({
@@ -43,7 +43,7 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
 
   it('should return 200', done => {
     const defaultPermissions = getDefaultProjectPermissions('user')
-    request(app)
+    request
       .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
       .send({
@@ -69,7 +69,7 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
   })
 
   it('should return 403', done => {
-    request(app)
+    request
       .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
       .send({})

@@ -20,7 +20,7 @@ describe('GET /projects/${id}/users/${id}/permissions', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .get(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
       .expect(200)

@@ -24,7 +24,7 @@ describe('POST /projects/${id}/api-tokens', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/api-tokens`)
       .set('AccessToken', auth.accessToken.token)
       .send(reqApiToken)
@@ -41,7 +41,7 @@ describe('POST /projects/${id}/api-tokens', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/api-tokens`)
       .set('AccessToken', auth.accessToken.token)
       .send({ n: 'post-projects-fail' })

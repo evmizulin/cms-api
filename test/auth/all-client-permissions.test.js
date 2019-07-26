@@ -13,67 +13,67 @@ describe('Check client permissions', () => {
   })
 
   const routes = [
-    { desc: 'POST projects', method: (...props) => request(app).post(...props), route: '/projects' },
-    { desc: 'GET projects', method: (...props) => request(app).get(...props), route: '/projects' },
+    { desc: 'POST projects', method: (...props) => request.post(...props), route: '/projects' },
+    { desc: 'GET projects', method: (...props) => request.get(...props), route: '/projects' },
     {
       desc: 'GET projects image',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: `/projects/${fakeId}/image.png`,
     },
-    { desc: 'PUT projects', method: (...props) => request(app).put(...props), route: `/projects/${fakeId}` },
+    { desc: 'PUT projects', method: (...props) => request.put(...props), route: `/projects/${fakeId}` },
     {
       desc: 'DELETE projects',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: `/projects/${fakeId}`,
     },
     {
       desc: 'POST api token',
-      method: (...props) => request(app).post(...props),
+      method: (...props) => request.post(...props),
       route: `/projects/${fakeId}/api-tokens`,
     },
     {
       desc: 'GET api token',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: `/projects/${fakeId}/api-tokens`,
     },
     {
       desc: 'PUT api token',
-      method: (...props) => request(app).put(...props),
+      method: (...props) => request.put(...props),
       route: `/projects/${fakeId}/api-tokens/${fakeId}`,
     },
     {
       desc: 'DELETE api token',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: `/projects/${fakeId}/api-tokens/${fakeId}`,
     },
     {
       desc: 'GET users',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: `/users`,
     },
     {
       desc: 'POST user to project',
-      method: (...props) => request(app).post(...props),
+      method: (...props) => request.post(...props),
       route: `/projects/${fakeId}/users`,
     },
     {
       desc: 'GET users of project',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: `/projects/${fakeId}/users`,
     },
     {
       desc: 'DELETE user of project',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: `/projects/${fakeId}/users/${fakeId}`,
     },
     {
       desc: 'GET permissions of user',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: `/projects/${fakeId}/users/${fakeId}/permissions`,
     },
     {
       desc: 'PUT permissions of user',
-      method: (...props) => request(app).put(...props),
+      method: (...props) => request.put(...props),
       route: `/projects/${fakeId}/users/${fakeId}/permissions`,
     },
   ]

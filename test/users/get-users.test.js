@@ -14,7 +14,7 @@ describe('GET /users', () => {
     })
 
     it('should return 200', done => {
-      request(app)
+      request
         .get(`/users`)
         .set('AccessToken', auth.accessToken.token)
         .expect(200)
@@ -39,7 +39,7 @@ describe('GET /users', () => {
     })
 
     it('should return 200', done => {
-      request(app)
+      request
         .get(`/users?login=${user.user.login.slice(1, -1)}`)
         .set('AccessToken', auth.accessToken.token)
         .expect(200)

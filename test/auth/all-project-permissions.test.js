@@ -17,67 +17,67 @@ describe('Check project permissions', () => {
   const routes = [
     {
       desc: 'GET projects image',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: () => `/projects/${project.project.id}/image.png`,
     },
     {
       desc: 'PUT projects',
-      method: (...props) => request(app).put(...props),
+      method: (...props) => request.put(...props),
       route: () => `/projects/${project.project.id}`,
     },
     {
       desc: 'DELETE projects',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: () => `/projects/${project.project.id}`,
     },
     {
       desc: 'POST api tokens',
-      method: (...props) => request(app).post(...props),
+      method: (...props) => request.post(...props),
       route: () => `/projects/${project.project.id}/api-tokens`,
     },
     {
       desc: 'GET api tokens',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: () => `/projects/${project.project.id}/api-tokens`,
     },
     {
       desc: 'PUT api tokens',
-      method: (...props) => request(app).put(...props),
+      method: (...props) => request.put(...props),
       route: () => `/projects/${project.project.id}/api-tokens/${project.project.id}`,
     },
     {
       desc: 'DELETE api tokens',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: () => `/projects/${project.project.id}/api-tokens/${project.project.id}`,
     },
     {
       desc: 'POST user to project',
-      method: (...props) => request(app).post(...props),
+      method: (...props) => request.post(...props),
       route: () => `/projects/${project.project.id}/users`,
     },
     {
       desc: 'GET users of project',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: () => `/projects/${project.project.id}/users`,
     },
     {
       desc: 'DELETE user of project',
-      method: (...props) => request(app).delete(...props),
+      method: (...props) => request.delete(...props),
       route: () => `/projects/${project.project.id}/users/${project.project.id}`,
     },
     {
       desc: 'GET permissions of user',
-      method: (...props) => request(app).get(...props),
+      method: (...props) => request.get(...props),
       route: () => `/projects/${project.project.id}/users/${project.project.id}/permissions`,
     },
     {
       desc: 'PUT permissions of user',
-      method: (...props) => request(app).put(...props),
+      method: (...props) => request.put(...props),
       route: () => `/projects/${project.project.id}/users/${project.project.id}/permissions`,
     },
     {
       desc: 'POST file',
-      method: (...props) => request(app).post(...props),
+      method: (...props) => request.post(...props),
       route: () => `/projects/${project.project.id}/files`,
     },
   ]

@@ -21,7 +21,7 @@ describe('DELETE /projects/${id}/users/${id}', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .delete(`/projects/${project.project.id}/users/${user.user.id}`)
       .set('AccessToken', auth.accessToken.token)
       .expect(200)

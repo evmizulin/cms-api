@@ -5,7 +5,7 @@ const { app } = require('../src/index')
 
 describe('GET /not-found', () => {
   it('should return 404', done => {
-    request(app)
+    request
       .get('/not-found')
       .expect(404, { message: 'Not Found' })
       .end(done)

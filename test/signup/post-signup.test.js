@@ -26,7 +26,7 @@ describe('POST /signup', () => {
   describe('Success - insert', () => {
     it('should return 200', done => {
       const { login, password } = users[0]
-      request(app)
+      request
         .post('/signup')
         .send({ login, password })
         .expect(200)
@@ -53,7 +53,7 @@ describe('POST /signup', () => {
 
     it('should return 200', done => {
       const { login, password } = users[1]
-      request(app)
+      request
         .post('/signup')
         .send({ login, password: `${password}1` })
         .expect(200)
@@ -74,7 +74,7 @@ describe('POST /signup', () => {
 
   describe('Unvalid user', () => {
     it('should return 400', done => {
-      request(app)
+      request
         .post('/signup')
         .send({ login: '1', password: '1' })
         .expect(400)
@@ -91,7 +91,7 @@ describe('POST /signup', () => {
 
     it('should return 400', done => {
       const { login, password } = users[2]
-      request(app)
+      request
         .post('/signup')
         .send({ login, password })
         .expect(400)

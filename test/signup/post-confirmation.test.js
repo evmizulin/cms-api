@@ -23,7 +23,7 @@ describe('POST /signup/confirmation', () => {
 
   it('should return 200', done => {
     const { login } = users[0]
-    request(app)
+    request
       .post('/signup/confirmation')
       .send({ confirmationToken: encrypter.encrypt(login) })
       .expect(200)
@@ -32,7 +32,7 @@ describe('POST /signup/confirmation', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post('/signup/confirmation')
       .send({ a: '1' })
       .expect(400)
@@ -41,7 +41,7 @@ describe('POST /signup/confirmation', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post('/signup/confirmation')
       .send({ confirmationToken: '1_asd' })
       .expect(400)
@@ -50,7 +50,7 @@ describe('POST /signup/confirmation', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post('/signup/confirmation')
       .send({ confirmationToken: encrypter.encrypt('wrong-login') })
       .expect(400)

@@ -21,7 +21,7 @@ describe('GET /projects/${id}/image.png', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .get(`/projects/${project.project.id}/image.png`)
       .set('AccessToken', auth.accessToken.token)
       .expect(200)

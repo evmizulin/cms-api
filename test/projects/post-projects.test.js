@@ -18,7 +18,7 @@ describe('POST /projects', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post('/projects')
       .set('AccessToken', auth.accessToken.token)
       .send({ name: sendedProject.name })
@@ -34,7 +34,7 @@ describe('POST /projects', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post('/projects')
       .set('AccessToken', auth.accessToken.token)
       .send({ id: 'abc', name: 'post-projects-fail' })

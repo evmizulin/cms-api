@@ -20,7 +20,7 @@ describe('POST /projects/${id}/files', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/files`)
       .attach('file', `${__dirname}/img.jpg`)
       .set('AccessToken', auth.accessToken.token)
@@ -37,7 +37,7 @@ describe('POST /projects/${id}/files', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/projects/${project.project.id}/files`)
       .set('AccessToken', auth.accessToken.token)
       .send({})

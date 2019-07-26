@@ -24,7 +24,7 @@ describe('PUT /projects/${id}/api-tokens/${id}', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .put(`/projects/${project.project.id}/api-tokens/${apiToken.app.id}`)
       .set('AccessToken', auth.accessToken.token)
       .send({ id: apiToken.app.id, name: 'api-token-name' })
@@ -40,7 +40,7 @@ describe('PUT /projects/${id}/api-tokens/${id}', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .put(`/projects/${project.project.id}/api-tokens/${apiToken.app.id}`)
       .set('AccessToken', auth.accessToken.token)
       .send({ id: '5d14c75f2d32f92ae2cc831b', name: 'put-project-fail' })

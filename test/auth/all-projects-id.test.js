@@ -16,55 +16,55 @@ describe('Check project id', () => {
   const routes = [
     {
       desc: 'GET projects image',
-      method: id => request(app).get(`/projects/${id}/image.png`),
+      method: id => request.get(`/projects/${id}/image.png`),
     },
     {
       desc: 'PUT projects',
-      method: id => request(app).put(`/projects/${id}`),
+      method: id => request.put(`/projects/${id}`),
     },
     {
       desc: 'DELETE projects',
-      method: id => request(app).delete(`/projects/${id}`),
+      method: id => request.delete(`/projects/${id}`),
     },
     {
       desc: 'POST api tokens',
-      method: id => request(app).post(`/projects/${id}/api-tokens`),
+      method: id => request.post(`/projects/${id}/api-tokens`),
     },
     {
       desc: 'GET api tokens',
-      method: id => request(app).get(`/projects/${id}/api-tokens`),
+      method: id => request.get(`/projects/${id}/api-tokens`),
     },
     {
       desc: 'PUT api tokens',
-      method: id => request(app).put(`/projects/${id}/api-tokens/${id}`),
+      method: id => request.put(`/projects/${id}/api-tokens/${id}`),
     },
     {
       desc: 'DELETE api tokens',
-      method: id => request(app).delete(`/projects/${id}/api-tokens/${id}`),
+      method: id => request.delete(`/projects/${id}/api-tokens/${id}`),
     },
     {
       desc: 'POST user to project',
-      method: id => request(app).post(`/projects/${id}/users`),
+      method: id => request.post(`/projects/${id}/users`),
     },
     {
       desc: 'GET users of project',
-      method: id => request(app).get(`/projects/${id}/users`),
+      method: id => request.get(`/projects/${id}/users`),
     },
     {
       desc: 'DELETE users of project',
-      method: id => request(app).delete(`/projects/${id}/users/${id}`),
+      method: id => request.delete(`/projects/${id}/users/${id}`),
     },
     {
       desc: 'GET permissions of user',
-      method: id => request(app).get(`/projects/${id}/users/${id}/permissions`),
+      method: id => request.get(`/projects/${id}/users/${id}/permissions`),
     },
     {
       desc: 'PUT permissions of user',
-      method: id => request(app).put(`/projects/${id}/users/${id}/permissions`),
+      method: id => request.put(`/projects/${id}/users/${id}/permissions`),
     },
     {
       desc: 'POST file',
-      method: id => request(app).post(`/projects/${id}/files`),
+      method: id => request.post(`/projects/${id}/files`),
     },
   ]
 

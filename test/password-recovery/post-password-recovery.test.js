@@ -14,7 +14,7 @@ describe('POST /password-recovery', () => {
   })
 
   it('should return 200', done => {
-    request(app)
+    request
       .post(`/password-recovery`)
       .send({ login: auth.user.login })
       .expect(200)
@@ -22,7 +22,7 @@ describe('POST /password-recovery', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/password-recovery`)
       .send({ l: auth.user.login })
       .expect(400)
@@ -30,7 +30,7 @@ describe('POST /password-recovery', () => {
   })
 
   it('should return 400', done => {
-    request(app)
+    request
       .post(`/password-recovery`)
       .send({ login: 'a@a.a' })
       .expect(400)
