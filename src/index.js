@@ -17,6 +17,7 @@ const { setProjectsRoutes } = require('./projects/setProjectsRoutes')
 const { setSignupRoutes } = require('./signup/setSignupRoutes')
 const { setApiTokensRoutes } = require('./api-tokens/setApiTokensRoutes')
 const { setUsersRoutes } = require('./users/setUsersRoutes')
+const { setFilesRoutes } = require('./files/setFilesRoutes')
 const { config } = require('./config')
 
 const app = express()
@@ -52,6 +53,7 @@ setSigninRoutes(app)
 setApiTokensRoutes(app)
 setPasswordRecoveryRoutes(app)
 setUsersRoutes(app)
+setFilesRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {

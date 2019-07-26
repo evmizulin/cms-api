@@ -71,6 +71,11 @@ describe('Check AccessToken', () => {
       method: (...props) => request(app).put(...props),
       route: `/projects/${fakeId}/users/${fakeId}/permissions`,
     },
+    {
+      desc: 'POST file',
+      method: (...props) => request(app).post(...props),
+      route: `/projects/${fakeId}/files`,
+    },
   ]
 
   routes.forEach(({ desc, method, route }) => {

@@ -1,7 +1,7 @@
-// const { Model, File, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
+// const { Model, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
-const { PasswordRecoveryToken } = require('./tables')
+const { PasswordRecoveryToken, File } = require('./tables')
 const { getDefaultClientPermissions } = require('../../helpers/getDefaultClientPermissions')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
@@ -103,18 +103,8 @@ module.exports = {
       return { ...res, ...JSON.parse(data), ...rest }
     },
   }),
-  File: new Db({
-    Model: File,
-    normToDb,
-    normFromDb: props => {
-      const res = {}
-      const { _id, __v, buffer, ...rest } = props.toObject()
-      if (_id) res.id = _id.toString()
-      if (buffer) res.buffer = props.buffer
-      return { ...res, ...rest }
-    },
-  }),
   */
+  File: new Db({ Model: File }),
   Project: new Db({ Model: Project }),
   ProjectImage: new Db({ Model: ProjectImage }),
   ProjectPermission: new Db({ Model: ProjectPermission }),

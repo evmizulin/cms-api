@@ -78,6 +78,10 @@ describe('All tests', () => {
     require('./users/put-user-permisions.test')
   })
 
+  describe('Files', () => {
+    require('./files/post-file.test')
+  })
+
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()
