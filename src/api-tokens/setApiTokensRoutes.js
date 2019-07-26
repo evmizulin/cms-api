@@ -3,7 +3,7 @@ const { allowMe } = require('../helpers/corsSettings')
 const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { extractProjectId } = require('../auth/extractProjectId')
-const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { checkProjectPermission } = require('../auth/checkProjectPermission')
 const { apiTokens } = require('./apiTokens')
 const { extractAppId } = require('./extractAppId')
 const { checkAppPermissions } = require('./checkAppPermissions')
@@ -18,7 +18,7 @@ const setApiTokensRoutes = app => {
     extractClientId,
     checkClientPermission('apiTokenCreate'),
     extractProjectId,
-    checkProjectPermissions('apiTokenCreate'),
+    checkProjectPermission('apiTokenCreate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(await apiTokens.postApiToken(projectId, req.body))
@@ -32,7 +32,7 @@ const setApiTokensRoutes = app => {
     extractClientId,
     checkClientPermission('apiTokenRead'),
     extractProjectId,
-    checkProjectPermissions('apiTokenRead'),
+    checkProjectPermission('apiTokenRead'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(await apiTokens.getApiTokens(projectId))
@@ -48,7 +48,7 @@ const setApiTokensRoutes = app => {
     extractClientId,
     checkClientPermission('apiTokenUpdate'),
     extractProjectId,
-    checkProjectPermissions('apiTokenUpdate'),
+    checkProjectPermission('apiTokenUpdate'),
     extractAppId,
     checkAppPermissions,
     async (req, res) => {
@@ -64,7 +64,7 @@ const setApiTokensRoutes = app => {
     extractClientId,
     checkClientPermission('apiTokenDelete'),
     extractProjectId,
-    checkProjectPermissions('apiTokenDelete'),
+    checkProjectPermission('apiTokenDelete'),
     extractAppId,
     checkAppPermissions,
     async (req, res) => {

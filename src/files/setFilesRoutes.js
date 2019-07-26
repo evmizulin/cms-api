@@ -7,7 +7,7 @@ const { allowAll } = require('../helpers/corsSettings')
 const { extractProjectId } = require('../auth/extractProjectId')
 const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
-const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { checkProjectPermission } = require('../auth/checkProjectPermission')
 const { ApiResp } = require('../helpers/ApiResp')
 
 const setFilesRoutes = app => {
@@ -19,7 +19,7 @@ const setFilesRoutes = app => {
     extractClientId,
     checkClientPermission('fileCreate'),
     extractProjectId,
-    checkProjectPermissions('fileCreate'),
+    checkProjectPermission('fileCreate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(

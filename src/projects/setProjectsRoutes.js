@@ -5,7 +5,7 @@ const { ApiResp } = require('../helpers/ApiResp')
 const { extractProjectId } = require('../auth/extractProjectId')
 const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
-const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { checkProjectPermission } = require('../auth/checkProjectPermission')
 
 const setProjectsRoutes = app => {
   app.options('/projects', cors(allowMe))
@@ -30,7 +30,7 @@ const setProjectsRoutes = app => {
     extractClientId,
     checkClientPermission('projectRead'),
     extractProjectId,
-    checkProjectPermissions('projectRead'),
+    checkProjectPermission('projectRead'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const image = await apiProjects.getProjectImage(projectId)
@@ -62,7 +62,7 @@ const setProjectsRoutes = app => {
     extractClientId,
     checkClientPermission('projectUpdate'),
     extractProjectId,
-    checkProjectPermissions('projectUpdate'),
+    checkProjectPermission('projectUpdate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(await apiProjects.putProject(projectId, req.body))
@@ -76,7 +76,7 @@ const setProjectsRoutes = app => {
     extractClientId,
     checkClientPermission('projectDelete'),
     extractProjectId,
-    checkProjectPermissions('projectDelete'),
+    checkProjectPermission('projectDelete'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       await apiProjects.deleteProject(projectId)

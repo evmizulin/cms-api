@@ -4,7 +4,7 @@ const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { extractProjectId } = require('../auth/extractProjectId')
 const { apiUsers } = require('./apiUsers')
-const { checkProjectPermissions } = require('../auth/checkProjectPermissions')
+const { checkProjectPermission } = require('../auth/checkProjectPermission')
 const { extractUserId } = require('../users/extractUserId')
 const { checkUserIdPermissions } = require('../users/checkUserIdPermissions')
 const { ApiResp } = require('../helpers/ApiResp')
@@ -26,7 +26,7 @@ const setUsersRoutes = app => {
     extractClientId,
     checkClientPermission('userOfProjectCreate'),
     extractProjectId,
-    checkProjectPermissions('userOfProjectCreate'),
+    checkProjectPermission('userOfProjectCreate'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(await apiUsers.addUserToProject(projectId, req.body))
@@ -40,7 +40,7 @@ const setUsersRoutes = app => {
     extractClientId,
     checkClientPermission('userOfProjectRead'),
     extractProjectId,
-    checkProjectPermissions('userOfProjectRead'),
+    checkProjectPermission('userOfProjectRead'),
     async (req, res) => {
       const { projectId } = req.extractedProps
       const apiResp = new ApiResp(await apiUsers.getUsersOfProject(projectId))
@@ -56,7 +56,7 @@ const setUsersRoutes = app => {
     extractClientId,
     checkClientPermission('userOfProjectDelete'),
     extractProjectId,
-    checkProjectPermissions('userOfProjectDelete'),
+    checkProjectPermission('userOfProjectDelete'),
     extractUserId,
     checkUserIdPermissions,
     async (req, res) => {
@@ -75,7 +75,7 @@ const setUsersRoutes = app => {
     extractClientId,
     checkClientPermission('permissionsRead'),
     extractProjectId,
-    checkProjectPermissions('permissionsRead'),
+    checkProjectPermission('permissionsRead'),
     extractUserId,
     checkUserIdPermissions,
     async (req, res) => {
@@ -91,7 +91,7 @@ const setUsersRoutes = app => {
     extractClientId,
     checkClientPermission('permissionsUpdate'),
     extractProjectId,
-    checkProjectPermissions('permissionsUpdate'),
+    checkProjectPermission('permissionsUpdate'),
     extractUserId,
     checkUserIdPermissions,
     async (req, res) => {

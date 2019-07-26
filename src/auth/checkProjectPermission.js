@@ -2,7 +2,7 @@ const { ApiError } = require('../helpers/ApiError')
 const { ProjectPermission } = require('../services/db/Db')
 const { FORBIDDEN, NOT_FOUND } = require('http-status-codes')
 
-const checkProjectPermissions = action => async (req, res, next) => {
+const checkProjectPermission = action => async (req, res, next) => {
   const { clientId, projectId } = req.extractedProps
 
   const projectPermission = await ProjectPermission.findOne({ clientId, projectId })
@@ -13,4 +13,4 @@ const checkProjectPermissions = action => async (req, res, next) => {
   next()
 }
 
-module.exports = { checkProjectPermissions }
+module.exports = { checkProjectPermission }
