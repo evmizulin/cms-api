@@ -8,7 +8,8 @@ const checkProjectPermission = action => async (req, res, next) => {
   const projectPermission = await ProjectPermission.findOne({ clientId, projectId })
 
   if (!projectPermission) throw new ApiError(NOT_FOUND, 'Project not found')
-  if (!projectPermission[action]) throw new ApiError(FORBIDDEN)
+  if (!projectPermission[action])
+    throw new ApiError(FORBIDDEN, 'Client have no permission for this action in this project')
 
   next()
 }
