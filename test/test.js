@@ -39,7 +39,7 @@ describe('All tests', () => {
   })
 
   describe('Auth', () => {
-    require('./auth/all-client-id.test')
+    require('./auth/all-extract-client-id.test')
     require('./auth/all-client-permissions.test')
     require('./auth/all-projects-id.test')
     require('./auth/all-project-permissions.test')
