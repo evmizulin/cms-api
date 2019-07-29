@@ -9,6 +9,8 @@ const { extractClientId } = require('../auth/extractClientId')
 const { checkClientPermission } = require('../auth/checkClientPermission')
 const { checkProjectPermission } = require('../auth/checkProjectPermission')
 const { ApiResp } = require('../helpers/ApiResp')
+const { extractFileId } = require('./extractFileId')
+const { checkFilePermission } = require('./checkFilePermission')
 
 const setFilesRoutes = app => {
   app.options('/projects/:projectId/files', cors(allowAll))
@@ -28,23 +30,28 @@ const setFilesRoutes = app => {
       res.status(apiResp.code).send(apiResp.body)
     }
   )
-  //
-  // app.options('/projects/:projectId/files/:fileId/:fileName', cors(allowAll))
-  //
-  // app.get(
-  //   '/projects/:projectId/files/:fileId/:fileName',
-  //   cors(allowAll),
-  //   checkAuth,
-  //   checkProjectAccess,
-  //   async (req, res) => {
-  //     const { projectId, fileId, fileName } = req.params
-  //     const file = await apiFiles.getFile(projectId, fileId, fileName)
-  //     res
-  //       .status(OK)
-  //       .set('Content-Type', file.mimetype)
-  //       .send(file.buffer)
-  //   }
-  // )
+
+  app.options('/projects/:projectId/files/:fileId/:fileName', cors(allowAll))
+
+  app.get(
+    '/projects/:projectId/files/:fileId/:fileName',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('fileRead'),
+    extractProjectId,
+    checkProjectPermission('fileRead'),
+    extractFileId,
+    checkFilePermission,
+    async (req, res) => {
+      const { fileId } = req.extractedProps
+      const file = await apiFiles.getFile(fileId)
+      const apiResp = new ApiResp(file.buffer)
+      res
+        .status(apiResp.code)
+        .set('Content-Type', file.mimetype)
+        .send(apiResp.body)
+    }
+  )
 }
 
 module.exports = { setFilesRoutes }

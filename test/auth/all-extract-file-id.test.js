@@ -4,25 +4,31 @@ const { request } = require('../helpers/request')
 const { getAuth } = require('../helpers/getAuth')
 const { routes } = require('./routes')
 const { unvalidId, routeDesc, routeParams } = require('./params')
+const { getProject } = require('../helpers/getProject')
+const { getProjectPermission } = require('../helpers/getProjectPermission')
 
-describe('Extract projectId', () => {
+describe('Extract fileId', () => {
   let auth
+  let project
+  let projectPermission
 
   before(async () => {
     auth = await getAuth()
+    project = await getProject()
+    projectPermission = await getProjectPermission(auth, project)
   })
 
   routes.forEach(({ route, methods }) => {
     methods.forEach(({ method, tests }) => {
-      if (!tests.extractProjectId) return
+      if (!tests.extractFileId) return
       it(`${method.toUpperCase()} ${route(routeDesc)}`, done => {
         Promise.all([
-          request[method](route({ ...routeParams, projectId: unvalidId }))
+          request[method](route({ ...routeParams, projectId: project.project.id, fileId: unvalidId }))
             .set('AccessToken', auth.accessToken.token)
-            .expect(404, { message: 'ProjectId is not valid' }),
-          request[method](route({ ...routeParams }))
+            .expect(404, { message: 'FileId is not valid' }),
+          request[method](route({ ...routeParams, projectId: project.project.id }))
             .set('AccessToken', auth.accessToken.token)
-            .expect(404, { message: 'Project not found' }),
+            .expect(404, { message: 'File not found' }),
         ])
           .then(() => done())
           .catch(done)
@@ -32,5 +38,7 @@ describe('Extract projectId', () => {
 
   after(async () => {
     await auth.remove()
+    await project.remove()
+    await projectPermission.remove()
   })
 })

@@ -43,6 +43,8 @@ describe('All tests', () => {
     require('./auth/all-check-client-permission.test')
     require('./auth/all-extract-projects-id.test')
     require('./auth/all-check-project-permission.test')
+    require('./auth/all-extract-file-id.test')
+    require('./auth/all-check-file-permission.test')
   })
 
   describe('ApiTokens', () => {
@@ -80,6 +82,7 @@ describe('All tests', () => {
 
   describe('Files', () => {
     require('./files/post-file.test')
+    require('./files/get-file.test')
   })
 
   after(async () => {

@@ -16,6 +16,7 @@ const getDefaultClientPermissions = clientType => {
       permissionsRead: false,
       permissionsUpdate: false,
       fileCreate: true,
+      fileRead: true,
     },
     user: {
       userRead: true,
@@ -33,6 +34,7 @@ const getDefaultClientPermissions = clientType => {
       permissionsRead: true,
       permissionsUpdate: true,
       fileCreate: true,
+      fileRead: true,
     },
   }
   return MAP[clientType]

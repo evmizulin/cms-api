@@ -6,7 +6,7 @@ const { getProject } = require('../helpers/getProject')
 const { ProjectPermission } = require('../../src/services/db/Db')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 const { routes } = require('./routes')
-const { fakeId } = require('./params')
+const { routeDesc, routeParams } = require('./params')
 
 describe('Check project permissions', () => {
   let auth
@@ -34,12 +34,12 @@ describe('Check project permissions', () => {
   routes.forEach(({ route, methods }) => {
     methods.forEach(({ method, tests }) => {
       if (!tests.checkProjectPermission) return
-      it(`${method.toUpperCase()} ${route('${id}', '${id}')}`, done => {
+      it(`${method.toUpperCase()} ${route(routeDesc)}`, done => {
         Promise.all([
-          request[method](route(project.project.id, fakeId))
+          request[method](route({ ...routeParams, projectId: project.project.id }))
             .set('AccessToken', auth.accessToken.token)
             .expect(404, { message: 'Project not found' }),
-          request[method](route(connectedProject.project.id, fakeId))
+          request[method](route({ ...routeParams, projectId: connectedProject.project.id }))
             .set('AccessToken', connectedAuth.accessToken.token)
             .expect(403, { message: 'Client have no permission for this action in this project' }),
         ])

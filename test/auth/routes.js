@@ -23,7 +23,7 @@ const routes = [
     ],
   },
   {
-    route: projectId => `/projects/${projectId}/image.png`,
+    route: ({ projectId }) => `/projects/${projectId}/image.png`,
     methods: [
       {
         method: 'get',
@@ -37,7 +37,7 @@ const routes = [
     ],
   },
   {
-    route: projectId => `/projects/${projectId}`,
+    route: ({ projectId }) => `/projects/${projectId}`,
     methods: [
       {
         method: 'put',
@@ -60,7 +60,7 @@ const routes = [
     ],
   },
   {
-    route: projectId => `/projects/${projectId}/api-tokens`,
+    route: ({ projectId }) => `/projects/${projectId}/api-tokens`,
     methods: [
       {
         method: 'post',
@@ -83,7 +83,7 @@ const routes = [
     ],
   },
   {
-    route: (projectId, tokenId) => `/projects/${projectId}/api-tokens/${tokenId}`,
+    route: ({ projectId, tokenId }) => `/projects/${projectId}/api-tokens/${tokenId}`,
     methods: [
       {
         method: 'put',
@@ -120,7 +120,7 @@ const routes = [
     ],
   },
   {
-    route: projectId => `/projects/${projectId}/users`,
+    route: ({ projectId }) => `/projects/${projectId}/users`,
     methods: [
       {
         method: 'post',
@@ -143,7 +143,7 @@ const routes = [
     ],
   },
   {
-    route: (projectId, userId) => `/projects/${projectId}/users/${userId}`,
+    route: ({ projectId, userId }) => `/projects/${projectId}/users/${userId}`,
     methods: [
       {
         method: 'delete',
@@ -157,7 +157,7 @@ const routes = [
     ],
   },
   {
-    route: (projectId, userId) => `/projects/${projectId}/users/${userId}/permissions`,
+    route: ({ projectId, userId }) => `/projects/${projectId}/users/${userId}/permissions`,
     methods: [
       {
         method: 'get',
@@ -180,7 +180,7 @@ const routes = [
     ],
   },
   {
-    route: projectId => `/projects/${projectId}/files`,
+    route: ({ projectId }) => `/projects/${projectId}/files`,
     methods: [
       {
         method: 'post',
@@ -189,6 +189,22 @@ const routes = [
           checkClientPermission: false,
           extractProjectId: true,
           checkProjectPermission: true,
+        },
+      },
+    ],
+  },
+  {
+    route: ({ projectId, fileId, fileName }) => `/projects/${projectId}/files/${fileId}/${fileName}`,
+    methods: [
+      {
+        method: 'get',
+        tests: {
+          extractClientId: true,
+          checkClientPermission: false,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          extractFileId: true,
+          checkFilePermission: true,
         },
       },
     ],

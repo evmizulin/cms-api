@@ -45,6 +45,7 @@ const ProjectPermission = new Schema({
   permissionsRead: Boolean,
   permissionsUpdate: Boolean,
   fileCreate: Boolean,
+  fileRead: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -64,6 +65,7 @@ const ClientPermission = new Schema({
   permissionsRead: Boolean,
   permissionsUpdate: Boolean,
   fileCreate: Boolean,
+  fileRead: Boolean,
 })
 
 const Client = new Schema({

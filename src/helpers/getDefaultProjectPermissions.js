@@ -14,6 +14,7 @@ const getDefaultProjectPermissions = clientType => {
       permissionsRead: false,
       permissionsUpdate: false,
       fileCreate: true,
+      fileRead: true,
     },
     user: {
       projectRead: true,
@@ -29,6 +30,7 @@ const getDefaultProjectPermissions = clientType => {
       permissionsRead: true,
       permissionsUpdate: true,
       fileCreate: true,
+      fileRead: true,
     },
   }
   return MAP[clientType]

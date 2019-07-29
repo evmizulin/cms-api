@@ -10,15 +10,9 @@ class ApiFiles {
     return { ...rest }
   }
 
-  // async getFile(projectId, fileId, fileName) {
-  //   const idValid = isIdValid(fileId)
-  //   if (!idValid) throw new ApiError('Unvalid id', NOT_FOUND)
-  //   const entity = await File.findById(fileId, '_id name projectId')
-  //   if (!entity || entity.name !== fileName || entity.projectId !== projectId)
-  //     throw new ApiError('File not found', NOT_FOUND)
-  //
-  //   return File.findById(fileId, '-projectId')
-  // }
+  async getFile(fileId) {
+    return File.findById(fileId, { _id: false, buffer: true, mimetype: true })
+  }
 }
 
 module.exports = { apiFiles: new ApiFiles() }

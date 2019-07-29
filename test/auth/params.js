@@ -1,5 +1,20 @@
+const fakeId = '5d14c75f2d32f92ae2cc831a'
+
 module.exports = {
-  fakeId: '5d14c75f2d32f92ae2cc831a',
   unvalidId: 'asd',
   fakeAccessToken: 'ad08ddacfb97b193a843e1cb7608c28cc2aa08b8',
+  routeDesc: {
+    projectId: '${id}',
+    userId: '${id}',
+    tokenId: '${id}',
+    fileId: '${id}',
+    fileName: '${fileName}',
+  },
+  routeParams: {
+    projectId: fakeId,
+    userId: fakeId,
+    tokenId: fakeId,
+    fileId: fakeId,
+    fileName: 'fileName.png',
+  },
 }
