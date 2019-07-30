@@ -6,7 +6,7 @@ describe('GET /not-found', () => {
   it('should return 404', done => {
     request
       .get('/not-found')
-      .expect(404, { message: 'Not Found' })
+      .expect(404, { message: 'Route is not found' })
       .end(done)
   })
 })

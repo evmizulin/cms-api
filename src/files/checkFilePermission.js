@@ -7,7 +7,7 @@ const checkFilePermission = async (req, res, next) => {
 
   const file = await File.findOne({ _id: fileId, projectId }, { _id: true })
 
-  if (!file) throw new ApiError(NOT_FOUND)
+  if (!file) throw new ApiError(NOT_FOUND, 'File not found')
 
   next()
 }

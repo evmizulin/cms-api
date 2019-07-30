@@ -66,7 +66,7 @@ app.use(cors(allowAll), (error, req, res, next) => {
 })
 
 app.use(cors(allowAll), (req, res) => {
-  const apiError = new ApiError(NOT_FOUND)
+  const apiError = new ApiError(NOT_FOUND, 'Route is not found')
   res.status(apiError.code).send(apiError.body)
 })
 

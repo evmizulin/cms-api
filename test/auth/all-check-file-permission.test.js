@@ -39,7 +39,7 @@ describe('Check file permission', () => {
           route({ ...routeParams, projectId: otherProject.project.id, fileId: file.id, fileName: file.name })
         )
           .set('AccessToken', auth.accessToken.token)
-          .expect(404)
+          .expect(404, { message: 'File not found' })
           .end(done)
       })
     })

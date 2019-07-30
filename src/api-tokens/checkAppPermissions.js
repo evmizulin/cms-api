@@ -9,7 +9,7 @@ const checkAppPermissions = async (req, res, next) => {
   const client = await Client.findOne({ type: 'app', clientSourceId: app.id }, { _id: true })
   const projectPermission = await ProjectPermission.findOne({ clientId: client.id, projectId })
 
-  if (!projectPermission) throw new ApiError(NOT_FOUND)
+  if (!projectPermission) throw new ApiError(NOT_FOUND, 'ApiToken not found')
 
   next()
 }

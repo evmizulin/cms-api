@@ -27,7 +27,7 @@ describe('Check app permission', () => {
       it(`${method.toUpperCase()} ${route(routeDesc)}`, done => {
         request[method](route({ ...routeParams, projectId: project.project.id, appId: apiToken.app.id }))
           .set('AccessToken', auth.accessToken.token)
-          .expect(404)
+          .expect(404, { message: 'ApiToken not found' })
           .end(done)
       })
     })
