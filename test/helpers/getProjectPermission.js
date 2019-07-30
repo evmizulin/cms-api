@@ -5,7 +5,7 @@ const getProjectPermission = async (auth, project) => {
   const permission = await ProjectPermission.insert({
     projectId: project.project.id,
     clientId: auth.client.id,
-    ...getDefaultProjectPermissions('user'),
+    ...getDefaultProjectPermissions(auth.user ? 'user' : 'app'),
   })
   return {
     permission,

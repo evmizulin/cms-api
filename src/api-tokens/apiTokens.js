@@ -8,12 +8,6 @@ const { generateToken } = require('../helpers/generateToken')
 const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
 
 class ApiTokens {
-  /*
-  async getApiTokens(projectId) {
-    return await ApiToken.find({ projectId }, '-projectId')
-  }
-  */
-
   async getApiTokens(projectId) {
     const projectPermissions = await ProjectPermission.find({ projectId }, { clientId: true })
     const clients = await Client.find(
@@ -35,13 +29,6 @@ class ApiTokens {
     }))
   }
 
-  /*
-  async postApiToken(projectId, token) {
-  const createdToken = createApiToken(token, { noId: true })
-  await ApiToken.save({ projectId, token: generateToken(), ...createdToken })
-}
-*/
-
   async postApiToken(projectId, app) {
     const createdApp = createApp({ app, noId: true })
     const savedApp = await App.insert(createdApp)
@@ -58,18 +45,6 @@ class ApiTokens {
     return { ...savedApp, token: accessToken.token }
   }
 
-  /*
-  async putApiToken(projectId, tokenId, token) {
-    const idValid = isIdValid(tokenId)
-    if (!idValid) throw new ApiError('Unvalid tokenId', NOT_FOUND)
-    const entity = await ApiToken.findById(tokenId, '_id projectId')
-    if (!entity || entity.projectId !== projectId) throw new ApiError('Api token not found', NOT_FOUND)
-
-    const createdToken = createApiToken(token, { noId: false })
-    await ApiToken.update(tokenId, { name: createdToken.name })
-  }
-*/
-
   async putApiToken(appId, app) {
     const createdApp = createApp({ app, noId: false })
     if (appId.toString() !== createdApp.id)
@@ -79,17 +54,6 @@ class ApiTokens {
     const accessToken = await AccessToken.findOne({ clientId: client.id })
     return { ...updatedApp, token: accessToken.token }
   }
-
-  /*
-  async deleteApiToken(projectId, tokenId) {
-    const idValid = isIdValid(tokenId)
-    if (!idValid) throw new ApiError('Unvalid tokenId', NOT_FOUND)
-    const entity = await ApiToken.findById(tokenId, '_id projectId')
-    if (!entity || entity.projectId !== projectId) throw new ApiError('Api token not found', NOT_FOUND)
-
-    await ApiToken.remove(tokenId)
-  }
-  */
 
   async deleteApiToken(projectId, appId) {
     const client = await Client.findOne({ type: 'app', clientSourceId: appId }, { _id: true })
@@ -103,6 +67,18 @@ class ApiTokens {
       AccessToken.remove(accessToken.id),
       ProjectPermission.remove(projectPermission.id),
     ])
+  }
+
+  async getPermissions(projectId, appId) {
+    const client = await Client.findOne({ type: 'app', clientSourceId: appId }, { _id: true })
+    const projectPermissions = await ProjectPermission.findOne(
+      { clientId: client.id, projectId },
+      { clientId: false, _id: false }
+    )
+    return {
+      appId,
+      ...projectPermissions,
+    }
   }
 }
 

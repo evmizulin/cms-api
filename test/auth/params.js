@@ -6,6 +6,7 @@ module.exports = {
   routeDesc: {
     projectId: '${id}',
     userId: '${id}',
+    appId: '${id}',
     tokenId: '${id}',
     fileId: '${id}',
     fileName: '${fileName}',
@@ -13,6 +14,7 @@ module.exports = {
   routeParams: {
     projectId: fakeId,
     userId: fakeId,
+    appId: fakeId,
     tokenId: fakeId,
     fileId: fakeId,
     fileName: 'fileName.png',

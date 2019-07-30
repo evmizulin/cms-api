@@ -27,6 +27,10 @@ describe('Check app id', () => {
       desc: 'DELETE api token',
       method: (projectId, appId) => request.delete(`/projects/${projectId}/api-tokens/${appId}`),
     },
+    {
+      desc: 'GET api token permissions',
+      method: (projectId, appId) => request.get(`/projects/${projectId}/api-tokens/${appId}/permissions`),
+    },
   ]
 
   routes.forEach(({ desc, method }) => {

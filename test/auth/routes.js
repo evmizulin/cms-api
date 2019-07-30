@@ -209,6 +209,20 @@ const routes = [
       },
     ],
   },
+  {
+    route: ({ projectId, appId }) => `/projects/${projectId}/api-tokens/${appId}/permissions`,
+    methods: [
+      {
+        method: 'get',
+        tests: {
+          extractClientId: true,
+          checkClientPermission: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+        },
+      },
+    ],
+  },
 ]
 
 module.exports = { routes }
