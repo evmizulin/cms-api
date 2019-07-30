@@ -83,7 +83,7 @@ const routes = [
     ],
   },
   {
-    route: ({ projectId, tokenId }) => `/projects/${projectId}/api-tokens/${tokenId}`,
+    route: ({ projectId, appId }) => `/projects/${projectId}/api-tokens/${appId}`,
     methods: [
       {
         method: 'put',
@@ -92,6 +92,8 @@ const routes = [
           checkClientPermission: true,
           extractProjectId: true,
           checkProjectPermission: true,
+          extractAppId: true,
+          checkAppPermission: true,
         },
       },
       {
@@ -101,6 +103,8 @@ const routes = [
           checkClientPermission: true,
           extractProjectId: true,
           checkProjectPermission: true,
+          extractAppId: true,
+          checkAppPermission: true,
         },
       },
     ],
@@ -219,6 +223,8 @@ const routes = [
           checkClientPermission: true,
           extractProjectId: true,
           checkProjectPermission: true,
+          extractAppId: true,
+          checkAppPermission: true,
         },
       },
     ],

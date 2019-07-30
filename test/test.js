@@ -45,11 +45,11 @@ describe('All tests', () => {
     require('./auth/all-check-project-permission.test')
     require('./auth/all-extract-file-id.test')
     require('./auth/all-check-file-permission.test')
+    require('./auth/all-extract-app-id.test')
+    require('./auth/all-check-app-permssion.test')
   })
 
   describe('ApiTokens', () => {
-    require('./api-tokens/all-app-id.test')
-    require('./api-tokens/all-app-permissions.test')
     require('./api-tokens/post-api-tokens.test')
     require('./api-tokens/get-api-tokens.test')
     require('./api-tokens/put-api-tokens.test')

@@ -6,9 +6,9 @@ const { isIdValid } = require('../helpers/isIdValid')
 const extractAppId = async (req, res, next) => {
   const { appId } = req.params
 
-  if (!isIdValid(appId)) throw new ApiError(NOT_FOUND)
+  if (!isIdValid(appId)) throw new ApiError(NOT_FOUND, 'ApiTokenId is not valid')
   const foundedApp = await App.findById(appId, { _id: true })
-  if (!foundedApp) throw new ApiError(NOT_FOUND)
+  if (!foundedApp) throw new ApiError(NOT_FOUND, 'ApiToken not found')
 
   req.extractedProps = { ...(req.extractedProps || {}), appId: foundedApp.id }
 
