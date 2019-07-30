@@ -47,6 +47,8 @@ describe('All tests', () => {
     require('./auth/all-check-file-permission.test')
     require('./auth/all-extract-app-id.test')
     require('./auth/all-check-app-permssion.test')
+    require('./auth/all-extract-user-id.test')
+    require('./auth/all-check-user-permission.test')
   })
 
   describe('ApiTokens', () => {
@@ -71,8 +73,6 @@ describe('All tests', () => {
   })
 
   describe('User', () => {
-    require('./users/all-user-id.test')
-    require('./users/all-user-id-permissions.test')
     require('./users/get-users.test')
     require('./users/post-user.test')
     require('./users/get-users-of-project.test')
