@@ -233,6 +233,17 @@ const routes = [
           checkAppPermission: true,
         },
       },
+      {
+        method: 'put',
+        tests: {
+          extractClientId: true,
+          checkClientPermission: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          extractAppId: true,
+          checkAppPermission: true,
+        },
+      },
     ],
   },
 ]
