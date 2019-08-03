@@ -3,6 +3,8 @@
 const { connection } = require('../src/services/db/tables')
 const assert = require('assert')
 
+const startTime = new Date()
+
 const getDocsAmount = async () => {
   let res = { amount: 0 }
   for (let key in connection.models) {
@@ -91,5 +93,7 @@ describe('All tests', () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()
     assert.deepEqual(beforeDocsAmount, afterDocsAmount)
+    // eslint-disable-next-line no-console
+    console.log(new Date() - startTime)
   })
 })

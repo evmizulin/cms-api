@@ -7,9 +7,10 @@ Any JSON CMS consists of two parts. [Admin application server](https://github.co
 ### Installation
 
 #### Step 1. Install the required dependencies.
-- [MongoDb](https://www.mongodb.com/) v3+;
+- [MongoDb](https://www.mongodb.com/) v4+;
 - [Sendmail](http://www.sendmail.org/);
 - [Node.js](https://nodejs.org/) v8+;
+- [Node-canvas](https://github.com/Automattic/node-canvas);
 
 #### Step 2. Install the API server.
 ```sh
