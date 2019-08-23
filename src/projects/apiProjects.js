@@ -1,5 +1,5 @@
 // const { Model, Project, ProjectAndUserRelation } = require('../db/Db')
-const { Project, ProjectImage, ProjectPermission } = require('../services/db/Db')
+const { Project, ProjectImage, ProjectPermission, File } = require('../services/db/Db')
 const { createProject } = require('./createProject')
 const Trianglify = require('trianglify')
 // const { apiTokens } = require('./ApiTokens')
@@ -7,6 +7,7 @@ const Trianglify = require('trianglify')
 const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
+const { apiTokens } = require('../api-tokens/apiTokens')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -85,9 +86,17 @@ class ApiProjects {
 
   async deleteProject(projectId) {
     const projectImage = await ProjectImage.findOne({ projectId }, { _id: true })
-    const projectPermissions = await ProjectPermission.find({ projectId }, { _id: true })
     await ProjectImage.remove(projectImage.id)
+
+    const files = await File.find({ projectId }, { _id: true })
+    await Promise.all(files.map(item => File.remove(item.id)))
+
+    const tokens = await apiTokens.getApiTokens(projectId)
+    await Promise.all(tokens.map(item => apiTokens.deleteApiToken(projectId, item.id)))
+
+    const projectPermissions = await ProjectPermission.find({ projectId }, { _id: true })
     await Promise.all(projectPermissions.map(item => ProjectPermission.remove(item.id)))
+
     await Project.remove(projectId)
   }
 }

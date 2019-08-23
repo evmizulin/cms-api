@@ -94,6 +94,6 @@ describe('All tests', () => {
     connection.close()
     assert.deepEqual(beforeDocsAmount, afterDocsAmount)
     // eslint-disable-next-line no-console
-    console.log(new Date() - startTime)
+    console.log(`Test execution: ${new Date() - startTime}ms`)
   })
 })
