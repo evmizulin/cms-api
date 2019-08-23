@@ -8,6 +8,7 @@ const { ApiError } = require('../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
 const { apiTokens } = require('../api-tokens/apiTokens')
+const { apiUsers } = require('../users/apiUsers')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -94,8 +95,8 @@ class ApiProjects {
     const tokens = await apiTokens.getApiTokens(projectId)
     await Promise.all(tokens.map(item => apiTokens.deleteApiToken(projectId, item.id)))
 
-    const projectPermissions = await ProjectPermission.find({ projectId }, { _id: true })
-    await Promise.all(projectPermissions.map(item => ProjectPermission.remove(item.id)))
+    const users = await apiUsers.getUsersOfProject(projectId)
+    await Promise.all(users.map(item => apiUsers.deleteUserOfProject(projectId, item.id)))
 
     await Project.remove(projectId)
   }
