@@ -1,7 +1,7 @@
 // const { Model, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
-const { PasswordRecoveryToken, File } = require('./tables')
+const { PasswordRecoveryToken, File, Model } = require('./tables')
 const { getDefaultClientPermissions } = require('../../helpers/getDefaultClientPermissions')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
@@ -82,17 +82,18 @@ const modifyError = async () => {
 }
 
 module.exports = {
-  /*
   Model: new Db({
     Model: Model,
-    normToDb: ({ id, apiId, projectId, ...rest }) => ({ apiId, projectId, data: JSON.stringify(rest) }),
-    normFromDb: props => {
-      const res = {}
-      const { _id, __v, data = '{}', ...rest } = props.toObject()
-      if (_id) res.id = _id.toString()
-      return { ...res, ...JSON.parse(data), ...rest }
+    normToDb: (...props) => {
+      const { projectId, apiId, ...rest } = defaultNormToDb(...props)
+      return { apiId, projectId, data: JSON.stringify(rest) }
+    },
+    normFromDb: (...props) => {
+      const { data, ...rest } = defaultNormFromDb(...props)
+      return { ...JSON.parse(data), ...rest }
     },
   }),
+  /*
   Entry: new Db({
     Model: Entry,
     normToDb: ({ id, modelId, projectId, ...rest }) => ({ modelId, projectId, data: JSON.stringify(rest) }),

@@ -46,6 +46,10 @@ const ProjectPermission = new Schema({
   permissionsUpdate: Boolean,
   fileCreate: Boolean,
   fileRead: Boolean,
+  modelCreate: Boolean,
+  modelRead: Boolean,
+  modelUpdate: Boolean,
+  modelDelete: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -66,6 +70,10 @@ const ClientPermission = new Schema({
   permissionsUpdate: Boolean,
   fileCreate: Boolean,
   fileRead: Boolean,
+  modelCreate: Boolean,
+  modelRead: Boolean,
+  modelUpdate: Boolean,
+  modelDelete: Boolean,
 })
 
 const Client = new Schema({
@@ -104,6 +112,12 @@ const File = new Schema({
   mimetype: String,
 })
 
+const Model = new Schema({
+  projectId: Schema.Types.ObjectId,
+  apiId: String,
+  data: String,
+})
+
 /*
 const ApiToken = new Schema({
   projectId: String,
@@ -111,17 +125,11 @@ const ApiToken = new Schema({
   token: String,
 })
 
-
 const ProjectAndUserRelation = new Schema({
   userId: String,
   projectId: String,
 })
 
-const Model = new Schema({
-  projectId: String,
-  apiId: String,
-  data: String,
-})
 
 const Entry = new Schema({
   projectId: String,
@@ -147,11 +155,11 @@ module.exports = {
   EncryptionKey: mongoose.model('EncryptionKey', EncryptionKey),
   PasswordRecoveryToken: mongoose.model('PasswordRecoveryToken', PasswordRecoveryToken),
   File: mongoose.model('File', File),
+  Model: mongoose.model('Model', Model),
   /*
   RecoverPass: mongoose.model('RecoverPass', RecoverPass),
   ProjectAndUserRelation: mongoose.model('ProjectAndUserRelation', ProjectAndUserRelation),
   AuthToken: mongoose.model('AuthToken', AuthToken),
-  Model: mongoose.model('Model', Model),
   Entry: mongoose.model('Entry', Entry),
   Contact: mongoose.model('Contact', Contact),
   */

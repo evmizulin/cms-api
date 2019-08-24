@@ -7,7 +7,7 @@ const { AssetModelType } = require('./AssetModelType')
 const { ArrayModelType } = require('./ArrayModelType')
 const { EnumModelType } = require('./EnumModelType')
 const { BAD_REQUEST } = require('http-status-codes')
-const { ApiError } = require('../../../../helpers/ApiError')
+const { ApiError } = require('../../helpers/ApiError')
 
 const createModel = (model, options) => {
   const map = {
@@ -25,7 +25,7 @@ const createModel = (model, options) => {
   }
 
   if (!model || !model.type || !map[model.type]) {
-    throw new ApiError('Unvalid model type', BAD_REQUEST)
+    throw new ApiError(BAD_REQUEST, 'Unvalid model type')
   }
 
   return new map[model.type](model, options)

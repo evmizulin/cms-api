@@ -15,6 +15,10 @@ const getDefaultProjectPermissions = clientType => {
       permissionsUpdate: false,
       fileCreate: true,
       fileRead: true,
+      modelCreate: true,
+      modelRead: true,
+      modelUpdate: true,
+      modelDelete: true,
     },
     user: {
       projectRead: true,
@@ -31,6 +35,10 @@ const getDefaultProjectPermissions = clientType => {
       permissionsUpdate: true,
       fileCreate: true,
       fileRead: true,
+      modelCreate: true,
+      modelRead: true,
+      modelUpdate: true,
+      modelDelete: true,
     },
   }
   return MAP[clientType]
