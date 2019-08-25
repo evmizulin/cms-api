@@ -1,5 +1,7 @@
 const { Model } = require('../services/db/Db')
 const { createModel } = require('./type/createModel')
+const { BAD_REQUEST } = require('http-status-codes')
+const { ApiError } = require('../helpers/ApiError')
 
 class ApiModels {
   async getModels(projectId) {
@@ -14,10 +16,12 @@ class ApiModels {
   }
 
   async putModel(projectId, modelId, model) {
-    // should be a check projectId === model.projectId or no?
     const models = await Model.find({ projectId }, { _id: true })
     const createdModel = createModel(model, { noId: false, noApiId: false, models, createModel })
-    await Model.update(modelId, { projectId, ...createdModel })
+    if (modelId.toString() !== model.id)
+      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
+    const { projectId: pI, ...savedModel } = await Model.update(modelId, { projectId, ...createdModel })
+    return savedModel
   }
 
   async deleteModel(projectId, modelId) {

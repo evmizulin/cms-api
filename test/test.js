@@ -93,6 +93,8 @@ describe('All tests', () => {
 
   describe('Models', () => {
     require('./models/post-models.test')
+    require('./models/get-models.test')
+    require('./models/put-models.test')
   })
 
   after(async () => {
