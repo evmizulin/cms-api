@@ -7,6 +7,7 @@ const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 const randomstring = require('randomstring')
 const { getApiToken } = require('../helpers/getApiToken')
+const { getModel } = require('../helpers/getModel')
 
 let auth
 const projects = []
@@ -28,6 +29,7 @@ describe('DELETE /projects/${id}', () => {
       buffer: new Buffer(1),
       mimetype: randomstring.generate(),
     })
+    await getModel(projects[1])
   })
 
   it('should return 200', done => {

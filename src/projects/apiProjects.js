@@ -9,6 +9,7 @@ const { BAD_REQUEST } = require('http-status-codes')
 const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
 const { apiTokens } = require('../api-tokens/apiTokens')
 const { apiUsers } = require('../users/apiUsers')
+const { apiModels } = require('../models/apiModels')
 
 class ApiProjects {
   // async getProjects(userId) {
@@ -97,6 +98,9 @@ class ApiProjects {
 
     const users = await apiUsers.getUsersOfProject(projectId)
     await Promise.all(users.map(item => apiUsers.deleteUserOfProject(projectId, item.id)))
+
+    const models = await apiModels.getModels(projectId)
+    await Promise.all(models.map(item => apiModels.deleteModel(projectId, item.id)))
 
     await Project.remove(projectId)
   }
