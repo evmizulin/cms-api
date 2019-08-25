@@ -7,8 +7,6 @@ const routes = [
         tests: {
           extractClientId: true,
           checkClientPermission: true,
-          extractProjectId: false,
-          checkProjectPermission: false,
         },
       },
       {
@@ -16,8 +14,6 @@ const routes = [
         tests: {
           extractClientId: true,
           checkClientPermission: true,
-          extractProjectId: false,
-          checkProjectPermission: false,
         },
       },
     ],
@@ -117,8 +113,6 @@ const routes = [
         tests: {
           extractClientId: true,
           checkClientPermission: true,
-          extractProjectId: false,
-          checkProjectPermission: false,
         },
       },
     ],
@@ -196,7 +190,6 @@ const routes = [
         method: 'post',
         tests: {
           extractClientId: true,
-          checkClientPermission: false,
           extractProjectId: true,
           checkProjectPermission: true,
         },
@@ -210,7 +203,6 @@ const routes = [
         method: 'get',
         tests: {
           extractClientId: true,
-          checkClientPermission: false,
           extractProjectId: true,
           checkProjectPermission: true,
           extractFileId: true,

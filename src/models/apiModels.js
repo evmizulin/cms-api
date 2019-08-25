@@ -9,7 +9,8 @@ class ApiModels {
   async postModel(projectId, model) {
     const models = await Model.find({ projectId }, { _id: true })
     const createdModel = createModel(model, { noId: true, noApiId: false, models, createModel })
-    await Model.imsert({ projectId, ...createdModel })
+    const { projectId: pI, ...savedModel } = await Model.insert({ projectId, ...createdModel })
+    return savedModel
   }
 
   async putModel(projectId, modelId, model) {

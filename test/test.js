@@ -91,6 +91,10 @@ describe('All tests', () => {
     require('./files/get-file.test')
   })
 
+  describe('Models', () => {
+    require('./models/post-models.test')
+  })
+
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()
