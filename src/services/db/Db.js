@@ -90,7 +90,9 @@ module.exports = {
     },
     normFromDb: (...props) => {
       const { data, ...rest } = defaultNormFromDb(...props)
-      return { ...JSON.parse(data), ...rest }
+      let res = {}
+      if (data) res = JSON.parse(data)
+      return { ...res, ...rest }
     },
   }),
   /*

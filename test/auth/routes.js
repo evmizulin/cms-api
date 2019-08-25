@@ -246,6 +246,52 @@ const routes = [
       },
     ],
   },
+  {
+    route: ({ projectId }) => `/projects/${projectId}/models`,
+    methods: [
+      {
+        method: 'get',
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+        },
+      },
+      {
+        method: 'post',
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+        },
+      },
+    ],
+  },
+  {
+    route: ({ projectId, modelId }) => `/projects/${projectId}/models/${modelId}`,
+    methods: [
+      {
+        method: 'put',
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          extractModelId: true,
+          checkModelPermission: true,
+        },
+      },
+      {
+        method: 'delete',
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          extractModelId: true,
+          checkModelPermission: true,
+        },
+      },
+    ],
+  },
 ]
 
 module.exports = { routes }

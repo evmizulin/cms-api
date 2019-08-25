@@ -9,6 +9,7 @@ module.exports = {
     appId: '${id}',
     fileId: '${id}',
     fileName: '${fileName}',
+    modelId: '${id}',
   },
   routeParams: {
     projectId: fakeId,
@@ -16,5 +17,6 @@ module.exports = {
     appId: fakeId,
     fileId: fakeId,
     fileName: 'fileName.png',
+    modelId: fakeId,
   },
 }
