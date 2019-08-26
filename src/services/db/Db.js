@@ -2,7 +2,7 @@
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
 const { PasswordRecoveryToken, File, Model } = require('./tables')
-const { getDefaultClientPermissions } = require('../../helpers/getDefaultClientPermissions')
+const { getDefaultClientPermissions, Entry } = require('../../helpers/getDefaultClientPermissions')
 // const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
@@ -95,18 +95,19 @@ module.exports = {
       return { ...res, ...rest }
     },
   }),
-  /*
   Entry: new Db({
     Model: Entry,
-    normToDb: ({ id, modelId, projectId, ...rest }) => ({ modelId, projectId, data: JSON.stringify(rest) }),
-    normFromDb: props => {
-      const res = {}
-      const { _id, __v, data = '{}', ...rest } = props.toObject()
-      if (_id) res.id = _id.toString()
-      return { ...res, ...JSON.parse(data), ...rest }
+    normToDb: (...props) => {
+      const { projectId, modelId, ...rest } = defaultNormToDb(...props)
+      return { projectId, modelId, data: JSON.stringify(rest) }
+    },
+    normFromDb: (...props) => {
+      const { data, ...rest } = defaultNormFromDb(...props)
+      let res = {}
+      if (data) res = JSON.parse(data)
+      return { ...res, ...rest }
     },
   }),
-  */
   File: new Db({ Model: File }),
   Project: new Db({ Model: Project }),
   ProjectImage: new Db({ Model: ProjectImage }),

@@ -42,6 +42,22 @@ const setModelsRoutes = app => {
 
   app.options('/projects/:projectId/models/:modelId', cors(allowAll))
 
+  app.get(
+    '/projects/:projectId/models/:modelId',
+    cors(allowAll),
+    extractClientId,
+    checkClientPermission('modelRead'),
+    extractProjectId,
+    checkProjectPermission('modelRead'),
+    extractModelId,
+    checkModelPermissions,
+    async (req, res) => {
+      const { projectId, modelId } = req.extractedProps
+      const apiResp = new ApiResp(await apiModels.getModel(projectId, modelId))
+      res.status(apiResp.code).send(apiResp.body)
+    }
+  )
+
   app.put(
     '/projects/:projectId/models/:modelId',
     cors(allowAll),

@@ -8,6 +8,10 @@ class ApiModels {
     return await Model.find({ projectId }, { projectId: false })
   }
 
+  async getModel(projectId, modelId) {
+    return await Model.findById(modelId, { projectId: false })
+  }
+
   async postModel(projectId, model) {
     const models = await Model.find({ projectId }, { _id: true })
     const createdModel = createModel(model, { noId: true, noApiId: false, models, createModel })

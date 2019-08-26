@@ -1,4 +1,4 @@
-const { ApiError } = require('../../../../helpers/ApiError')
+const { ApiError } = require('../../helpers/ApiError')
 const { BAD_REQUEST } = require('http-status-codes')
 
 // abstract class
@@ -8,13 +8,13 @@ class EntryType {
 
     const { valid, error } = this._validate(entry, options)
     if (!valid) {
-      throw new ApiError(error.message, BAD_REQUEST)
+      throw new ApiError(BAD_REQUEST, error.message)
     }
 
     if (!options.isSub) {
       const { valid: idValid, error: idError } = this._validateModelId(entry, options)
       if (!idValid) {
-        throw new ApiError(idError.message, BAD_REQUEST)
+        throw new ApiError(BAD_REQUEST, idError.message)
       }
     }
 
