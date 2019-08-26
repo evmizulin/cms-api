@@ -50,6 +50,10 @@ const ProjectPermission = new Schema({
   modelRead: Boolean,
   modelUpdate: Boolean,
   modelDelete: Boolean,
+  entryCreate: Boolean,
+  entryRead: Boolean,
+  entryUpdate: Boolean,
+  entryDelete: Boolean,
 })
 
 const ClientPermission = new Schema({
@@ -74,6 +78,10 @@ const ClientPermission = new Schema({
   modelRead: Boolean,
   modelUpdate: Boolean,
   modelDelete: Boolean,
+  entryCreate: Boolean,
+  entryRead: Boolean,
+  entryUpdate: Boolean,
+  entryDelete: Boolean,
 })
 
 const Client = new Schema({

@@ -51,8 +51,10 @@ describe('All tests', () => {
     require('./auth/all-check-app-permssion.test')
     require('./auth/all-extract-user-id.test')
     require('./auth/all-check-user-permission.test')
-    require('./auth/all-extractModelId.test')
+    require('./auth/all-extract-model-id.test')
     require('./auth/all-check-model-permission.test')
+    require('./auth/all-extract-entry-id.test')
+    require('./auth/all-check-entry-permission.test')
   })
 
   describe('ApiTokens', () => {

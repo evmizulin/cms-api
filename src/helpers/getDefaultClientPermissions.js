@@ -21,6 +21,10 @@ const getDefaultClientPermissions = clientType => {
       modelRead: true,
       modelUpdate: true,
       modelDelete: true,
+      entryCreate: true,
+      entryRead: true,
+      entryUpdate: true,
+      entryDelete: true,
     },
     user: {
       userRead: true,
@@ -43,6 +47,10 @@ const getDefaultClientPermissions = clientType => {
       modelRead: true,
       modelUpdate: true,
       modelDelete: true,
+      entryCreate: true,
+      entryRead: true,
+      entryUpdate: true,
+      entryDelete: true,
     },
   }
   return MAP[clientType]

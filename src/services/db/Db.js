@@ -1,9 +1,7 @@
-// const { Model, Entry, Project, ProjectAndUserRelation, ProjectImage } = require('./tables')
 const { Project, ProjectImage, User, EncryptionKey, Client } = require('./tables')
 const { AccessToken, ProjectPermission, ClientPermission, App } = require('./tables')
-const { PasswordRecoveryToken, File, Model } = require('./tables')
-const { getDefaultClientPermissions, Entry } = require('../../helpers/getDefaultClientPermissions')
-// const { AuthToken, RecoverPass, ApiToken, Contact } = require('./tables')
+const { PasswordRecoveryToken, File, Model, Entry } = require('./tables')
+const { getDefaultClientPermissions } = require('../../helpers/getDefaultClientPermissions')
 
 const defaultNormToDb = ({ id, ...rest }) => ({ ...rest })
 const defaultNormFromDb = entity => {

@@ -102,6 +102,8 @@ class ApiProjects {
     const models = await apiModels.getModels(projectId)
     await Promise.all(models.map(item => apiModels.deleteModel(projectId, item.id)))
 
+    // remove entries
+
     await Project.remove(projectId)
   }
 }
