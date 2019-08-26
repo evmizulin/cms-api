@@ -94,6 +94,7 @@ describe('All tests', () => {
   describe('Models', () => {
     require('./models/post-models.test')
     require('./models/get-models.test')
+    require('./models/get-model.test')
     require('./models/put-models.test')
     require('./models/delete-models.test')
   })

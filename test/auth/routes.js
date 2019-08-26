@@ -263,6 +263,16 @@ const routes = [
     route: ({ projectId, modelId }) => `/projects/${projectId}/models/${modelId}`,
     methods: [
       {
+        method: 'get',
+        tests: {
+          extractClientId: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+          extractModelId: true,
+          checkModelPermission: true,
+        },
+      },
+      {
         method: 'put',
         tests: {
           extractClientId: true,
