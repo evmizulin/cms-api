@@ -40,11 +40,7 @@ class CrudDb {
     const entity = await this.Model.findById(id)
     await entity.remove()
   }
-  /*
-  async findByIdAndRemove(id) {
-    await this.Model.findByIdAndRemove(id)
-  }
-*/
+
   async insert(entity) {
     const newEntity = new this.Model(this.normToDb(entity))
     const savedEntity = await newEntity.save()
@@ -173,20 +169,4 @@ module.exports = {
   }),
   EncryptionKey: new Db({ Model: EncryptionKey }),
   PasswordRecoveryToken: new Db({ Model: PasswordRecoveryToken }),
-  /*
-  ProjectAndUserRelation: new Db({ Model: ProjectAndUserRelation, normToDb, normFromDb }),
-  AuthToken: new Db({ Model: AuthToken, normToDb, normFromDb }),
-  RecoverPass: new Db({ Model: RecoverPass, normToDb, normFromDb }),
-  ApiToken: new Db({ Model: ApiToken, normToDb, normFromDb }),
-  Contact: new Db({
-    Model: Contact,
-    normToDb: contact => ({ data: JSON.stringify(contact) }),
-    normFromDb: props => {
-      const res = {}
-      const { _id, __v, data = '{}', ...rest } = props.toObject()
-      if (_id) res.id = _id.toString()
-      return { ...res, ...JSON.parse(data), ...rest }
-    },
-  }),
-  */
 }

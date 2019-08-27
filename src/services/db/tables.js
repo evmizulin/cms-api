@@ -132,23 +132,6 @@ const Entry = new Schema({
   data: String,
 })
 
-/*
-const ApiToken = new Schema({
-  projectId: String,
-  name: String,
-  token: String,
-})
-
-const ProjectAndUserRelation = new Schema({
-  userId: String,
-  projectId: String,
-})
-
-const Contact = new Schema({
-  data: String,
-})
-*/
-
 module.exports = {
   connection: db,
   ProjectImage: mongoose.model('ProjectImage', ProjectImage),
@@ -164,11 +147,4 @@ module.exports = {
   File: mongoose.model('File', File),
   Model: mongoose.model('Model', Model),
   Entry: mongoose.model('Entry', Entry),
-  /*
-  RecoverPass: mongoose.model('RecoverPass', RecoverPass),
-  ProjectAndUserRelation: mongoose.model('ProjectAndUserRelation', ProjectAndUserRelation),
-  AuthToken: mongoose.model('AuthToken', AuthToken),
-  Entry: mongoose.model('Entry', Entry),
-  Contact: mongoose.model('Contact', Contact),
-  */
 }

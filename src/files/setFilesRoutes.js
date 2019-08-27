@@ -1,7 +1,4 @@
 const cors = require('cors')
-// const { OK } = require('http-status-codes')
-// const { checkAuth } = require('../services/auth/checkAuth')
-// const { checkProjectAccess } = require('../services/auth/checkProjectAccess')
 const { apiFiles } = require('./apiFiles')
 const { allowAll } = require('../helpers/corsSettings')
 const { extractProjectId } = require('../auth/extractProjectId')

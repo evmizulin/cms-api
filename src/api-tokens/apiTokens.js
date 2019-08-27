@@ -1,5 +1,3 @@
-// const { ApiToken } = require('../db/Db')
-// const { isIdValid } = require('../../helpers/isIdValid')
 const { BAD_REQUEST } = require('http-status-codes')
 const { createApp } = require('./createApp')
 const { ApiError } = require('../helpers/ApiError')
