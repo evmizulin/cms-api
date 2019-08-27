@@ -104,6 +104,7 @@ describe('All tests', () => {
   describe('Entries', () => {
     require('./entries/post-entry.test')
     require('./entries/get-entries.test')
+    require('./entries/get-entry.test')
   })
 
   after(async () => {
