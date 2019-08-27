@@ -27,7 +27,11 @@ class ApiEntries {
     if (!valid) throw new ApiError(BAD_REQUEST, error.message)
     const isRefConflict = isEntryRefConflict(model, createdEnrty, entryIds)
     if (isRefConflict) throw new ApiError(BAD_REQUEST, 'Entry has unvalid reference')
-    const { projectId: pI, ...savedEntry } = await Entry.insert({ projectId, ...createdEnrty })
+    const { projectId: pI, ...savedEntry } = await Entry.insert({
+      projectId,
+      ...createdEnrty,
+      modelId: model.id,
+    })
     return savedEntry
   }
 

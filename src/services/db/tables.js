@@ -127,8 +127,8 @@ const Model = new Schema({
 })
 
 const Entry = new Schema({
-  projectId: String,
-  modelId: String,
+  projectId: Schema.Types.ObjectId,
+  modelId: Schema.Types.ObjectId,
   data: String,
 })
 

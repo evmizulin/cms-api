@@ -26,7 +26,7 @@ class AssetEntryType extends EntryType {
 
   _validateReference(entry, { files, isSub }) {
     const value = isSub ? entry.value : entry.value.value
-    const valid = files.some(item => value.indexOf(item.id) > -1 && value.indexOf(item.name) > -1)
+    const valid = files.some(item => value.indexOf(item.id.toString()) > -1 && value.indexOf(item.name) > -1)
     return { valid, error: valid ? null : { message: 'Unvalid file reference' } }
   }
 }

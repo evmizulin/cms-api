@@ -5,7 +5,8 @@ const getModel = async project => {
   const model = await Model.insert({
     projectId: project.project.id,
     apiId: randomstring.generate(10),
-    some: randomstring.generate(10),
+    title: randomstring.generate(10),
+    type: 'string-line',
   })
   return {
     remove: async () => {

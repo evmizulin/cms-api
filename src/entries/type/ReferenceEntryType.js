@@ -26,7 +26,7 @@ class ReferenceEntryType extends EntryType {
 
   _validateReference(entry, { entries, isSub }) {
     const value = isSub ? entry.value : entry.value.value
-    const valid = entries.some(item => item.id === value)
+    const valid = entries.some(item => item.id.toString() === value)
     return { valid, error: valid ? null : { message: 'Unvalid reference' } }
   }
 }

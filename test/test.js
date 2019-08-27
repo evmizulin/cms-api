@@ -101,6 +101,10 @@ describe('All tests', () => {
     require('./models/delete-models.test')
   })
 
+  describe('Entries', () => {
+    require('./entries/post-entry.test')
+  })
+
   after(async () => {
     const afterDocsAmount = await getDocsAmount()
     connection.close()

@@ -28,7 +28,7 @@ class EntryType {
   }
 
   _validateModelId(entry, { models }) {
-    const valid = models.some(model => model.id === entry.modelId)
+    const valid = models.some(model => model.id.toString() === entry.modelId)
     return { valid, error: valid ? null : { message: 'Unvalid modelId' } }
   }
 }

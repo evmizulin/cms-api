@@ -19,7 +19,9 @@ const initArray = (model, value, entries) => {
 }
 
 const initReference = (model, value, entries) => {
-  return !entries.filter(entry => entry.modelId === model.reference).some(entry => entry.id === value.value)
+  return !entries
+    .filter(entry => entry.modelId.toString() === model.reference)
+    .some(entry => entry.id.toString() === value.value)
 }
 
 const init = (model, value, entries) => {
