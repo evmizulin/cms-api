@@ -61,19 +61,24 @@ class ApiEntries {
       entries: entryIds,
       files: fileIds,
     })
-    if (entryId.toString() !== createdEnrty.id)
-      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
-    const oldEntry = await Entry.findById(entryId)
-    const model = await Model.findById(createdEnrty.modelId)
+    const model = await Model.findById(createdEnrty.modelId, { projectId: false })
     const isConsistent = isEntryConsistent(model, createdEnrty)
     if (!isConsistent) throw new ApiError(BAD_REQUEST, 'Inconsistent entry')
     const { valid, error } = isEntryMatchModel(model, createdEnrty)
     if (!valid) throw new ApiError(BAD_REQUEST, error.message)
     const isRefConflict = isEntryRefConflict(model, createdEnrty, entryIds)
     if (isRefConflict) throw new ApiError(BAD_REQUEST, 'Entry has unvalid reference')
+    if (entryId.toString() !== createdEnrty.id)
+      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
+    const oldEntry = await Entry.findById(entryId, { projectId: false })
     const filesIds = getFileIdsForDeleting(oldEntry, createdEnrty)
-    await Entry.update(entryId, { projectId, ...createdEnrty })
     await Promise.all(filesIds.map(id => File.remove(id)))
+    const { projectId: pI, ...savedEntry } = await Entry.update(entryId, {
+      projectId,
+      ...createdEnrty,
+      modelId: model.id,
+    })
+    return savedEntry
   }
 
   async deleteEntry(projectId, entryId) {
