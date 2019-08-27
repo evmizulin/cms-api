@@ -36,7 +36,7 @@ const setEntriesRoutes = app => {
     async (req, res) => {
       const { projectId } = req.extractedProps
       const { apiId } = req.query
-      const apiResp = new ApiResp(await apiEntries.getEnties(projectId, apiId))
+      const apiResp = new ApiResp(await apiEntries.getEntries(projectId, apiId))
       res.status(apiResp.code).send(apiResp.body)
     }
   )
