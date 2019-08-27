@@ -106,6 +106,7 @@ describe('All tests', () => {
     require('./entries/get-entries.test')
     require('./entries/get-entry.test')
     require('./entries/put-entry.test')
+    require('./entries/delete-entry.test')
   })
 
   after(async () => {

@@ -86,7 +86,7 @@ const setEntriesRoutes = app => {
     checkEntryPermissions,
     async (req, res) => {
       const { projectId, entryId } = req.extractedProps
-      await apiEntries.Entry(projectId, entryId)
+      await apiEntries.deleteEntry(projectId, entryId)
       const apiResp = new ApiResp()
       res.status(apiResp.code).send(apiResp.body)
     }
