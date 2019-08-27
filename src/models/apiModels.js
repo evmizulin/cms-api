@@ -1,7 +1,8 @@
-const { Model } = require('../services/db/Db')
+const { Model, Entry } = require('../services/db/Db')
 const { createModel } = require('./type/createModel')
 const { BAD_REQUEST } = require('http-status-codes')
 const { ApiError } = require('../helpers/ApiError')
+const { apiEntries } = require('../entries/apiEntries')
 
 class ApiModels {
   async getModels(projectId) {
@@ -29,8 +30,9 @@ class ApiModels {
   }
 
   async deleteModel(projectId, modelId) {
-    // const entries = await Entry.find({ projectId, modelId }, '_id')
-    // await Promise.all(entries.map(entry => apiEntries.deleteEntry(projectId, entry.id)))
+    const entries = await Entry.find({ projectId, modelId }, { _id: true })
+    await Promise.all(entries.map(entry => apiEntries.deleteEntry(projectId, entry.id)))
+
     await Model.remove(modelId)
   }
 }

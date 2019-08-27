@@ -5,6 +5,7 @@ const { getAuth } = require('../helpers/getAuth')
 const { getProject } = require('../helpers/getProject')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 const { getModel } = require('../helpers/getModel')
+const { getEntry } = require('../helpers/getEntry')
 
 let auth
 let project
@@ -17,6 +18,7 @@ describe('DELETE /projects/${id}/models', () => {
     project = await getProject()
     projectPermission = await getProjectPermission(auth, project)
     model = await getModel(project)
+    await getEntry(model)
   })
 
   it('should return 200', done => {
