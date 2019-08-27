@@ -7,6 +7,7 @@ const { ProjectPermission } = require('../../src/services/db/Db')
 const { getProjectPermission } = require('../helpers/getProjectPermission')
 const { routes } = require('./routes')
 const { routeDesc, routeParams } = require('./params')
+const assert = require('assert')
 
 describe('Check project permissions', () => {
   let auth
@@ -41,7 +42,12 @@ describe('Check project permissions', () => {
             .expect(404, { message: 'Project not found' }),
           request[method](route({ ...routeParams, projectId: connectedProject.project.id }))
             .set('AccessToken', connectedAuth.accessToken.token)
-            .expect(403, { message: 'Client have no permission for this action in this project' }),
+            .expect(403)
+            .expect(res => {
+              const { message } = res.body
+              assert.equal(message.indexOf('Client have no permission to') > -1, true)
+              assert.equal(message.indexOf('in this project') > -1, true)
+            }),
         ])
           .then(() => done())
           .catch(done)
