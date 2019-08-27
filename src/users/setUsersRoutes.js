@@ -12,11 +12,17 @@ const { ApiResp } = require('../helpers/ApiResp')
 const setUsersRoutes = app => {
   app.options('/users', cors(allowMe))
 
-  app.get('/users', cors(allowMe), extractClientId, checkClientPermission('userRead'), async (req, res) => {
-    const { login } = req.query
-    const apiResp = new ApiResp(await apiUsers.search(login))
-    res.status(apiResp.code).send(apiResp.body)
-  })
+  app.get(
+    '/users',
+    cors(allowMe),
+    extractClientId,
+    checkClientPermission('userOfCmsRead'),
+    async (req, res) => {
+      const { login } = req.query
+      const apiResp = new ApiResp(await apiUsers.search(login))
+      res.status(apiResp.code).send(apiResp.body)
+    }
+  )
 
   app.options('/projects/:projectId/users', cors(allowMe))
 
@@ -73,9 +79,9 @@ const setUsersRoutes = app => {
     '/projects/:projectId/users/:userId/permissions',
     cors(allowMe),
     extractClientId,
-    checkClientPermission('permissionsRead'),
+    checkClientPermission('userPermissionsRead'),
     extractProjectId,
-    checkProjectPermission('permissionsRead'),
+    checkProjectPermission('userPermissionsRead'),
     extractUserId,
     checkUserIdPermissions,
     async (req, res) => {
@@ -89,9 +95,9 @@ const setUsersRoutes = app => {
     '/projects/:projectId/users/:userId/permissions',
     cors(allowMe),
     extractClientId,
-    checkClientPermission('permissionsUpdate'),
+    checkClientPermission('userPermissionsUpdate'),
     extractProjectId,
-    checkProjectPermission('permissionsUpdate'),
+    checkProjectPermission('userPermissionsUpdate'),
     extractUserId,
     checkUserIdPermissions,
     async (req, res) => {

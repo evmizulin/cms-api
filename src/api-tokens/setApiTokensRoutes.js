@@ -81,9 +81,9 @@ const setApiTokensRoutes = app => {
     '/projects/:projectId/api-tokens/:appId/permissions',
     cors(allowMe),
     extractClientId,
-    checkClientPermission('permissionsRead'),
+    checkClientPermission('apiTokenPermissionsRead'),
     extractProjectId,
-    checkProjectPermission('permissionsRead'),
+    checkProjectPermission('apiTokenPermissionsRead'),
     extractAppId,
     checkAppPermissions,
     async (req, res) => {
@@ -97,9 +97,9 @@ const setApiTokensRoutes = app => {
     '/projects/:projectId/api-tokens/:appId/permissions',
     cors(allowMe),
     extractClientId,
-    checkClientPermission('permissionsUpdate'),
+    checkClientPermission('apiTokenPermissionsUpdate'),
     extractProjectId,
-    checkProjectPermission('permissionsUpdate'),
+    checkProjectPermission('apiTokenPermissionsUpdate'),
     extractAppId,
     checkAppPermissions,
     async (req, res) => {

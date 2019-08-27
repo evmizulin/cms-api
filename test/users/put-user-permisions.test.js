@@ -50,18 +50,18 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
         projectId: project.project.id,
         ...Object.keys(defaultPermissions).reduce((res, key) => {
           res[key] = defaultPermissions[key]
-          if (key === 'permissionsUpdate') res[key] = false
+          if (key === 'userPermissionsUpdate') res[key] = false
           return res
         }, {}),
       })
       .expect(200)
       .expect(res => {
-        const { userId, projectId, permissionsUpdate, ...rest } = res.body
+        const { userId, projectId, userPermissionsUpdate, ...rest } = res.body
         const defaultPermissions = getDefaultProjectPermissions('user')
-        delete defaultPermissions.permissionsUpdate
+        delete defaultPermissions.userPermissionsUpdate
         assert.equal(userId, auth.user.id.toString())
         assert.equal(projectId, project.project.id.toString())
-        assert.equal(permissionsUpdate, false)
+        assert.equal(userPermissionsUpdate, false)
         assert.deepEqual(rest, defaultPermissions)
       })
       .end(done)
