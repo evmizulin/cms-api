@@ -74,40 +74,6 @@ const setApiTokensRoutes = app => {
       res.status(apiResp.code).send(apiResp.body)
     }
   )
-
-  app.options('/projects/:projectId/api-tokens/:appId/permissions', cors(allowMe))
-
-  app.get(
-    '/projects/:projectId/api-tokens/:appId/permissions',
-    cors(allowMe),
-    extractClientId,
-    checkClientPermission('apiTokenPermissionsRead'),
-    extractProjectId,
-    checkProjectPermission('apiTokenPermissionsRead'),
-    extractAppId,
-    checkAppPermissions,
-    async (req, res) => {
-      const { appId, projectId } = req.extractedProps
-      const apiResp = new ApiResp(await apiTokens.getPermissions(projectId, appId))
-      res.status(apiResp.code).send(apiResp.body)
-    }
-  )
-
-  app.put(
-    '/projects/:projectId/api-tokens/:appId/permissions',
-    cors(allowMe),
-    extractClientId,
-    checkClientPermission('apiTokenPermissionsUpdate'),
-    extractProjectId,
-    checkProjectPermission('apiTokenPermissionsUpdate'),
-    extractAppId,
-    checkAppPermissions,
-    async (req, res) => {
-      const { appId, projectId } = req.extractedProps
-      const apiResp = new ApiResp(await apiTokens.updatePermissions(projectId, appId, req.body))
-      res.status(apiResp.code).send(apiResp.body)
-    }
-  )
 }
 
 module.exports = { setApiTokensRoutes }

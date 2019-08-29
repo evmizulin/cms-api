@@ -29,10 +29,8 @@ describe('GET /projects/${id}/api-tokens/${id}/permissions', () => {
       .set('AccessToken', auth.accessToken.token)
       .expect(200)
       .expect(res => {
-        const { apiTokenId, projectId, ...rest } = res.body
-        assert.equal(apiTokenId, apiToken.app.id.toString())
-        assert.equal(projectId, project.project.id.toString())
-        assert.deepEqual(rest, getDefaultProjectPermissions('app'))
+        const permissions = res.body
+        assert.deepEqual(permissions, getDefaultProjectPermissions('app'))
       })
       .end(done)
   })

@@ -4,7 +4,6 @@ const { ApiError } = require('../helpers/ApiError')
 const { App, Client, AccessToken, ProjectPermission } = require('../services/db/Db')
 const { generateToken } = require('../helpers/generateToken')
 const { getDefaultProjectPermissions } = require('../helpers/getDefaultProjectPermissions')
-const { createPermissions } = require('./createPermissions')
 
 class ApiTokens {
   async getApiTokens(projectId) {
@@ -66,41 +65,6 @@ class ApiTokens {
       AccessToken.remove(accessToken.id),
       ProjectPermission.remove(projectPermission.id),
     ])
-  }
-
-  async getPermissions(projectId, appId) {
-    const client = await Client.findOne({ type: 'app', clientSourceId: appId }, { _id: true })
-    const projectPermissions = await ProjectPermission.findOne(
-      { clientId: client.id, projectId },
-      { clientId: false, _id: false }
-    )
-    return {
-      apiTokenId: appId,
-      ...projectPermissions,
-    }
-  }
-
-  async updatePermissions(projectId, appId, permissions) {
-    const {
-      projectId: createdProjectId,
-      apiTokenId: createdAppId,
-      ...createdPermissions
-    } = createPermissions({ permissions })
-    if (projectId.toString() !== createdProjectId || appId.toString() !== createdAppId)
-      throw new ApiError(BAD_REQUEST, 'ID in route must be equal to ID in body')
-    const client = await Client.findOne({ type: 'app', clientSourceId: appId })
-    const projectPermissions = await ProjectPermission.findOne(
-      { clientId: client.id, projectId },
-      { _id: true }
-    )
-    const { id, clientId, ...updatedPermissions } = await ProjectPermission.update(
-      projectPermissions.id,
-      createdPermissions
-    )
-    return {
-      apiTokenId: appId,
-      ...updatedPermissions,
-    }
   }
 }
 

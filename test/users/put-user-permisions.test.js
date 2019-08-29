@@ -27,40 +27,23 @@ describe('PUT /projects/${id}/users/${id}/permissions', () => {
       .end(done)
   })
 
-  it('should return 400', done => {
-    request
-      .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
-      .set('AccessToken', auth.accessToken.token)
-      .send({
-        userId: project.project.id,
-        projectId: project.project.id,
-        ...getDefaultProjectPermissions('user'),
-      })
-      .expect(400)
-      .end(done)
-  })
-
   it('should return 200', done => {
     const defaultPermissions = getDefaultProjectPermissions('user')
     request
       .put(`/projects/${project.project.id}/users/${auth.user.id}/permissions`)
       .set('AccessToken', auth.accessToken.token)
-      .send({
-        userId: auth.user.id,
-        projectId: project.project.id,
-        ...Object.keys(defaultPermissions).reduce((res, key) => {
+      .send(
+        Object.keys(defaultPermissions).reduce((res, key) => {
           res[key] = defaultPermissions[key]
           if (key === 'userPermissionsUpdate') res[key] = false
           return res
-        }, {}),
-      })
+        }, {})
+      )
       .expect(200)
       .expect(res => {
-        const { userId, projectId, userPermissionsUpdate, ...rest } = res.body
+        const { userPermissionsUpdate, ...rest } = res.body
         const defaultPermissions = getDefaultProjectPermissions('user')
         delete defaultPermissions.userPermissionsUpdate
-        assert.equal(userId, auth.user.id.toString())
-        assert.equal(projectId, project.project.id.toString())
         assert.equal(userPermissionsUpdate, false)
         assert.deepEqual(rest, defaultPermissions)
       })

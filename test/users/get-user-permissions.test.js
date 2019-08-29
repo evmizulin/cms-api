@@ -24,10 +24,8 @@ describe('GET /projects/${id}/users/${id}/permissions', () => {
       .set('AccessToken', auth.accessToken.token)
       .expect(200)
       .expect(res => {
-        const { id, userId, projectId, ...rest } = res.body
-        assert.equal(userId, auth.user.id.toString())
-        assert.equal(projectId, project.project.id.toString())
-        assert.deepEqual(rest, getDefaultProjectPermissions('user'))
+        const permissions = res.body
+        assert.deepEqual(permissions, getDefaultProjectPermissions('user'))
       })
       .end(done)
   })
