@@ -72,40 +72,6 @@ const setUsersRoutes = app => {
       res.status(apiResp.code).send(apiResp.body)
     }
   )
-
-  app.options('/projects/:projectId/users/:userId/permissions', cors(allowMe))
-
-  app.get(
-    '/projects/:projectId/users/:userId/permissions',
-    cors(allowMe),
-    extractClientId,
-    checkClientPermission('userPermissionsRead'),
-    extractProjectId,
-    checkProjectPermission('userPermissionsRead'),
-    extractUserId,
-    checkUserIdPermissions,
-    async (req, res) => {
-      const { projectId, userId } = req.extractedProps
-      const apiResp = new ApiResp(await apiUsers.getPermissions(projectId, userId))
-      res.status(apiResp.code).send(apiResp.body)
-    }
-  )
-
-  app.put(
-    '/projects/:projectId/users/:userId/permissions',
-    cors(allowMe),
-    extractClientId,
-    checkClientPermission('userPermissionsUpdate'),
-    extractProjectId,
-    checkProjectPermission('userPermissionsUpdate'),
-    extractUserId,
-    checkUserIdPermissions,
-    async (req, res) => {
-      const { projectId, userId } = req.extractedProps
-      const apiResp = new ApiResp(await apiUsers.updatePermissions(projectId, userId, req.body))
-      res.status(apiResp.code).send(apiResp.body)
-    }
-  )
 }
 
 module.exports = { setUsersRoutes }

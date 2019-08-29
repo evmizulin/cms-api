@@ -20,6 +20,7 @@ const { setUsersRoutes } = require('./users/setUsersRoutes')
 const { setFilesRoutes } = require('./files/setFilesRoutes')
 const { setModelsRoutes } = require('./models/setModelsRoutes')
 const { setEntriesRoutes } = require('./entries/setEntriesRoutes')
+const { setPermissionsRoutes } = require('./permissions/setPermissionsRoutes')
 const { config } = require('./config')
 
 const app = express()
@@ -58,6 +59,7 @@ setUsersRoutes(app)
 setFilesRoutes(app)
 setModelsRoutes(app)
 setEntriesRoutes(app)
+setPermissionsRoutes(app)
 
 app.use(cors(allowAll), (error, req, res, next) => {
   if (error) {
