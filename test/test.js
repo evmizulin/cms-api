@@ -62,8 +62,6 @@ describe('All tests', () => {
     require('./api-tokens/get-api-tokens.test')
     require('./api-tokens/put-api-tokens.test')
     require('./api-tokens/delete-api-tokens.test')
-    require('./api-tokens/get-permissions.test')
-    require('./api-tokens/put-permissions.test')
   })
 
   describe('Projects', () => {
@@ -84,8 +82,13 @@ describe('All tests', () => {
     require('./users/post-user.test')
     require('./users/get-users-of-project.test')
     require('./users/delete-user-of-project.test')
-    require('./users/get-user-permissions.test')
-    require('./users/put-user-permisions.test')
+  })
+
+  describe('Permissions', () => {
+    require('./permissions/get-user-permissions.test')
+    require('./permissions/put-user-permisions.test')
+    require('./permissions/get-api-token-permissions.test')
+    require('./permissions/put-api-token-permissions.test')
   })
 
   describe('Files', () => {
