@@ -2,6 +2,13 @@ const { Client, ProjectPermission } = require('../services/db/Db')
 const { createPermissions } = require('./createPermissions')
 
 class ApiPermissions {
+  async getOwnPermissions(projectId, clientId) {
+    return await ProjectPermission.findOne(
+      { clientId: clientId, projectId },
+      { clientId: false, _id: false, projectId: false }
+    )
+  }
+
   async getUserPermissions(projectId, userId) {
     const client = await Client.findOne({ type: 'user', clientSourceId: userId })
     return await ProjectPermission.findOne(

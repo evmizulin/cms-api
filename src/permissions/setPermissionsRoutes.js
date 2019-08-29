@@ -12,6 +12,22 @@ const { checkAppPermissions } = require('../api-tokens/checkAppPermissions')
 const { ApiResp } = require('../helpers/ApiResp')
 
 const setPermissionsRoutes = app => {
+  app.options('/projects/:projectId/permissions', cors(allowMe))
+
+  app.get(
+    '/projects/:projectId/permissions',
+    cors(allowMe),
+    extractClientId,
+    checkClientPermission('ownPermissionsRead'),
+    extractProjectId,
+    checkProjectPermission('ownPermissionsRead'),
+    async (req, res) => {
+      const { projectId, clientId } = req.extractedProps
+      const apiResp = new ApiResp(await apiPermissions.getOwnPermissions(projectId, clientId))
+      res.status(apiResp.code).send(apiResp.body)
+    }
+  )
+
   app.options('/projects/:projectId/users/:userId/permissions', cors(allowMe))
 
   app.get(

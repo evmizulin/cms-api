@@ -85,6 +85,7 @@ describe('All tests', () => {
   })
 
   describe('Permissions', () => {
+    require('./permissions/get-own-permissions.test')
     require('./permissions/get-user-permissions.test')
     require('./permissions/put-user-permisions.test')
     require('./permissions/get-api-token-permissions.test')

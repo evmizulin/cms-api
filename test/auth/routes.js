@@ -350,6 +350,20 @@ const routes = [
       },
     ],
   },
+  {
+    route: ({ projectId }) => `/projects/${projectId}/permissions`,
+    methods: [
+      {
+        method: 'get',
+        tests: {
+          extractClientId: true,
+          checkClientPermission: true,
+          extractProjectId: true,
+          checkProjectPermission: true,
+        },
+      },
+    ],
+  },
 ]
 
 module.exports = { routes }
