@@ -1,5 +1,6 @@
 module.exports = {
   config: {
+    isDemo: true,
     email: 'info@anyjsoncms.com',
     devApiUrl: 'http://localhost:8080',
     prodApiUrl: 'https://api.anyjsoncms.com',

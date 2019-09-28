@@ -6,6 +6,7 @@ module.exports = {
   config: {
     email: config.email,
     sendMails: IS_DEV ? false : true,
+    uploadFiles: IS_DEV ? true : !config.isDemo,
     logsToFile: IS_DEV ? false : true,
     appUrl: IS_DEV ? config.devAppUrl : config.prodAppUrl,
     apiUrl: IS_DEV ? config.devApiUrl : config.prodApiUrl,
