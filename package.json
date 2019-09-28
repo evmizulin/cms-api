@@ -1,6 +1,6 @@
 {
   "name": "cms-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "start": "NODE_ENV=development forever -w -c 'node --inspect' index.js",
