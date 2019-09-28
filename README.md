@@ -23,6 +23,7 @@ In project root folder there are configuration file ```config.js```. Update it f
 ```js
 module.exports = {
   config: {
+    isDemo: true,
     email: 'info@anyjsoncms.com',
     devApiUrl: 'http://localhost:8080',
     prodApiUrl: 'https://api.anyjsoncms.com',
@@ -39,6 +40,7 @@ module.exports = {
 ```
 All parameters that have ```dev``` and ```prod``` prefixes, will be used for development and production environments respectively.
 
+- ```isDemo``` - there are several limitations of functionality of anyjsoncms.com demo server, set flag to false and it will take off limitations;
 - ```email``` - this parameter will be passed as ```from``` for Sendmail to send mails;
 - ```apiUrl``` - URL of this API server;
 - ```appUrl``` - URL of [Admin application server](https://github.com/evmizulin/cms-admin);
