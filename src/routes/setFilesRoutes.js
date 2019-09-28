@@ -13,7 +13,7 @@ const setFilesRoutes = app => {
 
   app.post('/projects/:projectId/files', cors(allowMe), checkAuth, checkProjectAccess, async (req, res) => {
     if (!config.uploadFiles) {
-      new ApiError(
+      throw new ApiError(
         'Files uploading are not allowed ' +
           'to reduce memory usage of demo server. Use on-premises ' +
           'version, check https://github.com/evmizulin/any-json-cms',
