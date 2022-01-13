@@ -12,7 +12,6 @@
     "url": "git+ssh://git@bitbucket.org/evmizulin/cms-api.git"
   },
   "author": "Evgeny Mizulin",
-  "homepage": "https://anyjsoncms.com",
   "license": "GNU General Public License v3.0",
   "engines": {
     "node": "8.11.2",
