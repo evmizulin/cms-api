@@ -1,4 +1,4 @@
-# [Any JSON CMS](http://anyjsoncms.com) - API server
+# Any JSON CMS - API server
 
 If you want to read general information about Any JSON CMS go [here](https://github.com/evmizulin/any-json-cms).
 
@@ -24,11 +24,11 @@ In project root folder there are configuration file ```config.js```. Update it f
 module.exports = {
   config: {
     isDemo: true,
-    email: 'info@anyjsoncms.com',
+    email: 'email',
     devApiUrl: 'http://localhost:8080',
-    prodApiUrl: 'https://api.anyjsoncms.com',
+    prodApiUrl: 'prod-api-url',
     devAppUrl: 'http://localhost:3000',
-    prodAppUrl: 'https://anyjsoncms.com',
+    prodAppUrl: 'prod-app-url',
     devApiServerHost: 'localhost',
     prodApiServerHost: 'localhost',
     devApiServerPort: 8080,
@@ -40,7 +40,7 @@ module.exports = {
 ```
 All parameters that have ```dev``` and ```prod``` prefixes, will be used for development and production environments respectively.
 
-- ```isDemo``` - there are several limitations of functionality of anyjsoncms.com demo server, set flag to false and it will take off limitations;
+- ```isDemo``` - there are several limitations of functionality of demo server, set flag to false and it will take off limitations;
 - ```email``` - this parameter will be passed as ```from``` for Sendmail to send mails;
 - ```apiUrl``` - URL of this API server;
 - ```appUrl``` - URL of [Admin application server](https://github.com/evmizulin/cms-admin);
